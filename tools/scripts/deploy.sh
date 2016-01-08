@@ -28,7 +28,7 @@ esac
 echo "DOCKER_HOST is set to $DOCKER_HOST"
 echo "DOCKER_MACHINE_NAME is set to $DOCKER_MACHINE_NAME"
 echo "Do you really want to start clean containers on this machine?"
-read -p "Remember, it will destroy all data.\nEnter 'Yes' to confirm: " CONFIRM
+read -p "Remember, it will destroy all data.\n Enter 'Yes' to confirm: " CONFIRM
 
 if [ $CONFIRM != "Yes" ]; then
   echo "Phew!!! That was close, aborting"

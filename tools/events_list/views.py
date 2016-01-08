@@ -27,6 +27,7 @@ def index(request):
     })
     return HttpResponse(template.render(context))
 
+# Lists the events for the next 14 days
 def eventList(request):
     now = datetime.now()
     td = timedelta(days = 14)
@@ -38,6 +39,7 @@ def eventList(request):
 
     return HttpResponse(markdown, content_type="text/plain")
     
+# Views a specific event
 def viewEvent(request, event_id):
     event = get_object_or_404(Event, pk = event_id)
 
@@ -47,8 +49,8 @@ def viewEvent(request, event_id):
     })
     return HttpResponse(template.render(context))
     
+# Toggle the is_applicable field on a given record
 def toggleEventNA(request, event_id):
-    # toggle the is_applicable field on a given record
     event = get_object_or_404(Event, pk = event_id)
     event.is_applicable = not event.is_applicable
     event.save()
@@ -66,6 +68,7 @@ def toggleEventNA(request, event_id):
 
     return redirect('events_list.views.index')
 
+# Lists all the groups
 def groupIndex(request):
     groups_list = Group.objects.all().filter(is_applicable = True)
     template = loader.get_template('groups/index.html')
@@ -75,8 +78,8 @@ def groupIndex(request):
     })
     return HttpResponse(template.render(context))
 
+# Toggle the is_applicable field on a given record
 def toggleGroupNA(request, id):
-    # toggle the is_applicable field on a given record
     group = get_object_or_404(Group, pk = id)
     group.is_applicable = not group.is_applicable
     group.save()
@@ -99,6 +102,7 @@ def toggleGroupNA(request, id):
 
     return redirect('events_list.views.groupIndex')
 
+# Lists all the people
 def personIndex(request):
     person_list = Person.objects.all()
     template = loader.get_template('people/index.html')
@@ -107,6 +111,7 @@ def personIndex(request):
     })
     return HttpResponse(template.render(context))    
 
+# Shows a specific person's information
 def viewPerson(request, person_id):
     person = get_object_or_404(Person, pk = person_id)
 
@@ -266,7 +271,7 @@ def _callMeetupsCom(hashtag):
                             meetups.remove(m)
                             
     for meetup in meetups:
-        # Group information ...
+        # Group information
         grp = grp_deets[ meetup['group']['id'] ]
 
         try:

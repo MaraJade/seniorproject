@@ -144,7 +144,7 @@ confiduration file:
 Edit the 'config.sh' file, paying close attention to the section on
 Windows share configuration.
 
-No run:
+Now run:
 
     $ scripts/configHyper-v.sh
 
