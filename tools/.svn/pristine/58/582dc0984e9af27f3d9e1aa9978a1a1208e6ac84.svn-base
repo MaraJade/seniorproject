@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Community Development: Groups</title>
+  {% include "include/head.html" %}
+</head>
+<body>
+  {% include "include/navbar.html" %}
+
+  <h1>Groups</h1>
+
+  {% if groups_list %}
+    <table id="groupList" class="table table-striped">
+      <thead>
+	<tr>
+	  <th>Name</th>
+	  <th>Known Members</th>
+	  <th>City</th>
+	  <th>State</th>
+	  <th>Country</th>
+	  <th>Actions</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for group in groups_list %}
+	<tr>
+	  <td>{{ group.name }}</td>
+	  <td>{{ group.members.all.count }}</td>
+	  <td>{{ group.city }}</td>
+	  <td>{{ group.state }}</td>
+	  <td>{{ group.country }}</td>
+	  <td>
+	    {% if can_import %}
+  	      <a href="{% url 'importMembers' group.id %}">Import Members</a>
+            {% endif %} |
+            <a href="{% url 'toggleGroupNA' group.id %}">Mark N/A</a>
+          </td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    <script>
+      $(document).ready(function(){
+      $('#groupList').dataTable({
+          "order": [[ 0, "asc" ]],
+          "stateSave": true
+        });
+      });
+    </script>	
+  {% else %}
+    <p>No groups are available.</p>
+  {% endif %}
+</body>
+</html>

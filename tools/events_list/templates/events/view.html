@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ event.name }}</title>
+  {% include "include/head.html" %}
+</head>
+<body>
+  <h1>{{ event.name }}</h1>
+  <p>{{ event.group.city }}, {{ event.group.state }}, {{event.group.country }}</p>
+
+  {{ event.description | safe }}
+
+  <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>
+
+  <p>
+  <a href="{{ event.event_url }}" title="{{ event.tweet }}" class="_hs_socialshare">Share</a>
+  <script>
+    var _hs = {
+               size: 5,
+               partner: "community.apache.org"
+    };
+    (function() {
+                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
+                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
+    })();
+  </script>
+  </p>  
+
+  <p>Hashtags: 
+	{% for hashtag in event.hashtags.all %}
+	  {{ hashtag.name }},
+	{% endfor %}
+  </p>
+
+  <p>Organized by: {{ event.group.name }}</p>
+
+  <p><a href="{{ event.event_url }}" target="_blank">Source</a></p>
+
+  <p>Applicable: {{ event.is_applicable }} <a href="{% url 'toggleEventNA' event.id %}">Toggle N/A</a></p>
+</body>
+</html>

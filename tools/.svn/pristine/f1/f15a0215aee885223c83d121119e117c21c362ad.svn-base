@@ -1,0 +1,10 @@
+*.cer
+*.pem
+*.pfx
+
+# Generated files
+groups.json
+meetups.json
+meetups.mdtext
+meetups.mlist
+meetups.tweets

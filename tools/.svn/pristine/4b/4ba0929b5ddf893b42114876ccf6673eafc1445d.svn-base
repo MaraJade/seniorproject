@@ -1,0 +1,13 @@
+# Docker Host names
+DEV_MACHINE_NAME=tutorialDev
+
+STAGE_MACHINE_NAME=tutorialStage
+STAGE_PORT=8888
+
+PROD_MACHINE_NAME=tutorialProd
+
+# Variables needed to workaround bug in folder sharing
+# on Windows, see configureDevHyper-v.sh
+USER_NAME=< WINDOWS CLIENT USERNAME >
+CLIENT_IP=<WINDOWS CLIENT IP >
+CLIENT_PATH_TO_PROJECT=< WINDOWS CLIENT PATH TO PROJECT FILES, EXCLUDING DRIVE LETTER, E.G. Users/username/path/to/folder >
