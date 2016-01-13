@@ -13,7 +13,7 @@ import sys
 # it more than a few dozen times an hour it's likely to get revoked.
 # Please play nice.
 # FIXME: make this a configuration value
-MEETUP_API_KEY = "3a7711454d145e404e531c2ee6f391d"
+MEETUP_API_KEY = "mdjllucr8sopqsi5molmfg1k3e"
 
 logger = logging.getLogger(__name__)
 
