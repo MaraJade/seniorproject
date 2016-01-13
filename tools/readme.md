@@ -29,15 +29,15 @@ application.
   
 # Python CLI Script #
 
-To run the application as a Python script simply execyte get_meetups
+To run the application as a Python script simply execute get_meetups
 or memu in the root of the project.
 This will create a number of files in the project directory:
 
   * meetups.mlist - a template email for events in the next week
-  * meetups.mdtext - a markdown file of events i nthe next 2 weeks
+  * meetups.mdtext - a markdown file of events in the next 2 weeks
   * meetups.tweets - suggested tweets for events in the next 2 weeks
   * meetups.json - a json file of all meetups
-  * groups.json - a json file containing all groups organizin meetings
+  * groups.json - a json file containing all groups organizing meetings
 
 Alternatively you can run the "menu" script which will present a
 command line menu allowing you to work with the events list.
@@ -51,7 +51,7 @@ If you use this script be respectful of the included API key.
 
 # Development #
 
-ALthough not required it is recommended that you use Docker to manage
+Although not required it is recommended that you use Docker to manage
 your development and deployment environment as this will automatically
 configure your environment for you, though it does require you to have
 installed Docker.
@@ -68,7 +68,7 @@ To work without Docker (untested please improve these docs if you go this route)
   * python manage.py migrate
   * python manage.py runserver
 
-You should now have a copy running localy on port 8000.
+You should now have a copy running locally on port 8000.
 
 For more information on how the application is built you need to
 understand Django. A great starting point is the [Django
@@ -184,7 +184,7 @@ is necessary on Mac and Windows, but optional on Linux.
 This script will then build and start your containers, sharing your
 source directory with the container. This means you can make changes
 on your development machine and see them reflected immediately on the
-running applicaion container.
+running application container.
 
 As with all Docker containers the first time you build and run them
 the images and corresponding layers need to be downloaded. This can

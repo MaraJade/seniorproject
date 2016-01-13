@@ -14,14 +14,14 @@ application.
 
 # Python Script #
 
-To run the application as a Python script simply execyte get_meetups.
+To run the application as a Python script simply execute get_meetups.
 This will create a number of files in the project directory:
 
   * meetups.mlist - a template email for events in the next week
-  * meetups.mdtext - a markdown file of events i nthe next 2 weeks
+  * meetups.mdtext - a markdown file of events in the next 2 weeks
   * meetups.tweets - suggested tweets for events in the next 2 weeks
   * meetups.json - a json file of all meetups
-  * groups.json - a json file containing all groups organizin meetings
+  * groups.json - a json file containing all groups organizing meetings
 
 Alternatively you can run the "menu" script which will present a
 command line menu allowing you to work with the events list.

@@ -17,6 +17,9 @@ MEETUP_API_KEY = "mdjllucr8sopqsi5molmfg1k3e"
 
 logger = logging.getLogger(__name__)
 
+def home(request):
+    return render(request, 'home.html')
+
 def index(request):
     now = datetime.now()
     upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
