@@ -30,6 +30,9 @@ def index(request):
     })
     return HttpResponse(template.render(context))
 
+def eventSearch(request):
+    return render(request, 'events/eventSearch.html')	
+	
 # Lists the events for the next 14 days
 def eventList(request):
     now = datetime.now()
