@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<rdf:RDF xml:lang="en" xmlns="http://usefulinc.com/ns/doap#" 
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+   xmlns:asfext="http://projects.apache.org/ns/asfext#" 
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+
+<Project>
+   <name>People near {{location.latitude}}, {{location.longitude}}</name>
+
+   <helper>
+      {% for dist,p in people %}
+         <foaf:Person rdf:ID="{{p.uid}}">
+            <foaf:name>{{p.name}}</foaf:name>
+            <foaf:family_name>{{p.surname}}</foaf:family_name>
+            <!-- TODO Add a bit more -->
+
+            <foaf:based_near>
+              <geo:Point>
+                <geo:lat>{{p.latitude}}</geo:lat>
+                <geo:long>{{p.longitude}}</geo:long>
+              </geo:Point>
+            </foaf:based_near>
+         </foaf:Person>
+      {% endfor %}
+   </helper>
+</Project>
+</rdf:RDF>

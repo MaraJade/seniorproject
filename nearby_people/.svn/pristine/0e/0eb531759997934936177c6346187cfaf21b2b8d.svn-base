@@ -1,0 +1,12 @@
+{
+   "results": {{ places|length }},
+   "places": [
+      {% for p in places %}
+        {
+          "name": "{{p.name}}", "country": "{{p.country}}",
+          "latitude": {{p.latitude}}, "longitude": {{p.longitude}},
+          "id": "{{forloop.counter}}",
+        },
+      {% endfor %}
+   ]
+}

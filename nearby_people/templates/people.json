@@ -1,0 +1,45 @@
+{
+   "results": {{ people|length }},
+   "people": [
+      {% for dist,p in people %}
+         {
+            "uid": "{{p.uid}}",
+            "name": "{{p.name}}",
+            "surname": "{{p.surname}}",
+            "details": "{{p.link}}",
+{#            "email": "{{p.email}}", #}
+            {% if p.avatar %}
+               "avatar": "{{p.avatar}}",
+            {% endif %}
+            "projects": [
+               {% for project in p.projects %}
+                  "{{project.name}}"{% if forloop.last %},{% endif %}
+               {% endfor %}
+            ],
+            "weblogs": {
+               {% for blog in p.weblogs %}
+                  "{{blog.title}}": "{{blog.url}}" {% if forloop.last %},{% endif %}
+               {% endfor %}
+            },
+
+            "location": {
+                "distance": {{dist}},
+                "latitude": {{p.latitude}}, 
+                "longitude": {{p.longitude }}
+            }
+         },
+      {% endfor %}
+   ],
+   "location": {
+      "request": { "latitude": {{location.latitude}}, 
+                   "longitude": {{location.longitude }} },
+      "result": {
+          "center": { "latitude": {{center_lat}}, 
+                      "longitude": {{center_long}} },
+          "top_right":   { "latitude": {{tr_lat}}, "longitude": {{tr_long}} },
+          "bottom_left": { "latitude": {{bl_lat}}, "longitude": {{bl_long}} },
+          "large_distances": {{ large_distance|lower }}
+      }
+   },
+   "type": "{{people_type}}"
+}

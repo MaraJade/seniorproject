@@ -1,0 +1,21 @@
+Apache Nearby People
+Copyright 2009 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+
+This product contains the Geoname-Python Library
+ <http://www.zindep.com/blog-zindep/Geoname-python/>
+which is under the Python License
+Copyright (c) 2006 Nicolas Laurance
+
+This product contains the geo_helper Python Library
+ <http://gagravarr.org/code/>
+which has been re-licensed under the Apache Software License
+Copyright (c) 2006-2009 Nick Burch
+
+This product contains parts of Django
+ <http://www.djangoproject.com/>
+which is under the Python License
+Copyright (c) Django Software Foundation

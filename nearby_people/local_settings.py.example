@@ -1,0 +1,48 @@
+# Django settings for nearby_people project.
+
+# We want relative paths to things
+import os, sys
+BASE_PATH = os.path.realpath(os.path.dirname(__file__))
+
+# FOAF/DOAP settings:
+PEOPLE_FOAF_NAMESPACE = "urn:org:apache:"
+PEOPLE_FOAF_ALT_NAMESPACE = "http://people.apache.org/" # Remove in a bit
+
+# These should point to where you checked out bits of the commiters repo to
+COMDEV_DOAP = os.path.join(BASE_PATH, "data/local-outreach/CommunityDevelopment.rdf")
+SPEAKERS_DOAP = os.path.join(BASE_PATH, "data/local-outreach/ApacheSpeakers.rdf")
+PEOPLE_FOAF_PATH = os.path.join(BASE_PATH, "data/info/")
+
+# Google Maps settings
+GMAPS_KEY = "ABQIAAAAteF8gqn96L8K4RRZYtk7ZRQv7OBTi813IEDuwD3BusDViujKIBTUfK-gV5SL7dqLeRkgc0jLmyXgkg" # localhost
+#GMAPS_KEY = "ABQIAAAAKzqK7s3QLJgbVNLowesmvBRZUAEs3HYX8hgK-I5Eho3zsmHV-RQBJhSLW6bIoahGVe1Ap9pWhcewGw" # apache.org
+
+# GeoNames settings
+# Note - you need your own username, register at http://www.geonames.org/login
+#GEONAMES_USERNAME = "ExampleUsername"
+
+# Are we in testing or production?
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+# Do we want to know about 404s?
+SEND_BROKEN_LINK_EMAILS = False
+
+# Who should we bug about errors?
+ADMINS = (
+    # ('Your Name', 'your_email@domain.com'),
+)
+MANAGERS = ADMINS
+
+#SERVER_EMAIL = "root@community.zones.apache.org"
+#EMAIL_HOST = "localhost"
+
+# Database settings
+# (This can be left blank for now - we're not database backed)
+#
+DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_NAME = ''             # Or path to database file if using sqlite3.
+DATABASE_USER = ''             # Not used with sqlite3.
+DATABASE_PASSWORD = ''         # Not used with sqlite3.
+DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.

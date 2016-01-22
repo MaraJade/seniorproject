@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block heading %}Welcome{% endblock %}
+{% block bodyclass %}home{% endblock %}
+{% block content %}
+<p>To begin, please enter your location and select the kind of search you want to make:</p>
+
+<ul> 
+ <li><b>Local Mentors</b> will return people willing to help 
+   understand the ASF</li>
+ <li><b>Speakers</b> will return people willing to speak at events</li>
+</ul>
+
+<form action="/pick_place/" method="post">
+{{form.as_p}}
+<p>
+  <input type="submit" value="Search" />
+</p>
+</form>
+
+<br /><br />
+
+<p>If you are an existing Apache committer, and you are willing to act as 
+ as a Local Mentor or Speaker, then please see 
+ <a href="http://community.apache.org/localmentors.html">http://community.apache.org/localmentors.html</a>
+ and
+ <a href="http://community.apache.org/speakers/index.html">http://community.apache.org/speakers/index.html</a>
+ for more information on what it would entail, and how to sign up.</p>
+
+{% endblock %}

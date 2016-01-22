@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load distances %}
+{% load emails %}
+
+{% block title %}People Near You{% endblock %}
+{% block heading %}People Near You{% endblock %}
+{% block bodyclass %}people{% endblock %}
+{% block extrahead %}
+
+<script type="text/javascript" src="http://www.google.com/jsapi?key={{gmaps_key}}"></script>
+<script type="text/javascript" charset="utf-8">
+    google.load("maps", "2.x");
+    google.load("jquery", "1.3.1");
+</script>
+
+<script type="text/javascript" charset="utf-8">
+<!--
+var markers = [];
+var map;
+
+$(document).ready(function(){
+	if (GBrowserIsCompatible()) {
+		map = new GMap2(document.getElementById('map'));
+		map.addControl(new GLargeMapControl());
+        map.setCenter(new GLatLng({{center_lat}}, {{center_long}}), 14);
+
+        // Zoom to roughly the right place
+        map.panTo(new GLatLng( {{center_lat}}, {{center_long}} ));
+        map.setZoom(
+             map.getBoundsZoomLevel(new GLatLngBounds(
+                    new GLatLng( {{bl_lat}} - 0.05, {{bl_long}} - 0.05 ),
+                    new GLatLng( {{tr_lat}} + 0.05, {{tr_long}} + 0.05 )
+             ))
+        );
+
+        // Add our markers
+        {% for dist, person in people %}
+            var projectNames = new Array();
+            {% for project in person.projects %}
+                projectNames.push("{{project.name}}");
+            {% endfor %}
+            marker = createMarker("{{person.name}}",{{person.latitude}},
+                         {{person.longitude}},"{{person.link}}", projectNames,
+                         "{{person.avatar}}","{{person.email|emailformat}}");
+            map.addOverlay(marker);
+            markers["{{person.uid}}"] = marker;
+        {% endfor %}
+
+        // Add the search marker
+        search_icon = new GIcon(G_DEFAULT_ICON);
+        search_icon.image = "http://www.google.com/intl/en_us/mapfiles/ms/icons/green-dot.png";
+        search_icon.iconSize = GSize(32,32);
+        search_point = new GMarker(
+           new GLatLng({{location.latitude}},{{location.longitude}}),
+           search_icon, false
+        );
+        map.addOverlay(search_point);
+    }
+});
+
+function createMarker(name,lat,lng,link,projects,avatar,email) {
+	var point = new GLatLng(lat,lng);
+    var options = { title: name }; // appears when cursor hovers over marker
+    var marker = new GMarker(point,options);
+    GEvent.addListener(marker, "click", function() {
+      var msg = "<h3>" + name + "</h3>";
+      if (avatar != "None") {
+          msg = msg + "<img src='" + avatar + "' alt='Image of " + name + "'/>"; 
+      }
+      msg = msg + " <ul>";
+      for (var i = 0; i < projects.length; i++) {
+    	  msg = msg + "<li>" + projects[i] + "</li>";
+    	};
+      msg = msg + " </ul>";
+      if (email != "None") {
+          msg = msg + "<div>Email: <i>" + email + "</i></div>";
+      }
+      msg = msg + " <a href=\"" + link + "\">" +
+                  "<small>Info<\/small><\/a>"; 
+      marker.openInfoWindowHtml(msg);
+    });
+	
+    return marker;
+}
+
+function showDetail(uid) {
+	if (map.getZoom() < 9) {
+      map.setZoom(9);
+	}
+	map.panTo(markers[uid].getPoint())
+    GEvent.trigger(markers[uid], "click");
+}
+
+//-->
+</script>
+<style type="text/css">
+#map {
+	border: 1px solid #bbbbbb;
+	height: 400px;
+	width: 80%;
+}
+
+	#map { float:left; width:500px; height:500px; }
+	#people { float:left; width:300px; background:#eee; list-style:none; padding:0; }
+	#people tr { padding:5px; }
+	#people tr:hover { background:#FFF; color:#ff;}
+</style>
+
+{% endblock %}
+{% block content %}
+
+{% if people %}
+	{% if large_distance %}
+		<p>Sorry, there isn't anyone all that near to you. Below is a 
+		list of people you may wish to visit when travelling futher 
+		afield.</p>
+	{% endif %}
+
+	<table id="people">
+	  {% for dist, person in people %}
+		<tr>
+		  <td><a href="javascript:showDetail('{{person.uid}}')">{{person.name}}</a></td>
+		  <td>{{dist|distanceformat}}</td>
+		</tr>
+	  {% endfor %}
+	</table>
+
+	<div id="map"></div>
+	
+{% else %}
+	<p>Sorry, there's no-one near you :(</p>
+	<p>Maybe <a href="/pick_place/">try somewhere else?</a></p>
+	<p><i>Why not try searching for people near where you may be visiting
+     when on holiday, or next time you're travelling for work?</i></p>
+{% endif %}
+
+{% endblock %}
