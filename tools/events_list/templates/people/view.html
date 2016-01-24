@@ -8,6 +8,10 @@
   {% include "include/navbar.html" %}
 
   <h1>{{ person.name }}</h1>
+  <form action="http://twitter.com">
+    <input type="submit" value="Tweet at this person">
+  </form>
+
   <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
 
   <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
