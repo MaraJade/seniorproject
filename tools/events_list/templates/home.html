@@ -7,5 +7,20 @@
 <body>
   {% include "include/navbar.html" %}
   <h4>Welcome!</h4>
+   <form action="action_page.php">
+  <fieldset>
+    <legend>Log In:</legend>
+    First name:<br>
+    <input type="text" name="firstname"><br>
+    Last name:<br>
+    <input type="text" name="lastname"><br><br>
+    Password:<br>
+    <input type="password" name="psw">
+    <input type="submit" value="Submit">
+  </fieldset>
+  <form action="/events" class="inline">
+    <button class="button" >Create Account</button>
+</form>
+</form> 
 </body>
 </html>
