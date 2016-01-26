@@ -16,17 +16,27 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-	  <!-- Events Dropdown box -->
-	  <li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-			<li><a class="{% is_active_page request 'eventSearch' %}" href="{% url 'eventSearch' %}">Search Events by Area</a></li>
-			<li><a class="{% is_active_page request 'eventIndex' %}" href="{% url 'eventIndex' %}">Show All Events</a></li>
-			</ul>
-		</li>
+        <!-- Events Dropdown box -->
+	<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a class="{% is_active_page request 'eventSearch' %}" href="{% url 'eventSearch' %}">Search Events by Area</a></li>
+            <li><a class="{% is_active_page request 'eventIndex' %}" href="{% url 'eventIndex' %}">Show All Events</a></li>
+          </ul>
+        </li>
 
         <li><a class="{% is_active_page request 'groupIndex' %}" href="{% url 'groupIndex' %}">Groups</a></li>
         <li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">People</a></li>
+
+	<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tweets<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a class="{% is_active_page request 'viewTweets' %}" href="{% url 'viewTweets' %}">View all tweets</a></li>
+            <li><a class="{% is_active_page request 'tweetsApp' %}" href="{% url 'tweetsApp' %}">View tweets from this website</a></li>
+            <li><a class="{% is_active_page request 'tweetsNotApp' %}" href="{% url 'tweetsNotApp' %}">View tweets not from this website</a></li>
+          </ul>
+        </li>
+
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
