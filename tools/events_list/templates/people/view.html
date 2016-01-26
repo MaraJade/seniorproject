@@ -27,7 +27,22 @@
       <li>{{ group }}</li>
     {% endfor %}
   </ul>
-
+  
+  <p>
+  <a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>
+  <script>
+    var _hs = {
+               size: 5,
+               partner: "community.apache.org"
+    };
+    (function() {
+                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
+                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
+    })();
+  </script>
+  </p>  
+  
   <p>Last Active: {{ person.lastVisit }}</p>
 </body>
 </html>

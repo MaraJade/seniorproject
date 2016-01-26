@@ -6,6 +6,7 @@
 </head>
 <body>
   {% include "include/navbar.html" %}
+  <h4>Search for an event by location</h4>
   
 <style type="text/css">
 .map {
@@ -62,11 +63,10 @@ function drawMaps() {
 	{% endif %}
 {% endif %}
 
-<form action="/events/eventSearch/" method="post">
-{% csrf_token %}
+<form action="/events/pick_place/" method="post">
 {{form.as_p}}
 <p>
-	<input type="text" name="location" value=""><br>
+	<input type="text" name="location" value="Search"><br>
 	<input type="submit" value="Search" />
 </p>
 </form>
@@ -86,7 +86,9 @@ function drawMaps() {
 	});
 </script>
 
+{% endblock %}
 
 <br /><br />
 </body>
 </html>
+
