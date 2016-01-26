@@ -332,8 +332,6 @@ def viewTweets(request):
    
 def tweetsNotApp(request):
     return render(request, 'tweets/notApp.html')
-
-def tweetsApp(request):
-    return render(request, 'tweets/app.html')
-
-
+    
+def viewTweets(request):
+    return render(request, 'tweets/view.html')
