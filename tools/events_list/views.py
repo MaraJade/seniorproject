@@ -326,14 +326,14 @@ def _callMeetupsCom(hashtag):
             event.save()
         except:
             print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
-    
+
 def viewTweets(request):
     return render(request, 'tweets/view.html')
+   
+def tweetsNotApp(request):
+    return render(request, 'tweets/notApp.html')
 
 def tweetsApp(request):
     return render(request, 'tweets/app.html')
-
-def tweetsNotApp(request):
-    return render(request, 'tweets/notApp.html')
 
 

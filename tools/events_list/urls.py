@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^people$', views.personIndex, name='personIndex'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
-    url(r'^tweets', views.viewTweets, name='viewTweets'),
-    url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
     url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),
+    url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
+    url(r'^tweets', views.viewTweets, name='viewTweets'),
 ]
