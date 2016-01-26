@@ -32,6 +32,9 @@ def index(request):
 
 def eventSearch(request):
     return render(request, 'events/eventSearch.html')	
+
+def createAccount(request):
+    return render(request, 'events/createAccount.html')
 	
 # Lists the events for the next 14 days
 def eventList(request):
