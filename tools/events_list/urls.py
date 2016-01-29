@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),
     url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
     url(r'^tweets', views.viewTweets, name='viewTweets'),
+    url(r'^construction', views.construction, name='construction'),
 ]
 
