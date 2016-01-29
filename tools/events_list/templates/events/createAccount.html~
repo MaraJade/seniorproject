@@ -41,7 +41,7 @@
 		<div class="line"><label for="lastname">Last Name *: </label><input type="text" id="lastname" /></div>
                 <div class="line"><label for="username">Username *: </label><input type="text" id="username" /></div>
                 <div class="line"><label for="pwd">Password *: </label><input type="password" id="pwd" /></div>
-		<div class="line"><label for="pwdconf">Confirm Password *:</label><input type="password" id="pwdconf" /></div>
+		<div class="line"><label for="pwdconf">Confirm Password: *</label><input type="password" id="pwdconf" /></div>
                 <!-- You may want to consider adding a "confirm" password box also -->
                 <div class="line"><label for="dob">Date of Birth *: </label><input type="text" id="dob" /></div>
                 <div class="line"><label for="email">Email *: </label><input type="email" id="email" /></div>
