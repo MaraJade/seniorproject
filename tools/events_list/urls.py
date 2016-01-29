@@ -24,3 +24,4 @@ urlpatterns = [
     url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
     url(r'^tweets', views.viewTweets, name='viewTweets'),
 ]
+
