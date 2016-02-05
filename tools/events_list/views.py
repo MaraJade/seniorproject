@@ -12,6 +12,7 @@ import sys
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
 # Please play nice.
+# This is now Mara's key
 # FIXME: make this a configuration value
 MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
 

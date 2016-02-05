@@ -62,13 +62,13 @@ function drawMaps() {
 	{% endif %}
 {% endif %}
 
-<form action="/events/eventSearch/" method="post">
-{% csrf_token %}
-{{form.as_p}}
-<p>
-	<input type="text" name="location" value=""><br>
-	<input type="submit" value="Search" />
-</p>
+<form action="/events/construction/" method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <p>
+    <input type="text" name="location" value=""><br>
+    <input type="submit" value="Search" />
+  </p>
 </form>
 
 <script type="text/javascript" src="http://www.google.com/jsapi?key={{gmaps_key}}"></script>
