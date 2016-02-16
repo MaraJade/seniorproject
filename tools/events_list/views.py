@@ -2,6 +2,8 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from django.shortcuts import render_to_response
+from django.contrib.auth import authenticate, login
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 from datetime import datetime, timedelta
 import json
@@ -19,7 +21,27 @@ MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
 logger = logging.getLogger(__name__)
 
 def home(request):
-    return render(request, 'home.html')
+    state = "Please log in below..."
+    username = password = ''
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                state = "You're successfully logged in!"
+            else:
+                state = "Your account is not active, please contact the site admin."
+        else:
+            state = "Your username and/or password were incorrect."
+    template = loader.get_template('home.html')
+    context = RequestContext(request, {
+                             'state': state,
+                             'username': username
+    })
+    return HttpResponse(template.render(context))
 
 def index(request):
     now = datetime.now()
@@ -339,3 +361,4 @@ def tweetsApp(request):
 
 def construction(request):
     return render(request, 'construction.html')
+
