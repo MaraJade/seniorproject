@@ -31,15 +31,16 @@
           </head>
           <body>
               <div id="container">
-                  <form action="/events/construction/">
+                  <form action="/events/createAccount/" method="post">
+                    {% csrf_token %}
                       <h1>Create Account</h1>
-                      <div class="line"><label for="firstname">First Name *: </label><input type="text" id="firstname" /></div>
-                      <div class="line"><label for="lastname">Last Name *: </label><input type="text" id="lastname" /></div>
-                      <div class="line"><label for="username">Username *: </label><input type="text" id="username" /></div>
-                      <div class="line"><label for="pwd">Password *: </label><input type="password" id="pwd" /></div>
-                      <div class="line"><label for="pwdconf">Confirm Password *:</label><input type="password" id="pwdconf" /></div>
+                      <div class="line"><label for="first_name">First Name *: </label><input name="first_name" type="text" id="first_name" value=""/></div>
+                      <div class="line"><label for="last_name">Last Name *: </label><input name="last_name "type="text" id="last_name" value=""/></div>
+                      <div class="line"><label for="username">Username *: </label><input name="username" type="text" id="username" value=""/></div>
+                      <div class="line"><label for="pwd">Password *: </label><input name="password" type="password" id="pwd" value=""/></div>
+                      <div class="line"><label for="pwdconf">Confirm Password *:</label><input type="password" id="pwdconf" value=""/></div>
                       <!-- You may want to consider adding a "confirm" password box also -->
-                      <div class="line"><label for="email">Email *: </label><input type="email" id="email" /></div>
+                      <div class="line"><label for="email">Email *: </label><input name="email" type="email" id="email" value=""/></div>
                       <!-- Valid input types: http://www.w3schools.com/html5/html5_form_input_types.asp -->
                       <div class="line submit"><input type="submit" value="Submit" /></div>
        

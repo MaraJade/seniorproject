@@ -66,6 +66,7 @@ def createAccount(request):
         last_name = request.POST.get('last_name')
 
         user = User.objects.create_user(username, email, password)
+
     return render(request, 'events/createAccount.html')
 	
 # Lists the events for the next 14 days
