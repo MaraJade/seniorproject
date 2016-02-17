@@ -50,5 +50,11 @@ body{
 
 		<input type="submit" value="Log In" />
 	</form>
+    
+    <form action= "createAccount/">
+    {% csrf_token %}
+        <input type ="submit" value="Create Account">
+    </form>
+
 </body>
 </html>
