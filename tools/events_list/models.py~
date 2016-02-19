@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
