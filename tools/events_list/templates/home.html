@@ -23,7 +23,7 @@
      </fieldset>
    </form>
   -->
-
+<!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -55,6 +55,34 @@ body{
     {% csrf_token %}
         <input type ="submit" value="Create Account">
     </form>
+-->
+
+<div class="login">
+  <div class="heading">
+    <h2>{{ state }}</h2>
+    <form action="/events/" method="post">
+    {% csrf_token %} 
+        {% if next %}
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+        <div class="input-group input-group-lg">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        <input type="text" class="form-control" placeholder="Username or email" name="username">
+          </div>
+
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          <input type="password" class="form-control" placeholder="Password" name="password">
+        </div>
+
+        <button type="submit" class="float">Login</button>
+       </form>
+ 		    </div>
+</div>
+
+<form action= "createAccount/">
+  <input type ="submit" value="Create Account">
+</form>  
 
 </body>
 </html>
