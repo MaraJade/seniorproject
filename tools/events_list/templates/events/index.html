@@ -10,6 +10,15 @@
 <h1>Events</h1>
 
 {% if upcoming_events_list %}
+<script>
+  $(document).ready(function(){
+    $('#eventList').dataTable({
+       "order": [[ 4, "asc" ]],
+       "stateSave": true
+    });
+  });
+</script>	
+
 <table id="eventList" class="table table-striped">
   <thead>
     <tr>
@@ -44,14 +53,6 @@
     {% endfor %}
   </tbody>
 </table>
-<script>
-  $(document).ready(function(){
-    $('#eventList').dataTable({
-       "order": [[ 4, "asc" ]],
-       "stateSave": true
-    });
-  });
-</script>	
 {% else %}
 <p>No events are available.</p>
 {% endif %}

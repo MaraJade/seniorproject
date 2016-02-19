@@ -10,6 +10,15 @@
   <h1>Groups</h1>
 
   {% if groups_list %}
+    <script>
+      $(document).ready(function(){
+      $('#groupList').dataTable({
+          "order": [[ 0, "asc" ]],
+          "stateSave": true
+        });
+      });
+    </script>	
+
     <table id="groupList" class="table table-striped">
       <thead>
 	<tr>
@@ -39,14 +48,6 @@
 	{% endfor %}
       </tbody>
     </table>
-    <script>
-      $(document).ready(function(){
-      $('#groupList').dataTable({
-          "order": [[ 0, "asc" ]],
-          "stateSave": true
-        });
-      });
-    </script>	
   {% else %}
     <p>No groups are available.</p>
   {% endif %}
