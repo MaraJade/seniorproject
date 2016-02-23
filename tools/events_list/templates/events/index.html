@@ -45,9 +45,11 @@
       <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
       <td>{{ event.group }}</td>
       <td>
-        <a href="{% url 'toggleEventNA' event.id %}">Mark Event N/A</a>
-	<br/>
-	<a href="{% url 'toggleGroupNA' event.group.id %}">Mark Group N/A</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'toggleEventNA' event.id %}">Mark Event N/A</a>
+          <br/>
+          <a href="{% url 'toggleGroupNA' event.group.id %}">Mark Group N/A</a>
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

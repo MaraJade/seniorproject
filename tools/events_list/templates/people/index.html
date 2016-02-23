@@ -9,9 +9,11 @@
 
   <h1>People</h1>
 
-  <form action="construction">
-    <input type="submit" value="Export Info">
-  </form>
+  {% if user.is_authenticated %}
+    <form action="construction">
+      <input type="submit" value="Export Info">
+    </form>
+  {% endif %}
 
   {% if person_list %}
     <script>

@@ -40,9 +40,13 @@
 	  <td>{{ group.country }}</td>
 	  <td>
 	    {% if can_import %}
-  	      <a href="{% url 'importMembers' group.id %}">Import Members</a>
+              {% if user.is_authenticated %}
+                <a href="{% url 'importMembers' group.id %}">Import Members</a>
+              {% endif %}
             {% endif %} |
-            <a href="{% url 'toggleGroupNA' group.id %}">Mark N/A</a>
+            {% if user.is_authenticated %}
+              <a href="{% url 'toggleGroupNA' group.id %}">Mark N/A</a>
+            {% endif %}
           </td>
 	</tr>
 	{% endfor %}
