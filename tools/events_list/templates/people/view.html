@@ -9,9 +9,26 @@
 
   <h1>{{ person.name }}</h1>
 
-  <form action="construction">
+  <!--<form action="construction">
     <input type="submit" value="Tweet at this person">
-  </form>
+  </form>-->
+
+  <p>
+  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
+  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > Tweet at this Person </a>
+  <script>
+    var _hs = {
+               size: 5,
+               partner: "community.apache.org"
+    };
+    (function() {
+                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
+                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
+    })();
+  </script>
+  </p>
+
 
   <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
 
@@ -32,21 +49,6 @@
       <li>{{ group }}</li>
     {% endfor %}
   </ul>
-  
-  <p>
-  <a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>
-  <script>
-    var _hs = {
-               size: 5,
-               partner: "community.apache.org"
-    };
-    (function() {
-                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
-                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
-                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
-    })();
-  </script>
-  </p>  
   
   <p>Last Active: {{ person.lastVisit }}</p>
 </body>
