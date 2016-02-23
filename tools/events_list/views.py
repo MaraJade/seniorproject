@@ -209,6 +209,7 @@ def importMembers(request, group_id):
         try:
             person.meetupID = member['id']
             person.name = member['name']
+	    person.service = member['other_services']['twitter']['identifier']
             person.country = member['country']
             if 'state' in member.keys():
                 person.state = member['state']
