@@ -39,6 +39,7 @@ class Hashtag(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length = 50)
     bio = models.TextField()
+    service = models.CharField(max_length = 50)
     country = models.CharField(max_length = 2)
     state = models.CharField(max_length = 2)
     city = models.CharField(max_length = 30)
