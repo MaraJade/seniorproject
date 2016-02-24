@@ -3,10 +3,10 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^home', views.home, name='home'),
+    url(r'^home/$', views.home, name='home'),
     url(r'^createAccount/$', views.createAccount, name='createAccount'),
-    url(r'^index', views.index, name='eventIndex'),
-    url(r'^events', views.index, name='eventIndexLoggedIn'),
+    url(r'^index/$', views.index, name='eventIndex'),
+    url(r'^events/$', views.index, name='eventIndexLoggedIn'),
     url(r'^(?P<event_id>[0-9]+)/$', views.viewEvent, name='viewEvent'),
     url(r'^(?P<event_id>[0-9]+)/toggleNA/$', views.toggleEventNA, name='toggleEventNA'),
     url(r'^importMeetups/$', views.importMeetups, name='importMeetups'),
