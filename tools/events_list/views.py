@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic
@@ -22,7 +22,7 @@ MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
 
 logger = logging.getLogger(__name__)
 
-def home(request):
+def login(request):
     state = "Please log in below..."
     username = password = ''
     if request.POST:
@@ -32,13 +32,13 @@ def home(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                auth_login(request, user)
                 state = "Welcome " + username + "!"
             else:
                 state = "Your account is not active, please contact the site admin."
         else:
             state = "Your username and/or password were incorrect."
-    template = loader.get_template('home/home.html')
+    template = loader.get_template('login/login.html')
     context = RequestContext(request, {
                              'state': state,
                              'username': username
@@ -47,7 +47,7 @@ def home(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, 'home/home.html')
+    return render(request, 'login/login.html')
 
 def index(request):
     now = datetime.now()
@@ -71,7 +71,7 @@ def createAccount(request):
         last_name = request.POST.get('last_name')
 
         user = User.objects.create_user(username, email, password)
-    return render(request, 'home/createAccount.html')
+    return render(request, 'login/createAccount.html')
 	
 # Lists the events for the next 14 days
 def eventList(request):
@@ -366,14 +366,14 @@ def _callMeetupsCom(hashtag):
             print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
 
 def viewTweets(request):
-    return render(request, 'home/construction.html')
+    return render(request, 'login/construction.html')
    
 def tweetsNotApp(request):
-    return render(request, 'home/construction.html')
+    return render(request, 'login/construction.html')
 
 def tweetsApp(request):
-    return render(request, 'home/construction.html')
+    return render(request, 'login/construction.html')
 
 def construction(request):
-    return render(request, 'home/construction.html')
+    return render(request, 'login/construction.html')
 
