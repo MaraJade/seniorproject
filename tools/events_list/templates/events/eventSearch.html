@@ -7,86 +7,155 @@
 <body>
   {% include "include/navbar.html" %}
   
-<style type="text/css">
-.map {
-	width: 300px;
-	height: 150px;
-	display: none;
-}
-</style>
-<script type="text/javascript" charset="utf-8">
-var places = new Array();
-{% for p in places %}
-places[{{forloop.counter0}}] = {
-	'name': '{{p.name}}', lat: {{p.latitude}}, lng: {{p.longitude}},
-	'id': 'map_{{forloop.counter}}',
-}
-{% endfor %}
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 70%;
+      }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
 
-function drawMaps() {
-	if (GBrowserIsCompatible()) {
-		for(var i in places) {
-			var p = places[i];
-			var div = document.getElementById(p['id']);
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
 
-			div.style.display = "block";
-			div.parentNode.style.marginBottom = "35px";
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
 
-			var map = new GMap2(div);
-			map.setCenter(new GLatLng(p['lat'], p['lng']), 8);
+      .pac-container {
+        font-family: Roboto;
+      }
 
-			var m = new GMarker( 
-				new GLatLng(p['lat'], p['lng']),
-				{title: p['name']}
-			);
-			map.addOverlay(m);
-		}
-	}
-}
-</script>
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
 
-{% if places %}
-	<h3>We found several places with that name, we've sorted them by popularity</h3>
-	<h4>Please tell us which one you want?</h4>
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
+  </head>
 
-	<ul>
-	{% for p in places %}
-		<li><a href="/find_people/?latitude={{p.latitude}}&longitude={{p.longitude}}&type={{form.data.type}}&rows={{form.data.rows}}" title="{{p.latitude|floatformat:4}} {{p.longitude|floatformat:4}}">{{p.name}} ({{p.country}})</a><div id="map_{{forloop.counter}}" class="map"></div></li>
-	{% endfor %}
-	</ul>
-{% else %}
-    {% if message %}
-      <p>{{message}}</p>
-    {% else %}
-	  <p>To begin, please enter your location.</p>
-	{% endif %}
-{% endif %}
+ <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+    <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
 
-<form action="/events/construction/" method="post">
-  {% csrf_token %}
-  {{form.as_p}}
-  <p>
-    <input type="text" name="location" value=""><br>
-    <input type="submit" value="Search" />
-  </p>
-</form>
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-<script type="text/javascript" src="http://www.google.com/jsapi?key={{gmaps_key}}"></script>
-<script type="text/javascript" charset="utf-8">
-	google.load("maps", "2.x");
-	google.load("jquery", "1.3.1");
-</script>
-<script type="text/javascript" charset="utf-8">
-	var t;
-	$(document).ready(function(){
-		t = setTimeout(function() {
-			clearTimeout(t);
-			drawMaps();
-		}, 15*1000);
-	});
-</script>
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 44.5645659, lng: -123.2620435},
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+      var marker = new google.maps.Marker({
+          position: {lat: -33.8688, lng: 151.2195},
+          map: map,
+          title: 'hello world'
+      });
 
 
-<br /><br />
+      var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+            
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&callback=initAutocomplete"
+         async defer></script> 
+
+<!--
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-123.28441143035887%2C44.56018777972596%2C-123.27743768692015%2C44.57121002287531&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="http://www.openstreetmap.org/#map=16/44.5657/-123.2809">View Larger Map</a></small>
+-->
+
 </body>
 </html>
