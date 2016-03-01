@@ -8,10 +8,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 from datetime import datetime, timedelta
+from .excel_utils import WriteToExcel
 import json
 import logging
 import urllib2
 import sys
+import csv
 
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
@@ -155,6 +157,13 @@ def personIndex(request):
     context = RequestContext(request, {
                              'person_list': person_list
     })
+    if 'excel' in request.POST:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
+        xlsx_data = WriteToExcel(person_list)
+        response.write(xlsx_data)
+        return response
+
     return HttpResponse(template.render(context))    
 
 # Shows a specific person's information

@@ -10,8 +10,9 @@
   <h1>People</h1>
 
   {% if user.is_authenticated %}
-    <form action="construction">
-      <input type="submit" value="Export Info">
+    <form method="POST">
+      {% csrf_token %}
+      <input type="submit" name="excel" value="Export Info">
     </form>
   {% endif %}
 
