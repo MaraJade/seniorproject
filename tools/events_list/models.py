@@ -62,6 +62,9 @@ class Person(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
+    country = models.CharField(max_length = 2)
+    state = models.CharField(max_length = 2)
+    city = models.CharField(max_length = 30)
     event_url = models.URLField()
     group = models.ForeignKey(Group)
     meetupID = models.CharField(verbose_name = "Meetups.com ID", max_length=50, unique=True)

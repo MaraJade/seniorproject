@@ -303,7 +303,7 @@ def _callMeetupsCom(hashtag):
 
     for meetup in meetups:
         groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
-    
+        
     keys = groups.keys()
     keyarg = ",".join( keys )
     
@@ -358,6 +358,14 @@ def _callMeetupsCom(hashtag):
         try:
             event.name = unicode(meetup['name'])
             event.event_url = meetup['event_url']
+            #getting location of the events instead of groups show below - Justin Bruntmyer
+            if 'venue' in meetup.keys():
+                if 'city' in meetup['venue'].keys():
+                    event.city = meetup['venue']['city']
+                if 'country' in meetup['venue'].keys():
+                    event.country = meetup['venue']['country']
+                if 'state' in meetup['venue'].keys():
+                    event.state = meetup['venue']['state']
             event.meetupID = meetup['id']
             event.group = group
             event.description = unicode(meetup['description'])
