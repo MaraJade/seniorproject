@@ -366,6 +366,13 @@ def _callMeetupsCom(hashtag):
                     event.country = meetup['venue']['country']
                 if 'state' in meetup['venue'].keys():
                     event.state = meetup['venue']['state']
+                if 'address_1' in meetup['venue'].keys():
+                    event.address_1 = meetup['venue']['address_1']
+                if 'lat' in meetup['venue'].keys():
+                    event.latitude = meetup['venue']['lat']
+                if 'lon' in meetup['venue'].keys():
+                    event.longitude = meetup['venue']['lon']
+            #end getting locaiton info - Justin Bruntmyer
             event.meetupID = meetup['id']
             event.group = group
             event.description = unicode(meetup['description'])
