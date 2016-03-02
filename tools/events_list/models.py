@@ -62,6 +62,17 @@ class Person(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
+    #added additional fields for event specific location - Justin Bruntmyer
+    country = models.CharField(max_length = 2)
+    def save(self, force_insert=False, force_update=False):
+        self.country = self.country.upper()
+        super(Event, self).save(force_insert, force_update)
+    state = models.CharField(max_length = 2)
+    city = models.CharField(max_length = 30)
+    address_1 = models.CharField(max_length = 40)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6)
+    # end addition - Jusitn Bruntmyer
     event_url = models.URLField()
     group = models.ForeignKey(Group)
     meetupID = models.CharField(verbose_name = "Meetups.com ID", max_length=50, unique=True)

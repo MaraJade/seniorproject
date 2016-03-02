@@ -8,12 +8,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 from datetime import datetime, timedelta
+from .excel_utils import WriteToExcel
 import json
 import logging
 import urllib2
 import sys
 import base64
 import requests
+import csv
 
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
@@ -159,11 +161,12 @@ def personIndex(request):
     context = RequestContext(request, {
                              'person_list': person_list
     })
-    # Prepare the CSV data
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
-    csv = Context({'data': person_list,})
-    response.write(template.render(csv))
+    if 'excel' in request.POST:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
+        xlsx_data = WriteToExcel(person_list)
+        response.write(xlsx_data)
+        return response
 
     return HttpResponse(template.render(context))    
 
@@ -304,7 +307,7 @@ def _callMeetupsCom(hashtag):
 
     for meetup in meetups:
         groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
-    
+        
     keys = groups.keys()
     keyarg = ",".join( keys )
     
@@ -359,6 +362,21 @@ def _callMeetupsCom(hashtag):
         try:
             event.name = unicode(meetup['name'])
             event.event_url = meetup['event_url']
+            #getting location of the events instead of groups show below - Justin Bruntmyer
+            if 'venue' in meetup.keys():
+                if 'city' in meetup['venue'].keys():
+                    event.city = meetup['venue']['city']
+                if 'country' in meetup['venue'].keys():
+                    event.country = meetup['venue']['country']
+                if 'state' in meetup['venue'].keys():
+                    event.state = meetup['venue']['state']
+                if 'address_1' in meetup['venue'].keys():
+                    event.address_1 = meetup['venue']['address_1']
+                if 'lat' in meetup['venue'].keys():
+                    event.latitude = meetup['venue']['lat']
+                if 'lon' in meetup['venue'].keys():
+                    event.longitude = meetup['venue']['lon']
+            #end getting locaiton info - Justin Bruntmyer
             event.meetupID = meetup['id']
             event.group = group
             event.description = unicode(meetup['description'])
