@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from django.template import RequestContext, loader
+from django.template import RequestContext, loader, Context
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
@@ -12,6 +12,8 @@ import json
 import logging
 import urllib2
 import sys
+import base64
+import requests
 
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
@@ -19,6 +21,8 @@ import sys
 # This is now Mara's key
 # FIXME: make this a configuration value
 MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
+TWITTER_CONSUMER_TOKEN = "5fqpzXtaoZmwF29KAHc0Grit3"
+TWITTER_CONSUMER_SECRET = "uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
 
 logger = logging.getLogger(__name__)
 
@@ -155,6 +159,12 @@ def personIndex(request):
     context = RequestContext(request, {
                              'person_list': person_list
     })
+    # Prepare the CSV data
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    csv = Context({'data': person_list,})
+    response.write(template.render(csv))
+
     return HttpResponse(template.render(context))    
 
 # Shows a specific person's information
@@ -370,13 +380,45 @@ def _callMeetupsCom(hashtag):
             print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
 
 def viewTweets(request):
-    return render(request, 'login/construction.html')
+    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+    # Encoding the keys
+    key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
+
+    # Get authorization
+    authURL = "https://api.twitter.com/oauth2/token"
+    content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+    body = "grant_type=client_credentials"
+
+    authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+    auth = requests.post(authURL, headers=authHeaders, data=body)
+
+    authJSON = auth.json()
+    access_token = authJSON['access_token']
+
+    for hashtag in hashtags:
+        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+
+    headers = {'Authorization': "Bearer " + access_token}
+    response = requests.get(url, headers=headers)
+    tweets_json = response.json()
+    tweets = tweets_json['statuses']
+
+    oembed = []
+    for tweet in tweets:
+        url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
+        embededResponse = requests.get(url)
+        embeded = embededResponse.json()
+        oembed.append(embeded['html'])
+
+
+    return render(request, 'tweets/view.html', {'tweets': oembed})
    
 def tweetsNotApp(request):
-    return render(request, 'login/construction.html')
+    return render(request, 'tweets/notApp.html')
 
 def tweetsApp(request):
-    return render(request, 'login/construction.html')
+    return render(request, 'tweets/app.html')
 
 def construction(request):
     return render(request, 'login/construction.html')

@@ -6,6 +6,9 @@
 </head>
 <body>
   {% include "include/navbar.html" %}
-  <h4>All tweets go here</h4>
+  <h4>All tweets</h4>
+  {% for tweet in tweets %}
+    {% autoescape off %}{{ tweet }}{% endautoescape %}
+  {% endfor %}
 </body>
 </html>
