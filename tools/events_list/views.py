@@ -66,7 +66,16 @@ def index(request):
     return HttpResponse(template.render(context))
 
 def eventSearch(request):
-    return render(request, 'events/eventSearch.html')	
+    #return render(request, 'events/eventSearch.html')
+    now = datetime.now()
+    upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
+    template = loader.get_template('events/eventSearch.html')
+    context = RequestContext(request, {
+                             'upcoming_events_list': upcoming_events_list,
+                             'can_import': _canImport()
+    })
+    return HttpResponse(template.render(context))
+	
 
 def createAccount(request):
     if request.POST:
