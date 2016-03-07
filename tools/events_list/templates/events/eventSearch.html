@@ -4,9 +4,47 @@
   <title>Community Development: Event Search</title>
   {% include "include/head.html" %}
 </head>
+
 <body>
   {% include "include/navbar.html" %}
-  
+
+  <h1>Events Via Search</h1>
+
+{% if upcoming_events_list %}
+<script>
+  $(document).ready(function(){
+    $('#eventList').dataTable({
+       "order": [[ 4, "asc" ]],
+       "stateSave": true
+    });
+  });
+</script>
+
+
+<table id="eventList" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Local Start Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in upcoming_events_list %}
+    <tr>
+      <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
+      <td>{{ event.latitude }}</td> <!-- now getting event locaiton (JB)-->
+      <td>{{ event.longitude }}</td>
+      <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No events are available.</p>
+{% endif %}
+
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -67,16 +105,9 @@
     </style>
   </head>
 
- <body>
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map"></div>
     <script>
-      // This example adds a search box to a map, using the Google Place Autocomplete
-      // feature. People can enter geographical searches. The search box will return a
-      // pick list containing a mix of places and predicted search terms.
-
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
       function initAutocomplete() {
@@ -96,13 +127,6 @@
           searchBox.setBounds(map.getBounds());
         });
 
-      var marker = new google.maps.Marker({
-          position: {lat: -33.8688, lng: 151.2195},
-          map: map,
-          title: 'hello world'
-      });
-
-
       var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
@@ -114,10 +138,20 @@
           }
 
           // Clear out the old markers.
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
+          //markers.forEach(function(marker) {
+            //marker.setMap(null);
+          //});
+          //markers = [];
+
+          {% for even in upcoming_events_list %}
+              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
+              var marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                  title: '{{ even.name }}'
+              });
+          {% endfor %}
+
 
           // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
@@ -148,14 +182,9 @@
           map.fitBounds(bounds);
         });
       }
-
+   
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&callback=initAutocomplete"
          async defer></script> 
-
-<!--
-<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-123.28441143035887%2C44.56018777972596%2C-123.27743768692015%2C44.57121002287531&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="http://www.openstreetmap.org/#map=16/44.5657/-123.2809">View Larger Map</a></small>
--->
-
 </body>
 </html>
