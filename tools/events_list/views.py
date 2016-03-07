@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 from datetime import datetime, timedelta
 from .excel_utils import WriteToExcel
+from operator import itemgetter
 import json
 import logging
 import urllib2
@@ -16,6 +17,7 @@ import sys
 import base64
 import requests
 import csv
+import datetime
 
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
@@ -397,40 +399,57 @@ def _callMeetupsCom(hashtag):
         except:
             print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
 
-def viewTweets(request):
-    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-
-    # Encoding the keys
+def _twitterAuth():
+    # Encode the keys
     key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
 
-    # Get authorization
+    # Set needed values
     authURL = "https://api.twitter.com/oauth2/token"
     content_type = "application/x-www-form-urlencoded;charset=UTF-8"
     body = "grant_type=client_credentials"
 
+    # Create the header
     authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+    # Get auth
     auth = requests.post(authURL, headers=authHeaders, data=body)
-
+    # Get the response in a useable format
     authJSON = auth.json()
-    access_token = authJSON['access_token']
+    
+    return authJSON['access_token']
 
-    for hashtag in hashtags:
-        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+def viewTweets(request):
+    # Auth with twitter
+    accessToken = _twitterAuth()
 
-    headers = {'Authorization': "Bearer " + access_token}
-    response = requests.get(url, headers=headers)
-    tweets_json = response.json()
-    tweets = tweets_json['statuses']
+    # Get the hashtags
+    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
     oembed = []
-    for tweet in tweets:
+    allTweets = []
+    for hashtag in hashtags:
+        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+        headers = {'Authorization': "Bearer " + accessToken}
+        response = requests.get(url, headers=headers)
+        tweetsJSON = response.json()
+        for tweet in tweetsJSON['statuses']:
+            #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
+            allTweets.append(tweet)
+
+    # Supposed to sort the tweets so they will be in order of posting, doesn't
+    # really work. Does at least kinda mix up the tweets so they're not blocks
+    # of one hashtag
+    #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
+    sortedTweets = sorted(allTweets, key=itemgetter('id'))
+
+    for tweet in sortedTweets:
         url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
         embededResponse = requests.get(url)
         embeded = embededResponse.json()
         oembed.append(embeded['html'])
 
 
-    return render(request, 'tweets/view.html', {'tweets': oembed})
+    return render(request, 'tweets/view.html', {'tweets': oembed, 'time':
+        allTweets[0]['created_at']})
    
 def tweetsNotApp(request):
     return render(request, 'tweets/notApp.html')
