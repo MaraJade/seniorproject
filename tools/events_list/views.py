@@ -10,6 +10,7 @@ from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 from datetime import datetime, timedelta
 from .excel_utils import WriteToExcel
 from operator import itemgetter
+
 import json
 import logging
 import urllib2
@@ -17,7 +18,6 @@ import sys
 import base64
 import requests
 import csv
-import datetime
 
 # Note that this API key is *my* API key (rbowen) and if we start using
 # it more than a few dozen times an hour it's likely to get revoked.
@@ -457,8 +457,7 @@ def viewTweets(request):
         oembed.append(embeded['html'])
 
 
-    return render(request, 'tweets/view.html', {'tweets': oembed, 'time':
-        allTweets[0]['created_at']})
+    return render(request, 'tweets/view.html', {'tweets': oembed})
    
 def tweetsNotApp(request):
     return render(request, 'tweets/notApp.html')
