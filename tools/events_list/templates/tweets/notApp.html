@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Not App Tweets</title>
+  <title>All Tweets</title>
   {% include "include/head.html" %}
 </head>
 <body>
   {% include "include/navbar.html" %}
-  <h4>Tweets not from the app go here</h4>
+  <h4>Tweets not from the app</h4>
+  {% for tweet in tweets %}
+    {% autoescape off %}{{ tweet }}{% endautoescape %}
+  {% endfor %}
 </body>
 </html>

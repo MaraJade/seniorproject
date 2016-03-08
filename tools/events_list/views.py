@@ -426,7 +426,20 @@ def _twitterAuth():
     
     return authJSON['access_token']
 
+def _oembedTweets(tweets):
+    oembed = []
+    for tweet in tweets:
+        url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
+        embededResponse = requests.get(url)
+        embeded = embededResponse.json()
+        oembed.append(embeded['html'])
+
+    return oembed
+
 def viewTweets(request):
+    return render(request, 'tweets/view.html')
+   
+def tweetsNotApp(request):
     # Auth with twitter
     accessToken = _twitterAuth()
 
@@ -450,20 +463,32 @@ def viewTweets(request):
     #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
     sortedTweets = sorted(allTweets, key=itemgetter('id'))
 
-    for tweet in sortedTweets:
-        url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-        embededResponse = requests.get(url)
-        embeded = embededResponse.json()
-        oembed.append(embeded['html'])
+    oembed = _oembedTweets(allTweets)
 
+    return render(request, 'tweets/notApp.html', {'tweets': oembed})
 
-    return render(request, 'tweets/view.html', {'tweets': oembed})
-   
-def tweetsNotApp(request):
-    return render(request, 'tweets/notApp.html')
 
 def tweetsApp(request):
-    return render(request, 'tweets/app.html')
+    # Auth with Twitter
+    accessToken = _twitterAuth()
+    # Get people
+    person_list = Person.objects.all()
+    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+    oembed = []
+    allTweets = []
+    for person in person_list:
+        for hashtag in hashtags:
+            url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
+            headers = {'Authorization': "Bearer " + accessToken}
+            response = requests.get(url, headers=headers)
+            tweetsJSON = response.json()
+            for tweet in tweetsJSON['statuses']:
+                allTweets.append(tweet)
+
+    oembed = _oembedTweets(allTweets)
+
+    return render(request, 'tweets/app.html', {'tweets': oembed})
 
 def construction(request):
     return render(request, 'login/construction.html')
