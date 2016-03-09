@@ -19,6 +19,8 @@
 \BOOKMARK [1][-]{section.5}{USER STUDIES}{}% 19
 \BOOKMARK [1][-]{section.6}{CODE SNIPPETS}{}% 20
 \BOOKMARK [2][-]{subsection.6.1}{Tweet at a person}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.2}{Implement a system of finding events nearby a location entered or within radius of the user}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.3}{Add users accounts to application}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.4}{Export a list of people with information}{section.6}% 24
+\BOOKMARK [2][-]{subsection.6.2}{List tweets about events and/or people via the application}{section.6}% 22
+\BOOKMARK [2][-]{subsection.6.3}{List tweets about events and/or people not via the application}{section.6}% 23
+\BOOKMARK [2][-]{subsection.6.4}{Implement a system of finding events nearby a location entered or within radius of the user}{section.6}% 24
+\BOOKMARK [2][-]{subsection.6.5}{Add users accounts to application}{section.6}% 25
+\BOOKMARK [2][-]{subsection.6.6}{Export a list of people with information}{section.6}% 26

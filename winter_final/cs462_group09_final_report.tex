@@ -276,38 +276,63 @@ events.
 
 \subsection{List tweets about events and/or people via the application}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: When an event is viewed by a user, a button is available
-    so that the user can tweet about the event if they choose so. Current
-    progression on the application has the button available, but currently does
-    not link to the correct page for Twitter to access the user’s account to
-    automatically generate the Tweet for the user. The intention of this purpose
-    is to gain more publicity that is readily available for the user through
-    auto-generated tweets and hashtags for more people to see and to introduce
-    more traffic.
+  \item Current Progress: We cannot currently track when a user tweets from our
+    application, but we have implemented a round-about way to do so. The website
+    makes a call to Twitter's search API, requesting all tweets from a certain
+    user that contain a certain hashtag. The hashtags are the same as the ones
+    used to get events from meetup.com. Once it has the tweets, it uses the id
+    from each one to make another call to Twitter's OEmbed API, which sends back
+    HTML that is used in the page's template to present embedded tweets to
+    users.
 
-  \item Things to Complete: This button would be utilized by the web tool
-    Hootsuite, an application that would have access to the user’s Twitter account
-    if they have it saved on their web browser. Hootsuite would generate an
-    automated tweet such as “This great open source event is coming up! Come read
-    more about it here! via (our web application).”
+  %\item Current Progress: When an event is viewed by a user, a button is available
+  %  so that the user can tweet about the event if they choose so. Current
+  %  progression on the application has the button available, but currently does
+  %  not link to the correct page for Twitter to access the user’s account to
+  %  automatically generate the Tweet for the user. The intention of this purpose
+  %  is to gain more publicity that is readily available for the user through
+  %  auto-generated tweets and hashtags for more people to see and to introduce
+  %  more traffic.
+
+  \item Things to Complete: We still need to implement a form of tracking users
+    tweeting from the application so that we can pull only the tweets that they
+    created, instead of potentially unrelated tweets.
+
+  %\item Things to Complete: This button would be utilized by the web tool
+  %  Hootsuite, an application that would have access to the user’s Twitter account
+  %  if they have it saved on their web browser. Hootsuite would generate an
+  %  automated tweet such as “This great open source event is coming up! Come read
+  %  more about it here! via (our web application).”
 \end{enumerate}
 
 \subsection{List tweets about events and/or people not via the application}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: Currently, the website parses events that are listed
-    through meetup.com. We want to extend this feature as well through Twitter so
-    that it reads any tweets related to a relevant event that is posted. If a
-    certain hashtag is used, then the application picks up that tweet, parses the
-    information through the tweet itself and the user that tweeted it. This parser
-    is not yet built and still is under current development. There is currently a
-    button on the application under the navigation tool where the user and click
-    on to view all tweets, but currently no data has been parsed yet for the tool.
+  \item Current Progress: The website now has a tweet parser. Currently it sends
+    a call to Twitter's search API, requesting all tweets with a certain
+    hashtag. The hashtags are the same as the ones used to get events from
+    meetup.com. Once it has the tweets, it uses the id from each one to make
+    another call to Twitter's OEmbed API, which sends back HTML that is used in
+    the page's template to present embedded tweets to users.
 
-  \item Things to Complete: We still need to develop the parser for the tweet and
-    extend that for the webpage tool. The tool should look like an organized list
-    that has all tweets listed in chronological order starting from the most
-    recent. Eventually, there should be a category of tweets based on hashtags
-    relevant for what topic the user wants to see.
+  %\item Current Progress: Currently, the website parses events that are listed
+  %  through meetup.com. We want to extend this feature as well through Twitter so
+  %  that it reads any tweets related to a relevant event that is posted. If a
+  %  certain hashtag is used, then the application picks up that tweet, parses the
+  %  information through the tweet itself and the user that tweeted it. This parser
+  %  is not yet built and still is under current development. There is currently a
+  %  button on the application under the navigation tool where the user and click
+  %  on to view all tweets, but currently no data has been parsed yet for the tool.
+
+  \item Things to Complete: The search results currently contain all instances
+    of the hashtag requested, even when they are not relevant to any event, or
+    even open source. The search needs refinement, however, this will be
+    difficult, and may not be ready in time for the 1.0 release
+
+  %\item Things to Complete: We still need to develop the parser for the tweet and
+  %  extend that for the webpage tool. The tool should look like an organized list
+  %  that has all tweets listed in chronological order starting from the most
+  %  recent. Eventually, there should be a category of tweets based on hashtags
+  %  relevant for what topic the user wants to see.
 \end{enumerate}
 
 \begin{figure}[htp]
@@ -781,6 +806,152 @@ experience using our tool.
     \end{center}
 \end{enumerate}
 
+\subsection{List tweets about events and/or people via the application}
+
+\begin{enumerate}
+  \item views.py
+    \begin{center}
+      \begin{lstlisting}[language=Python]
+        def _twitterAuth():
+          # Encode the keys
+          key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
+
+          # Set needed values
+          authURL = "https://api.twitter.com/oauth2/token"
+          content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+          body = "grant_type=client_credentials"
+
+          # Create the header
+          authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+          # Get auth
+          auth = requests.post(authURL, headers=authHeaders, data=body)
+          # Get the response in a useable format
+          authJSON = auth.json()
+          
+          return authJSON['access_token']
+
+      def _oembedTweets(tweets):
+          oembed = []
+          for tweet in tweets:
+              url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
+              embededResponse = requests.get(url)
+              embeded = embededResponse.json()
+              oembed.append(embeded['html'])
+
+          return oembed
+
+      def tweetsApp(request):
+          # Auth with Twitter
+          accessToken = _twitterAuth()
+          # Get people
+          person_list = Person.objects.all()
+          hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+          oembed = []
+          allTweets = []
+          for person in person_list:
+              for hashtag in hashtags:
+                  url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
+                  headers = {'Authorization': "Bearer " + accessToken}
+                  response = requests.get(url, headers=headers)
+                  tweetsJSON = response.json()
+                  for tweet in tweetsJSON['statuses']:
+                      allTweets.append(tweet)
+
+          oembed = _oembedTweets(allTweets)
+
+          return render(request, 'tweets/app.html', {'tweets': oembed})
+      \end{lstlisting}
+    \end{center}
+
+  \item app.html
+    \begin{center}
+      \begin{lstlisting}[language=html]
+        {% for tweet in tweets %}
+          {% autoescape off %}{{ tweet }}{% endautoescape %}
+        {% endfor %}
+      \end{lstlisting}
+    \end{center}
+\end{enumerate}
+
+\subsection{List tweets about events and/or people not via the application}
+
+\begin{enumerate}
+  \item views.py
+    \begin{center}
+      \begin{lstlisting}[language=Python]
+        def _twitterAuth():
+            # Encode the keys
+            key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
+
+            # Set needed values
+            authURL = "https://api.twitter.com/oauth2/token"
+            content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+            body = "grant_type=client_credentials"
+
+            # Create the header
+            authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+            # Get auth
+            auth = requests.post(authURL, headers=authHeaders, data=body)
+            # Get the response in a useable format
+            authJSON = auth.json()
+            
+            return authJSON['access_token']
+
+        def _oembedTweets(tweets):
+            oembed = []
+            for tweet in tweets:
+                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
+                embededResponse = requests.get(url)
+                embeded = embededResponse.json()
+                oembed.append(embeded['html'])
+
+            return oembed
+
+        def viewTweets(request):
+            return render(request, 'tweets/view.html')
+           
+        def tweetsNotApp(request):
+            # Auth with twitter
+            accessToken = _twitterAuth()
+
+            # Get the hashtags
+            hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+            oembed = []
+            allTweets = []
+            for hashtag in hashtags:
+                url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+                headers = {'Authorization': "Bearer " + accessToken}
+                response = requests.get(url, headers=headers)
+                tweetsJSON = response.json()
+                for tweet in tweetsJSON['statuses']:
+                    #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
+                    allTweets.append(tweet)
+
+            # Supposed to sort the tweets so they will be in order of posting, doesn't
+            # really work. Does at least kinda mix up the tweets so they're not blocks
+            # of one hashtag
+            #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
+            sortedTweets = sorted(allTweets, key=itemgetter('id'))
+
+            oembed = _oembedTweets(allTweets)
+
+            return render(request, 'tweets/notApp.html', {'tweets': oembed})
+      \end{lstlisting}
+    \end{center}
+
+  \item notApp.html
+    \begin{center}
+      \begin{lstlisting}[language=html]
+        {% for tweet in tweets %}
+          {% autoescape off %}{{ tweet }}{% endautoescape %}
+        {% endfor %}
+      \end{lstlisting}
+    \end{center}
+
+\end{enumerate}
+
 \subsection{Implement a system of finding events nearby a location entered or within radius of the user}
 
 \begin{enumerate}
@@ -1072,5 +1243,3 @@ experience using our tool.
     \end{center}
 \end{enumerate}
 \end{document}
-
-		
