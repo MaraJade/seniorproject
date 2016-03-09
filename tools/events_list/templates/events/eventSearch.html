@@ -104,18 +104,37 @@
       }
     </style>
   </head>
-
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map"></div>
     <script>
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      function initAutocomplete() {
+      function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 44.5645659, lng: -123.2620435},
           zoom: 13,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
+
+        var infoWindow = new google.maps.InfoWindow({map: map});
+       
+        if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = {
+                 lat: position.coords.latitude,
+                 lng: position.coords.longitude
+              };
+              
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('You are here!');
+              map.setCenter(pos);
+              }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+              });
+         } else {
+           //if ish doesnt work
+           handleLocationError(false, infoWindow, map.getCenter());
+         }
 
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
@@ -127,7 +146,7 @@
           searchBox.setBounds(map.getBounds());
         });
 
-      var markers = [];
+        var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function() {
@@ -137,11 +156,11 @@
             return;
           }
 
-          // Clear out the old markers.
-          //markers.forEach(function(marker) {
-            //marker.setMap(null);
-          //});
-          //markers = [];
+          //Clear out the old markers.
+          markers.forEach(function(marker) {
+              marker.setMap(null);
+          });
+          markers = [];
 
           {% for even in upcoming_events_list %}
               var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
@@ -181,10 +200,18 @@
           });
           map.fitBounds(bounds);
         });
-      }
-   
+
+     }
+ 
+     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+     }
+
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&callback=initAutocomplete"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&sensor=true&callback=initMap"
          async defer></script> 
 </body>
 </html>
