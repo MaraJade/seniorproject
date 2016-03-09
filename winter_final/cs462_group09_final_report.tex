@@ -598,6 +598,54 @@ function initAutocomplete() {
 
 \end{enumerate}
 
+\subsection{Add users accounts to application}
+
+\begin{enumerate}
+\item views.py
+\begin{center}
+\begin{lstlisting}[language=Python]
+def login(request):
+    state = "Please log in below..."
+    username = password = ''
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+                state = "Welcome " + username + "!"
+            else:
+                state = "Your account is not active, please contact the site admin."
+        else:
+            state = "Your username and/or password were incorrect."
+    template = loader.get_template('login/login.html')
+    context = RequestContext(request, {
+                             'state': state,
+                             'username': username
+    })
+    return HttpResponse(template.render(context))
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'login/login.html')
+
+def createAccount(request):
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        user = User.objects.create_user(username, email, password)
+    return render(request, 'login/createAccount.html')
+
+\end{lstlisting}
+\end{center}
+
+\end{enumerate}
 
 \end{document}
 
