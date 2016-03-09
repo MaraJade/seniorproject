@@ -813,54 +813,54 @@ experience using our tool.
     \begin{center}
       \begin{lstlisting}[language=Python]
         def _twitterAuth():
-          # Encode the keys
-          key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
+            # Encode the keys
+            key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
 
-          # Set needed values
-          authURL = "https://api.twitter.com/oauth2/token"
-          content_type = "application/x-www-form-urlencoded;charset=UTF-8"
-          body = "grant_type=client_credentials"
+            # Set needed values
+            authURL = "https://api.twitter.com/oauth2/token"
+            content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+            body = "grant_type=client_credentials"
 
-          # Create the header
-          authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
-          # Get auth
-          auth = requests.post(authURL, headers=authHeaders, data=body)
-          # Get the response in a useable format
-          authJSON = auth.json()
-          
-          return authJSON['access_token']
+            # Create the header
+            authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+            # Get auth
+            auth = requests.post(authURL, headers=authHeaders, data=body)
+            # Get the response in a useable format
+            authJSON = auth.json()
+            
+            return authJSON['access_token']
 
-      def _oembedTweets(tweets):
-          oembed = []
-          for tweet in tweets:
-              url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-              embededResponse = requests.get(url)
-              embeded = embededResponse.json()
-              oembed.append(embeded['html'])
+        def _oembedTweets(tweets):
+            oembed = []
+            for tweet in tweets:
+                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
+                embededResponse = requests.get(url)
+                embeded = embededResponse.json()
+                oembed.append(embeded['html'])
 
-          return oembed
+            return oembed
 
-      def tweetsApp(request):
-          # Auth with Twitter
-          accessToken = _twitterAuth()
-          # Get people
-          person_list = Person.objects.all()
-          hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+        def tweetsApp(request):
+            # Auth with Twitter
+            accessToken = _twitterAuth()
+            # Get people
+            person_list = Person.objects.all()
+            hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
-          oembed = []
-          allTweets = []
-          for person in person_list:
-              for hashtag in hashtags:
-                  url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
-                  headers = {'Authorization': "Bearer " + accessToken}
-                  response = requests.get(url, headers=headers)
-                  tweetsJSON = response.json()
-                  for tweet in tweetsJSON['statuses']:
-                      allTweets.append(tweet)
+            oembed = []
+            allTweets = []
+            for person in person_list:
+                for hashtag in hashtags:
+                    url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
+                    headers = {'Authorization': "Bearer " + accessToken}
+                    response = requests.get(url, headers=headers)
+                    tweetsJSON = response.json()
+                    for tweet in tweetsJSON['statuses']:
+                        allTweets.append(tweet)
 
-          oembed = _oembedTweets(allTweets)
+            oembed = _oembedTweets(allTweets)
 
-          return render(request, 'tweets/app.html', {'tweets': oembed})
+            return render(request, 'tweets/app.html', {'tweets': oembed})
       \end{lstlisting}
     \end{center}
 
@@ -873,6 +873,37 @@ experience using our tool.
       \end{lstlisting}
     \end{center}
 \end{enumerate}
+
+This is the code for viewing tweets from the app. It consists of two parts: the
+view, and the template. The view consists of three parts: Twitter authorization,
+getting the tweets, and embedding the tweets. Authorizing with Twitter is merely
+a matter of constructing a request properly, and sending it to their
+authorization API. This is contained in the \_twitterAuth() method. First, it
+encodes the keys in the way Twitter requires, then sets several variables that
+contain other information that Twitter requires. It crafts a header, then uses
+the Python requests library to send the data to Twitter. The requests library
+returns unicode, which is then converted to JSON, so that it is easy to get the
+access token that is returned to the tweetsApp method for future requests.
+
+The next step is in the tweetsApp method. First, it gets a record of all people
+in the database, then all the hashtags. For every person, it goes through all of
+the hashtags, crafting a search call to send to Twitter using the requests
+library. Once the repsponse has be converted to JSON, the tweets are pulled out
+and added to a seperate dictionary, as a lot of unneeded data is sent by
+Twitter.
+
+Next, Twitters OEmbed API is called. This is done in the \_oembedTweets method.
+This method goes through the library from the last step, and crafts a url using
+the tweet id. This is sent to Twitter via the requests library, which returns
+another dictionary. This is converted to JSON, and the HTML that creates an
+embeded tweet is added to a new dictionary, which is returned to the tweetsApp
+method.
+
+The last step is to send that dictionary to the template so that it can be
+presented. In the template, the dictionary is looped through, presenting each
+tweets. The key here is the turning off of autoescaping. This allows the HTML
+from the variable to be displayed properly, allowing the tweets to be embedded
+nicely in the webpage.
 
 \subsection{List tweets about events and/or people not via the application}
 
@@ -951,6 +982,38 @@ experience using our tool.
     \end{center}
 
 \end{enumerate}
+
+This is the code for viewing tweets that aren't from the app. It consists of two parts: the
+view, and the template. The view consists of three parts: Twitter authorization,
+getting the tweets, and embedding the tweets. Authorizing with Twitter is merely
+a matter of constructing a request properly, and sending it to their
+authorization API. This is contained in the \_twitterAuth() method. First, it
+encodes the keys in the way Twitter requires, then sets several variables that
+contain other information that Twitter requires. It crafts a header, then uses
+the Python requests library to send the data to Twitter. The requests library
+returns unicode, which is then converted to JSON, so that it is easy to get the
+access token that is returned to the tweetsNotApp method for future requests.
+
+The next step is in the tweetsNotApp method. First, it gets all the hashtags in
+the database. It goes through all of them, crafting a search call to send to
+Twitter using the requests library. Once the repsponse has be converted to JSON,
+the tweets are pulled out and added to a seperate dictionary, as a lot of
+unneeded data is sent by Twitter. The dictionary is then sorted by id, which is
+supposed to put the tweets in order. However, neither this nor the attempt to
+sort by creation date work quite right, and need improvement.
+
+Next, Twitters OEmbed API is called. This is done in the \_oembedTweets method.
+This method goes through the library from the last step, and crafts a url using
+the tweet id. This is sent to Twitter via the requests library, which returns
+another dictionary. This is converted to JSON, and the HTML that creates an
+embeded tweet is added to a new dictionary, which is returned to the tweetsApp
+method.
+
+The last step is to send that dictionary to the template so that it can be
+presented. In the template, the dictionary is looped through, presenting each
+tweets. The key here is the turning off of autoescaping. This allows the HTML
+from the variable to be displayed properly, allowing the tweets to be embedded
+nicely in the webpage.
 
 \subsection{Implement a system of finding events nearby a location entered or within radius of the user}
 
@@ -1150,7 +1213,6 @@ experience using our tool.
           url(r'^login/$', views.login, name='login'),
           url(r'^createAccount/$', views.createAccount,  name='createAccount'),
           url(r'^index/$', views.index, name='eventIndex'),
-
       \end{lstlisting}
     \end{center}
 
