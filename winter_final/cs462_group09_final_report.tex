@@ -1,7 +1,8 @@
 \documentclass[letterpaper,10pt,onecolumn]{IEEEtran} %!PN
 
-\usepackage{graphicx}    
-\usepackage{epstopdf}  
+\usepackage{graphicx}   
+\usepackage[export]{adjustbox} 
+\usepackage{epstopdf}
 
 \usepackage[justification=centering]{caption}
 
@@ -47,9 +48,9 @@
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
   keywordstyle=\color{blue},       % keyword style
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=10pt,                  % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  %numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  %numbersep=10pt,                  % how far the line-numbers are from the code
+  %numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,          % underline spaces within strings only
@@ -72,6 +73,8 @@
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+    
+\renewcommand{\lstlistingname}{Code Snippet:}
 
 \begin{document}
 % Hide page numbers
@@ -155,11 +158,9 @@ events.
 
 \begin{figure}[H]
   \begin{center}
-  
-  \includegraphics[width=3in]{peoplePage}
-  \centering
+	\includegraphics[width=3in, frame]{peoplePage}
+	\centering
   \caption{The people page}
-
   \end{center}
 \end{figure}
 
@@ -170,33 +171,28 @@ events.
     profile is also parsed in the community development tool. Now those profiles
     include displaying the twitter handle of the person. This was done by changing
     the Meetup API URL request so that we could get the correct information and
-    then storing that information in our database. This allows the user to
+    then storing that information in our database. This can be seen in code snippet 1 located below with the URL shown along with the 'if' statements to locate the twitter handle. This allows the user to
     identify a way to get in contact with the person in the profile. Above the
     twitter handle is a button that has the Twitter symbol which allows the user
     to click and send a tweet at the person via Hoot-suite. The hoot-suite app is
     given the twitter handle of the person the user wants to tweet at and the URL
     of the persons page on our application for reference. The user signs in to
-    compose the tweet and sends it successfully.
+    compose the tweet and sends it successfully. The code snippet 2 located below shows the HTML encoding of the button used to create the Hootsuite connection and shows the retrieval of the twitter handle form the database with 'person.service'.
 
   \item Things to Complete: The tweeting button we have implemented currently
     shows up on a persons profile even if they do not have a twitter handle
     registered with the Meetup website thus having no purpose. To complete this
     requirement completely we would like to hide that button from the user when
     a person does not have a twitter handle registered.
-    
-  \item views.py
-    \begin{center}
-      \begin{lstlisting}[language=Python]
-        def importMembers(request, group_id):
-            group = get_object_or_404(Group, pk = group_id)
+      
+%\end{enumerate}
 
-            # Import members of a given group
-            log = Log()
-            log.description = "Members imported"
-            log.action_type = Log.EVENT_IMPORT
-            log.save()
-
-            url = "https://api.meetup.com/2/members?offset=0&format=json&group_id=" + str(group.meetupID) + "&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+%Below is views.py for showing how the twitter handle is obtained and stored
+\begin{center}
+  \begin{lstlisting}[caption=Views.py file where twitter handle is identified and stored, language=Python]
+            url = "https://api.meetup.com/2/members?offset=0&format=json&group_id=" + 
+            str(group.meetupID) + "&photo-host=public&page=500&sig_id=148657742&key=" + 
+            MEETUP_API_KEY
             response = urllib2.urlopen(url)
             result = response.read()
 
@@ -217,33 +213,35 @@ events.
                     if 'other_services' in member.keys():
                         if 'twitter' in member['other_services'].keys():
                             if 'identifier' in member['other_services']['twitter'].keys():
-                                person.service = member['other_services']['twitter']['identifier']
-      \end{lstlisting}
-    \end{center}
-
-  \item /events\_list/templates/people/view.py
-    \begin{center}
-      \begin{lstlisting}[language=HTML]
-        <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > Tweet at this Person </a>
+                                person.service = member['other_services'}
+                                                       ['twitter']['identifier']
+  \end{lstlisting}
+\end{center}
+    
+%Below is view.html for showing the twitter handle and the button for tweeting
+  \begin{center}
+   \begin{lstlisting}[caption=View.py where the button for tweeting at a person is created and twitter handle is displayed., language=HTML]
+        <a href="{{ person.service }}" title="{{ person.service }}" 
+        		class="_hs_socialshare" > Tweet at this Person </a>
           <script>
             var _hs = {
                        size: 5,
                        partner: "community.apache.org"
             };
             (function() {
-                         var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
-                         h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+                         var h = document.createElement('script'); h.type = 
+                         'text/javascript'; h.async = true;
+                         h.src = ('https:' == document.location.protocol ? 'https://' : 
+                         'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
                          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
             })();
           </script>
-      \end{lstlisting}
-    \end{center}
-\end{enumerate}
+   \end{lstlisting}
+\end{center}
 
 \begin{figure}[H]
   \begin{center}
-  
-  \includegraphics[width=3in]{tweet_person1}
+  \includegraphics[width=3in, frame]{tweet_person1}
   \centering
   \caption{The button that is displayed when a user has a twitter handle that is publicly available on Meetups that allows a user to tweet at the person.}
 
@@ -253,12 +251,14 @@ events.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{tweet_person2}
+  \includegraphics[width=3in, frame]{tweet_person2}
   \centering
   \caption{The HootSuite service is used to send the tweet at the person as we supply the twitter handle and it is up to the user to use their Twitter account to tweet.}
 
   \end{center}
 \end{figure}
+
+\end{enumerate}
 
 \subsection{Add user accounts to application and track when a user has tweeted an event}
 \begin{enumerate}[label*=\arabic*.]
@@ -312,7 +312,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{createAccountForm}
+  \includegraphics[width=3in, frame]{createAccountForm}
   \centering
   \caption{Example usage of the create account form. }
 
@@ -322,7 +322,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{loginSuccess}
+  \includegraphics[width=3in, frame]{loginSuccess}
   \centering
   \caption{Showing created user actually signing into the website. }
 
@@ -393,7 +393,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{listingTweets}
+  \includegraphics[width=3in, frame]{listingTweets}
   \centering
   \caption{Showing our application listing the tweets that are located on twitter. }
 
@@ -435,10 +435,10 @@ events.
     %complete, the task will be more trivial compared to the other requirements.
 \end{enumerate}
 
+
 \begin{figure}[H]
   \begin{center}
-  
-  \includegraphics[width=3in]{exporting1}
+  \includegraphics[width=3in, frame]{exporting1}
   \centering
   \caption{Showing export button executing. }
 
@@ -448,7 +448,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{exporting2}
+  \includegraphics[width=3in, frame]{exporting2}
   \centering
   \caption{Showing the list of exported information about people that were imported. }
 
@@ -505,28 +505,46 @@ events.
     specific group. This page would be especially useful for users wishing to
     learn more about a specific group or community to start to get involved in. \\
     
-    Throughout the processes of setting all the features up for the alpha
-presentation we have been able to get a couple of users to test out our website
-and give feedback of their experience with out tool. A list of questions was
-created for these user tests and the feedback has been helpful thus far. We
-asked the participant to look for projects that they would like to be a part of
-and try to learn about members and tweet events/people. The list of questions
-that we have each user answer is shown below: \\
+    Upon improving the visuals of the website we will want to get feedback on the changes we have made to figure out
+    if those changes have appealed to users of the tool. In order to figure this out we have decided to create
+    A user study where we sit the user down with our website and ask them to complete a list of tasks.
+    We will be interacting with the user and helping them if they have any questions and we will be taking notes as well during the experience.
+    Once the set of tasks are attempted or completed we will then have a set of questions that we will ask the user.
+    The list of tasks and questions are shown below: \\
 
 \begin{enumerate}
-  \item On a scale from 1 to 10 how easy was it to navigate this website? (10
+	\item Tasks:
+	\begin{enumerate}
+		\item Look through all pages and play with the navigation.
+		\item Create an account and login.
+		\item Import upcoming open source events.
+		\item Import members/hosts of a group.
+		\item Browse 2-3 people profiles.
+		\item Browse 3-4 groups.
+		\item Tweet about an event.
+		\item Tweet at a person from the website.
+		\item Look for events based on location.
+		\item View tweets that are on twitter on the website.
+		\item Export some information about people in groups.
+		\item Logout. \\
+	\end{enumerate}
+	\item Questions:
+	\begin{enumerate}
+		\item On a scale from 1 to 10 how easy was it to navigate this website? (10
     being very easy, 1 being not easy at all)
-  \item What was the feature you found most useful?
-  \item What was the feature you found least useful?
-  \item Would you use this website in the future (Please explain why or why
+  		\item What was the feature you found most useful?
+  		\item What was the feature you found least useful?
+  		\item Would you use this website in the future (Please explain why or why
     not)?
-  \item Would you recommend this website to a friend or colleague?
-  \item If you could add one feature to this website, what would that feature
-    be? Why? \\
+  		\item Would you recommend this website to a friend or colleague?
+  		\item If you could add one feature to this website, what would that feature
+    be? Why?
+    		\item How do you feel about the overall look of the website?
+    		\item What would you change visually in the website? Where? \\
+	\end{enumerate}
 \end{enumerate}
 
-We decided to go with a questionnaire based user study because we feel for alpha
-level functionality it would be great to get feedback on how the user
+We decided to go with a questionnaire based user study because we feel for functionality it would be great to get feedback on how the user
 experiences the tools early on. With the scale of how easy it was to navigate
 the website we will be able to get a sense of how everything flows and if
 getting the user to the tool they want to use is happening as smoothly as
@@ -534,7 +552,7 @@ possible. When asking about a feature the user liked most and least we can get a
 better sense of which tools are actually being utilized in the website to either
 build on them or decide they are not useful and how we can improve on them.
 Asking if the user would either recommend this website to a friend or if they
-will use it themselves in the future gives us great feedback on weather the user
+will use it themselves in the future gives us great feedback on if the user
 generally enjoyed the experience with the tool or if the user had a horrible
 time and would not return to use this tool again. The last question about the
 user adding a feature for the website gives us great feedback to see if we are
@@ -574,6 +592,14 @@ experience using our tool.
     such as taking advantage of location services just for a nice starting
     point. As of right now the centered beginning location is on Corvallis,
     Oregon.
+    
+  \item Feature Requests: When this tool was presented to our client he was pleased to see what was done and came up with some feature requests he would like to see for this tool.
+  It is important to note that these are not required they are just something our client would like to see
+  in the future. Whether it be from us or by someone else in the future.
+  \begin{enumerate}
+  \item Have map and list of events and start times be side by side on the page.
+  \item Calculate distance from where the user has searched to where the location is and display how far away each location is and sort by distance.
+  \end{enumerate}
 
   %\item Things to Complete: Since Apache is open source, some implementation of
     %a searching tool has already been implemented for another project. With
@@ -588,10 +614,10 @@ experience using our tool.
     %different method. Django has geo-location services that is actually already
     %in its system, so we are currently looking at that as an alternative
     %option.
-    
-     \item views.py
-    \begin{center}
-      \begin{lstlisting}[language=Python]
+\end{enumerate}
+
+\begin{center}
+	\begin{lstlisting}[caption=Views.py shows the eventSearch funciton that allows the view in the template for the events page to pull information from the database. This also shows the URL used to get the info about events along with how it is stored., language=Python]
         def eventSearch(request):
             #return render(request, 'events/eventSearch.html')
             now = datetime.now()
@@ -621,12 +647,11 @@ experience using our tool.
                  if 'lon' in meetup['venue'].keys():
                      event.longitude = meetup['venue']['lon']
             #end getting locaiton info - Justin Bruntmyer
-      \end{lstlisting}
-    \end{center}
+	\end{lstlisting}
+\end{center}
 
-  \item eventSearch.html
-    \begin{center}
-      \begin{lstlisting}[language=JavaScript]
+\begin{center}
+	\begin{lstlisting}[caption=The eventSearch.html has a mixture of JavaScript and HTML that create the Google Map and search bar along with creating markers for events., language=JavaScript]
         function initAutocomplete() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 44.5645659, lng: -123.2620435},
@@ -697,14 +722,13 @@ experience using our tool.
                   map.fitBounds(bounds);
                 });
          }
-      \end{lstlisting}
-    \end{center}
-\end{enumerate}
+	\end{lstlisting}
+\end{center}
 
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{mapSearching}
+  \includegraphics[width=3in, frame]{mapSearching}
   \centering
   \caption{Showing the map of where you can search a location to see nearby events, also listing events locations. }
 
@@ -759,7 +783,7 @@ experience using our tool.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=3in]{peopleProfile}
+  \includegraphics[width=3in, frame]{peopleProfile}
   \centering
   \caption{Showing profile generated for person along with a twitter handle for a method of contacting. }
 
