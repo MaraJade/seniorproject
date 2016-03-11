@@ -1,5 +1,8 @@
 \documentclass[letterpaper,10pt,onecolumn]{IEEEtran} %!PN
 
+\usepackage[margin=0.5cm]{caption}
+\usepackage{lipsum}
+
 \usepackage{graphicx}   
 \usepackage[export]{adjustbox} 
 \usepackage{epstopdf}
@@ -610,6 +613,8 @@ experience using our tool.
     %option.
 %\end{enumerate}
 
+\end{enumerate}
+
 \begin{center}
 	\begin{lstlisting}[caption=Views.py shows the eventSearch funciton that allows the view in the template for the events page to pull information from the database. This also shows the URL used to get the info about events along with how it is stored., language=Python]
         def eventSearch(request):
@@ -719,16 +724,6 @@ experience using our tool.
 	\end{lstlisting}
 \end{center}
 
-\item Feature Requests: When this tool was presented to our client he was pleased to see what was done and came up with some feature requests he would like to see for this tool.
-  It is important to note that these are not required they are just something our client would like to see
-  in the future. Whether it be from us or by someone else in the future.
-  \begin{enumerate}
-  \item Have map and list of events and start times be side by side on the page.
-  \item Calculate distance from where the user has searched to where the location is and display how far away each location is and sort by distance.
-  \end{enumerate}
-  
-\end{enumerate}
-
 \begin{figure}[H]
   \begin{center}
   
@@ -793,6 +788,18 @@ experience using our tool.
 
   \end{center}
 \end{figure}
+
+\section{Feature Requests}
+
+\subsection{Implement system of improve sorting of finding events by nearby location within radius of the user}
+
+When this tool was presented to our client he was pleased to see what was done and came up with some feature requests he would like to see for this tool.
+  It is important to note that these are not required they are just something our client would like to see
+  in the future. Whether it be from us or by someone else in the future.
+  \begin{enumerate}
+  \item Have map and list of events and start times be side by side on the page.
+  \item Calculate distance from where the user has searched to where the location is and display how far away each location is and sort by distance.
+  \end{enumerate}
 
 \section{PROBLEMS ENCOUNTERED}
 
