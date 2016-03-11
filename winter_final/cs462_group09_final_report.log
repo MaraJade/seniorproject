@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=latex 2015.12.7)  8 MAR 2016 19:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=latex 2015.12.7)  10 MAR 2016 17:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -138,6 +138,54 @@ File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 \Gin@req@height=\dimen126
 \Gin@req@width=\dimen127
 )
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2012/10/14 v2.6b package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+\XKV@toks=\toks16
+\XKV@tempa@toks=\toks17
+\XKV@depth=\count94
+File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+
+(/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box28
+)
+\tc@llx=\dimen128
+\tc@lly=\dimen129
+\tc@urx=\dimen130
+\tc@ury=\dimen131
+Package trimclip Info: Using driver 'tc-dvips.def'.
+
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-dvips.def
+File: tc-dvips.def 2012/05/13 v1.0 Clipping driver for dvips
+))
+\adjbox@Width=\dimen132
+\adjbox@Height=\dimen133
+\adjbox@Depth=\dimen134
+\adjbox@Totalheight=\dimen135
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2011/09/13 v1.0 Conditionals for odd/even page detection
+\c@checkoddpage=\count95
+)
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box29
+\sift@deathcycles=\count96
+\@vwid@loff=\dimen136
+\@vwid@roff=\dimen137
+))
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf.sty
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
@@ -196,13 +244,13 @@ Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 57.
-\captionmargin=\dimen128
-\captionmargin@=\dimen129
-\captionwidth=\dimen130
-\caption@tempdima=\dimen131
-\caption@indent=\dimen132
-\caption@parindent=\dimen133
-\caption@hangindent=\dimen134
+\captionmargin=\dimen138
+\captionmargin@=\dimen139
+\captionwidth=\dimen140
+\caption@tempdima=\dimen141
+\caption@indent=\dimen142
+\caption@parindent=\dimen143
+\caption@hangindent=\dimen144
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
@@ -222,13 +270,13 @@ ormalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONcon
 ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
 \else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi 
 \fi .
-\c@ContinuedFloat=\count94
+\c@ContinuedFloat=\count97
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks16
+\@emptytoks=\toks18
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
@@ -244,76 +292,76 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks17
-\ex@=\dimen135
+\@emptytoks=\toks19
+\ex@=\dimen145
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen136
+\pmbraise@=\dimen146
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count95
+\inf@bad=\count98
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count96
-\leftroot@=\count97
+\uproot@=\count99
+\leftroot@=\count100
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count98
-\DOTSCASE@=\count99
+\classnum@=\count101
+\DOTSCASE@=\count102
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box28
-\strutbox@=\box29
-\big@size=\dimen137
+\Mathstrutbox@=\box30
+\strutbox@=\box31
+\big@size=\dimen147
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count100
-\c@MaxMatrixCols=\count101
+\macc@depth=\count103
+\c@MaxMatrixCols=\count104
 \dotsspace@=\muskip10
-\c@parentequation=\count102
-\dspbrk@lvl=\count103
-\tag@help=\toks18
-\row@=\count104
-\column@=\count105
-\maxfields@=\count106
-\andhelp@=\toks19
-\eqnshift@=\dimen138
-\alignsep@=\dimen139
-\tagshift@=\dimen140
-\tagwidth@=\dimen141
-\totwidth@=\dimen142
-\lineht@=\dimen143
-\@envbody=\toks20
+\c@parentequation=\count105
+\dspbrk@lvl=\count106
+\tag@help=\toks20
+\row@=\count107
+\column@=\count108
+\maxfields@=\count109
+\andhelp@=\toks21
+\eqnshift@=\dimen148
+\alignsep@=\dimen149
+\tagshift@=\dimen150
+\tagwidth@=\dimen151
+\totwidth@=\dimen152
+\lineht@=\dimen153
+\@envbody=\toks22
 \multlinegap=\skip45
 \multlinetaggap=\skip46
-\mathdisplay@stack=\toks21
+\mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2004/08/06 v2.20
-\thm@style=\toks22
-\thm@bodyfont=\toks23
-\thm@headfont=\toks24
-\thm@notefont=\toks25
-\thm@headpunct=\toks26
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
 \thm@preskip=\skip47
 \thm@postskip=\skip48
 \thm@headsep=\skip49
-\dth@everypar=\toks27
+\dth@everypar=\toks29
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
 Package: alltt 1997/06/16 v2.0g defines alltt environment
 )
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count107
-\float@exts=\toks28
-\float@box=\box30
-\@float@everytoks=\toks29
-\@floatcapt=\box31
+\c@float@type=\count110
+\float@exts=\toks30
+\float@box=\box32
+\@float@everytoks=\toks31
+\@floatcapt=\box33
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
@@ -369,14 +417,14 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-\@linkdim=\dimen144
-\Hy@linkcounter=\count108
-\Hy@pagecounter=\count109
+\@linkdim=\dimen154
+\Hy@linkcounter=\count111
+\Hy@pagecounter=\count112
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count110
+\Hy@SavedSpaceFactor=\count113
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -388,17 +436,17 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count111
+\c@Hy@tempcnt=\count114
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen145
-\Fld@menulength=\count112
-\Field@Width=\dimen146
-\Fld@charsize=\dimen147
+\XeTeXLinkMargin=\dimen155
+\Fld@menulength=\count115
+\Field@Width=\dimen156
+\Fld@charsize=\dimen157
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -408,9 +456,9 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count113
-\c@Item=\count114
-\c@Hfootnote=\count115
+\Hy@abspage=\count116
+\c@Item=\count117
+\c@Hfootnote=\count118
 )
 
 Package hyperref Message: Driver (default): hdvips.
@@ -420,13 +468,13 @@ File: hdvips.def 2012/11/06 v6.83m Hyperref driver for dvips
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pdfmark.def
 File: pdfmark.def 2012/11/06 v6.83m Hyperref definitions for pdfmark specials
-\pdf@docset=\toks30
-\pdf@box=\box32
-\pdf@toks=\toks31
-\pdf@defaulttoks=\toks32
-\HyField@AnnotCount=\count116
-\Fld@listcount=\count117
-\c@bookmark@seq@number=\count118
+\pdf@docset=\toks32
+\pdf@box=\box34
+\pdf@toks=\toks33
+\pdf@defaulttoks=\toks34
+\HyField@AnnotCount=\count119
+\Fld@listcount=\count120
+\c@bookmark@seq@number=\count121
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
@@ -437,28 +485,28 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen148
-\extrarowheight=\dimen149
-\NC@list=\toks33
+\col@sep=\dimen158
+\extrarowheight=\dimen159
+\NC@list=\toks35
 \extratabsurround=\skip51
 \backup@length=\skip52
 )
 (/usr/share/texlive/texmf-dist/tex/latex/preprint/balance.sty
 Package: balance 1999/02/23 4.3 (PWD)
-\oldvsize=\dimen150
+\oldvsize=\dimen160
 )
 (/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigtopskip=\skip53
 \subfigcapskip=\skip54
-\subfigcaptopadj=\dimen151
+\subfigcaptopadj=\dimen161
 \subfigbottomskip=\skip55
-\subfigcapmargin=\dimen152
+\subfigcapmargin=\dimen162
 \subfiglabelskip=\skip56
-\c@subfigure=\count119
-\c@lofdepth=\count120
-\c@subtable=\count121
-\c@lotdepth=\count122
+\c@subfigure=\count122
+\c@lofdepth=\count123
+\c@subtable=\count124
+\c@lotdepth=\count125
 
 ****************************************
 * Local config file subfigure.cfg used *
@@ -470,10 +518,10 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \labelindent=\skip59
-\enit@outerparindent=\dimen153
-\enit@toks=\toks34
-\enit@inbox=\box33
-\enitdp@description=\count123
+\enit@outerparindent=\dimen163
+\enit@toks=\toks36
+\enit@inbox=\box35
+\enitdp@description=\count126
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pstricks/pstricks.sty
 Package: pstricks 2013/12/12 v0.60 LaTeX wrapper for `PSTricks' (RN,HV)
@@ -481,27 +529,18 @@ Package: pstricks 2013/12/12 v0.60 LaTeX wrapper for `PSTricks' (RN,HV)
 (/usr/share/texlive/texmf-dist/tex/generic/pstricks/pstricks.tex
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
 File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
-
-(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2012/10/14 v2.6b package option processing (HA)
-
-(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-\XKV@toks=\toks35
-\XKV@tempa@toks=\toks36
-\XKV@depth=\count124
-File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
-)))
+)
 (/usr/share/texlive/texmf-dist/tex/generic/pstricks/pst-fp.tex
 `pst-fp' v0.05, 2010/01/17 (hv)
-\pstFP@xs=\count125
-\pstFP@xia=\count126
-\pstFP@xib=\count127
-\pstFP@xfa=\count128
-\pstFP@xfb=\count129
-\pstFP@rega=\count130
-\pstFP@regb=\count131
-\pstFP@regs=\count132
-\pstFP@times=\count133
+\pstFP@xs=\count127
+\pstFP@xia=\count128
+\pstFP@xib=\count129
+\pstFP@xfa=\count130
+\pstFP@xfb=\count131
+\pstFP@rega=\count132
+\pstFP@regb=\count133
+\pstFP@regs=\count134
+\pstFP@times=\count135
 )
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks37
@@ -514,58 +553,58 @@ File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
 \pgfkeys@tmptoks=\toks40
 ))
 (/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
-\pgffor@iter=\dimen154
-\pgffor@skip=\dimen155
+\pgffor@iter=\dimen164
+\pgffor@skip=\dimen165
 \pgffor@stack=\toks41
 \pgffor@toks=\toks42
 )
-\psLoopIndex=\count134
+\psLoopIndex=\count136
 
 `PSTricks' v2.51  <2014/02/03> (tvz)
-\pst@dima=\dimen156
-\pst@dimb=\dimen157
-\pst@dimc=\dimen158
-\pst@dimd=\dimen159
-\pst@dimg=\dimen160
-\pst@dimh=\dimen161
-\pst@dimm=\dimen162
-\pst@dimn=\dimen163
-\pst@dimo=\dimen164
-\pst@dimp=\dimen165
-\pst@hbox=\box34
-\pst@ibox=\box35
-\pst@boxg=\box36
-\pst@cnta=\count135
-\pst@cntb=\count136
-\pst@cntc=\count137
-\pst@cntd=\count138
-\pst@cntg=\count139
-\pst@cnth=\count140
-\pst@cntm=\count141
-\pst@cntn=\count142
-\pst@cnto=\count143
-\pst@cntp=\count144
-\@zero=\count145
+\pst@dima=\dimen166
+\pst@dimb=\dimen167
+\pst@dimc=\dimen168
+\pst@dimd=\dimen169
+\pst@dimg=\dimen170
+\pst@dimh=\dimen171
+\pst@dimm=\dimen172
+\pst@dimn=\dimen173
+\pst@dimo=\dimen174
+\pst@dimp=\dimen175
+\pst@hbox=\box36
+\pst@ibox=\box37
+\pst@boxg=\box38
+\pst@cnta=\count137
+\pst@cntb=\count138
+\pst@cntc=\count139
+\pst@cntd=\count140
+\pst@cntg=\count141
+\pst@cnth=\count142
+\pst@cntm=\count143
+\pst@cntn=\count144
+\pst@cnto=\count145
+\pst@cntp=\count146
+\@zero=\count147
 \pst@toks=\toks43
 (/usr/share/texlive/texmf-dist/tex/generic/pstricks/pstricks.con)
-\psunit=\dimen166
-\psxunit=\dimen167
-\psyunit=\dimen168
-\pst@C@@rType=\count146
-\pslinewidth=\dimen169
-\psk@startLW=\dimen170
-\psk@endLW=\dimen171
+\psunit=\dimen176
+\psxunit=\dimen177
+\psyunit=\dimen178
+\pst@C@@rType=\count148
+\pslinewidth=\dimen179
+\psk@startLW=\dimen180
+\psk@endLW=\dimen181
 \pst@customdefs=\toks44
-\pslinearc=\dimen172
-\pst@symbolStep=\dimen173
-\pst@symbolWidth=\dimen174
-\pst@symbolLinewidth=\dimen175
+\pslinearc=\dimen182
+\pst@symbolStep=\dimen183
+\pst@symbolWidth=\dimen184
+\pst@symbolLinewidth=\dimen185
 \everypsbox=\toks45
-\psframesep=\dimen176
-\pslabelsep=\dimen177
-\sh@wgridXunit=\dimen178
-\sh@wgridYunit=\dimen179
-\pst@shift=\dimen180
+\psframesep=\dimen186
+\pslabelsep=\dimen187
+\sh@wgridXunit=\dimen188
+\sh@wgridYunit=\dimen189
+\pst@shift=\dimen190
 )
 File: pstricks.tex 2014/02/03 v2.51 `PSTricks' (tvz,hv)
 
@@ -595,51 +634,51 @@ Package: pst-node 2010/04/22 package wrapper for pst-node.tex
 
 (/usr/share/texlive/texmf-dist/tex/generic/pst-node/pst-node.tex
  v1.32, 2014/02/03
-\psrow=\count147
-\pscol=\count148
-\psmatrixcnt=\count149
+\psrow=\count149
+\pscol=\count150
+\psmatrixcnt=\count151
 \psrowsep=\skip60
 \pscolsep=\skip61
-\pst@args=\count150
-\num@pts=\count151
-\pst@argcnt=\count152
+\pst@args=\count152
+\num@pts=\count153
+\pst@argcnt=\count154
 )
 File: pst-node.tex 2014/02/03 1.32 `pst-node' (tvz,hv)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
-\Gm@cnth=\count153
-\Gm@cntv=\count154
-\c@Gm@tempcnt=\count155
-\Gm@bindingoffset=\dimen181
-\Gm@wd@mp=\dimen182
-\Gm@odd@mp=\dimen183
-\Gm@even@mp=\dimen184
-\Gm@layoutwidth=\dimen185
-\Gm@layoutheight=\dimen186
-\Gm@layouthoffset=\dimen187
-\Gm@layoutvoffset=\dimen188
+\Gm@cnth=\count155
+\Gm@cntv=\count156
+\c@Gm@tempcnt=\count157
+\Gm@bindingoffset=\dimen191
+\Gm@wd@mp=\dimen192
+\Gm@odd@mp=\dimen193
+\Gm@even@mp=\dimen194
+\Gm@layoutwidth=\dimen195
+\Gm@layoutheight=\dimen196
+\Gm@layouthoffset=\dimen197
+\Gm@layoutvoffset=\dimen198
 \Gm@dimlist=\toks46
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count156
-\lst@gtempboxa=\box37
+\lst@mode=\count158
+\lst@gtempboxa=\box39
 \lst@token=\toks47
-\lst@length=\count157
-\lst@currlwidth=\dimen189
-\lst@column=\count158
-\lst@pos=\count159
-\lst@lostspace=\dimen190
-\lst@width=\dimen191
-\lst@newlines=\count160
-\lst@lineno=\count161
-\lst@maxwidth=\dimen192
+\lst@length=\count159
+\lst@currlwidth=\dimen199
+\lst@column=\count160
+\lst@pos=\count161
+\lst@lostspace=\dimen200
+\lst@width=\dimen201
+\lst@newlines=\count162
+\lst@lineno=\count163
+\lst@maxwidth=\dimen202
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
-\c@lstnumber=\count162
-\lst@skipnumbers=\count163
-\lst@framebox=\box38
+\c@lstnumber=\count164
+\lst@skipnumbers=\count165
+\lst@framebox=\box40
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2013/08/26 1.5b listings configuration
@@ -649,20 +688,20 @@ Package: listings 2013/08/26 1.5b (Carsten Heinz)
 (./cs462_group09_final_report.aux)
 \openout1 = `cs462_group09_final_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
 
 -- Lines per column: 60 (approximate, difference = 2.7pt).
 Package caption Info: Begin \AtBeginDocument code.
@@ -671,19 +710,19 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: subfigure package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\AtBeginShipoutBox=\box39
-Package hyperref Info: Link coloring OFF on input line 76.
+\AtBeginShipoutBox=\box41
+Package hyperref Info: Link coloring OFF on input line 79.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count164
+\c@section@level=\count166
 )
-LaTeX Info: Redefining \ref on input line 76.
-LaTeX Info: Redefining \pageref on input line 76.
-LaTeX Info: Redefining \nameref on input line 76.
+LaTeX Info: Redefining \ref on input line 79.
+LaTeX Info: Redefining \pageref on input line 79.
+LaTeX Info: Redefining \nameref on input line 79.
 
 (./cs462_group09_final_report.out) (./cs462_group09_final_report.out)
 \@outlinefile=\write3
@@ -724,14 +763,8 @@ LaTeX Info: Redefining \nameref on input line 76.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count165
+\c@lstlisting=\count167
 [1]
-Missing character: There is no ‚ in font ptmri7t!
-Missing character: There is no Ä in font ptmri7t!
-Missing character: There is no ú in font ptmri7t!
-Missing character: There is no ‚ in font ptmri7t!
-Missing character: There is no Ä in font ptmri7t!
-Missing character: There is no ù in font ptmri7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -743,94 +776,103 @@ File: peoplePage.eps Graphic file (type eps)
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-File: tweet_person1.eps Graphic file (type eps)
- <tweet_person1.eps>
-File: tweet_person2.eps Graphic file (type eps)
- <tweet_person2.eps> [2]
-File: createAccountForm.eps Graphic file (type eps)
 
-<createAccountForm.eps>
-File: loginSuccess.eps Graphic file (type eps)
- <loginSuccess.eps> [3]
-File: listingTweets.eps Graphic file (type eps)
- <listingTweets.eps>
-File: exporting1.eps Graphic file (type eps)
-
-<exporting1.eps>
-File: exporting2.eps Graphic file (type eps)
- <exporting2.eps> [4]
-File: mapSearching.eps Graphic file (type eps)
- <mapSearching.eps> [5]
-File: peopleProfile.eps Graphic file (type eps)
-
-<peopleProfile.eps> [6]
-Underfull \hbox (badness 10000) in paragraph at lines 630--637
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 638--643
-
- []
-
-LaTeX Font Info:    Try loading font information for U+msa on input line 647.
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 647.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \hbox (badness 6110) in paragraph at lines 649--650
-[]|\OT1/ptm/m/n/10 Expected Com-ple-tion (V
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 676--683
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 692--694
-
- []
-
-[7] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 718.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 192.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 192.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [8]
+) [2]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
-) [9] [10]
-[11] [12] [13] [14] [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1245.
- [16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1245.
+)
+File: tweet_person1.eps Graphic file (type eps)
+
+<tweet_person1.eps> [3]
+File: tweet_person2.eps Graphic file (type eps)
+ <tweet_person2.eps>
+File: createAccountForm.eps Graphic file (type eps)
+ <createAccountForm.eps>
+File: loginSuccess.eps Graphic file (type eps)
+
+<loginSuccess.eps> [4] [5] [6] [7]
+File: listingTweets.eps Graphic file (type eps)
+ <listingTweets.eps>
+File: exporting1.eps Graphic file (type eps)
+ <exporting1.eps>
+File: exporting2.eps Graphic file (type eps)
+
+<exporting2.eps> [8]
+Underfull \hbox (badness 10000) in paragraph at lines 701--709
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 710--716
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 731--732
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 745--746
+
+ []
+
+[10] [11]
+File: mapSearching.eps Graphic file (type eps)
+ <mapSearching.eps> [12]
+File: peopleProfile.eps Graphic file (type eps)
+ <peopleProfile.eps> [13]
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1069
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1075
+
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 1079.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 1079.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [14] [15] [16]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1255.
+
+[17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1255.
  (./cs462_group09_final_report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1245.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1245.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1255.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1255.
 
 Package rerunfilecheck Info: File `cs462_group09_final_report.out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 77D3CF8A50A36C257D714961D6AA27BE;2362.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1245.
+(rerunfilecheck)             Checksum: 62DE58D346815A608B0AAC699C7BD7CA;1880.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1255.
  ) 
 Here is how much of TeX's memory you used:
- 13570 strings out of 493305
- 207233 string characters out of 6139897
- 711982 words of memory out of 5000000
- 16839 multiletter control sequences out of 15000+600000
+ 14053 strings out of 493305
+ 215304 string characters out of 6139897
+ 700928 words of memory out of 5000000
+ 17297 multiletter control sequences out of 15000+600000
  27271 words of font info for 64 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,9n,75p,561b,1933s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,9n,92p,561b,2069s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on cs462_group09_final_report.dvi (16 pages, 273816 bytes).
+Output written on cs462_group09_final_report.dvi (17 pages, 234772 bytes).

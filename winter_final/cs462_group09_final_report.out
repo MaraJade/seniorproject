@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{PROJECT PURPOSES AND GOALS}{}% 1
 \BOOKMARK [1][-]{section.2}{CURRENT PROGRESSION THROUGH REQUIREMENTS}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Fix the “People” page where the list of community leaders are shown}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Fix the People page where the list of community leaders are shown}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Tweet at a person listed in the database}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Add user accounts to application and track when a user has tweeted an event}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.4}{List tweets about events and/or people via the application}{section.2}% 6
@@ -16,11 +16,6 @@
 \BOOKMARK [2][-]{subsection.3.3}{Problem 3}{section.3}% 16
 \BOOKMARK [2][-]{subsection.3.4}{Problem 4}{section.3}% 17
 \BOOKMARK [1][-]{section.4}{TIMELINE UPDATE}{}% 18
-\BOOKMARK [1][-]{section.5}{USER STUDIES}{}% 19
-\BOOKMARK [1][-]{section.6}{CODE SNIPPETS}{}% 20
-\BOOKMARK [2][-]{subsection.6.1}{Tweet at a person}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.2}{List tweets about events and/or people via the application}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.3}{List tweets about events and/or people not via the application}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.4}{Implement a system of finding events nearby a location entered or within radius of the user}{section.6}% 24
-\BOOKMARK [2][-]{subsection.6.5}{Add users accounts to application}{section.6}% 25
-\BOOKMARK [2][-]{subsection.6.6}{Export a list of people with information}{section.6}% 26
+\BOOKMARK [1][-]{section.5}{CODE SNIPPETS}{}% 19
+\BOOKMARK [2][-]{subsection.5.1}{Add users accounts to application}{section.5}% 20
+\BOOKMARK [2][-]{subsection.5.2}{Export a list of people with information}{section.5}% 21
