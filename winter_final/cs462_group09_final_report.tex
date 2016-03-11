@@ -495,32 +495,6 @@ events.
             workbook = xlsxwriter.Workbook(output)
             worksheet_s = workbook.add_worksheet("People")
 
-            #excel styles
-            title = workbook.add_format({
-                'bold': True,
-                'font_size': 14,
-                'align': 'center',
-                'valign': 'vcenter'
-            })
-            header = workbook.add_format({
-                'bg_color': '#F7F7F7',
-                'color': 'black',
-                'align': 'center',
-                'valign': 'top',
-                'border': 1
-            })
-            cell = workbook.add_format({
-                'align': 'left',
-                'valign': 'top',
-                'text_wrap': True,
-                'border': 1
-            })
-            cell_center = workbook.add_format({
-                'align': 'center',
-                'valign': 'top',
-                'border': 1
-            })
-
             #write title
             person_text = ugettext("everyone")
             title_text = u"{0} {1}".format(ugettext("Information for"), person_text)

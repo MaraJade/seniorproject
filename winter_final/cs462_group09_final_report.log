@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  10 MAR 2016 18:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  10 MAR 2016 18:20
 entering extended mode
 **cs462_group09_final_report.tex
 (cs462_group09_final_report.tex
@@ -856,7 +856,7 @@ Package epstopdf Info: Source file: <peoplePage.eps>
 (epstopdf)             \includegraphics on input line 164.
 Package epstopdf Info: Output file is already uptodate.
 
-<peoplePage-eps-converted-to.pdf, id=106, 673.51625pt x 567.11874pt>
+<peoplePage-eps-converted-to.pdf, id=102, 673.51625pt x 567.11874pt>
 File: peoplePage-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peoplePage-eps-converted-to.pdf>
@@ -900,7 +900,7 @@ Package epstopdf Info: Source file: <tweet_person1.eps>
 (epstopdf)             \includegraphics on input line 247.
 Package epstopdf Info: Output file is already uptodate.
 
-<tweet_person1-eps-converted-to.pdf, id=119, 272.01625pt x 128.48pt>
+<tweet_person1-eps-converted-to.pdf, id=115, 272.01625pt x 128.48pt>
 File: tweet_person1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person1-eps-converted-to.pdf>
@@ -923,7 +923,7 @@ Package epstopdf Info: Source file: <tweet_person2.eps>
 -to.pdf tweet_person2.eps>
 (epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
- <tweet_person2-eps-converted-to.pdf, id=168, 533.995pt x 212.795pt>
+ <tweet_person2-eps-converted-to.pdf, id=164, 533.995pt x 212.795pt>
 File: tweet_person2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person2-eps-converted-to.pdf>
@@ -948,7 +948,7 @@ rted-to.pdf createAccountForm.eps>
 (epstopdf)             \includegraphics on input line 369.
 Package epstopdf Info: Output file is already uptodate.
 
-<createAccountForm-eps-converted-to.pdf, id=204, 361.35pt x 262.9825pt>
+<createAccountForm-eps-converted-to.pdf, id=200, 361.35pt x 262.9825pt>
 File: createAccountForm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use createAccountForm-eps-converted-to.pdf>
@@ -966,7 +966,7 @@ to.pdf loginSuccess.eps>
 (epstopdf)             \includegraphics on input line 379.
 Package epstopdf Info: Output file is already uptodate.
 
-<loginSuccess-eps-converted-to.pdf, id=205, 327.2225pt x 212.795pt>
+<loginSuccess-eps-converted-to.pdf, id=201, 327.2225pt x 212.795pt>
 File: loginSuccess-eps-converted-to.pdf Graphic file (type pdf)
 
 <use loginSuccess-eps-converted-to.pdf>
@@ -991,7 +991,7 @@ Package epstopdf Info: Source file: <listingTweets.eps>
 (epstopdf)             \includegraphics on input line 450.
 Package epstopdf Info: Output file is already uptodate.
 
-<listingTweets-eps-converted-to.pdf, id=241, 677.53125pt x 567.11874pt>
+<listingTweets-eps-converted-to.pdf, id=237, 677.53125pt x 567.11874pt>
 File: listingTweets-eps-converted-to.pdf Graphic file (type pdf)
 
 <use listingTweets-eps-converted-to.pdf>
@@ -1003,8 +1003,8 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.509  
-                      'valign': 'top', [6 <./listingTweets-eps-converted-to.pdf
->]
+                  worksheet_s.write(4, 4, ugettext("Country"), header) [6 <./li
+stingTweets-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <exporting1.eps>
 (epstopdf)                    date: 2016-03-10 17:52:05
 (epstopdf)                    size: 2399844 bytes
@@ -1013,21 +1013,16 @@ Package epstopdf Info: Source file: <exporting1.eps>
 (epstopdf)                    size: 39562 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting1-eps-converted-to
 .pdf exporting1.eps>
-(epstopdf)             \includegraphics on input line 567.
+(epstopdf)             \includegraphics on input line 541.
 Package epstopdf Info: Output file is already uptodate.
- <exporting1-eps-converted-to.pdf, id=270, 594.22pt x 371.3875pt>
+
+<exporting1-eps-converted-to.pdf, id=266, 594.22pt x 371.3875pt>
 File: exporting1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting1-eps-converted-to.pdf>
-Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 567
+Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 541
 .
 (pdftex.def)             Requested size: 216.81pt x 135.50713pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.573 
-       [7]
 Package epstopdf Info: Source file: <exporting2.eps>
 (epstopdf)                    date: 2016-03-10 17:52:05
 (epstopdf)                    size: 3992835 bytes
@@ -1036,18 +1031,28 @@ Package epstopdf Info: Source file: <exporting2.eps>
 (epstopdf)                    size: 130331 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting2-eps-converted-to
 .pdf exporting2.eps>
-(epstopdf)             \includegraphics on input line 577.
+(epstopdf)             \includegraphics on input line 551.
 Package epstopdf Info: Output file is already uptodate.
 
-<exporting2-eps-converted-to.pdf, id=329, 874.26625pt x 420.57124pt>
+<exporting2-eps-converted-to.pdf, id=267, 874.26625pt x 420.57124pt>
 File: exporting2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting2-eps-converted-to.pdf>
-Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 577
+Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 551
 .
 (pdftex.def)             Requested size: 433.62pt x 208.59734pt.
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.557 
+       [7 <./exporting1-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 599--607
 
-Underfull \hbox (badness 10000) in paragraph at lines 625--633
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 608--614
 
  []
 
@@ -1055,20 +1060,15 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.633 
-       [8 <./exporting1-eps-converted-to.pdf> <./exporting2-eps-converted-to.pd
-f>]
-Underfull \hbox (badness 10000) in paragraph at lines 634--640
+l.622 		\item B
+               rowse 2-3 people profiles. [8 <./exporting2-eps-converted-to.pdf
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 629--630
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 655--656
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 669--670
+Underfull \hbox (badness 10000) in paragraph at lines 643--644
 
  []
 
@@ -1076,18 +1076,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.722     \newpage
+l.696     \newpage
                    [9]pdfTeX warning (ext4): destination with the same identifi
 er (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.722     \newpage
-                   [10]pdfTeX warning (ext4): destination with the same identif
-ier (name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.800  
-                      if (places.length == 0) { [11]
+l.774  
+                      if (places.length == 0) { [10]
 Package epstopdf Info: Source file: <mapSearching.eps>
 (epstopdf)                    date: 2016-03-10 17:52:05
 (epstopdf)                    size: 4794138 bytes
@@ -1096,22 +1091,22 @@ Package epstopdf Info: Source file: <mapSearching.eps>
 (epstopdf)                    size: 79840 bytes
 (epstopdf)             Command: <epstopdf --outfile=mapSearching-eps-converted-
 to.pdf mapSearching.eps>
-(epstopdf)             \includegraphics on input line 853.
+(epstopdf)             \includegraphics on input line 827.
 Package epstopdf Info: Output file is already uptodate.
 
-<mapSearching-eps-converted-to.pdf, id=432, 685.56125pt x 643.40375pt>
+<mapSearching-eps-converted-to.pdf, id=399, 685.56125pt x 643.40375pt>
 File: mapSearching-eps-converted-to.pdf Graphic file (type pdf)
 
 <use mapSearching-eps-converted-to.pdf>
 Package pdftex.def Info: mapSearching-eps-converted-to.pdf used on input line 8
-53.
+27.
 (pdftex.def)             Requested size: 216.81pt x 203.47829pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.859 
-       [12]
+l.833 
+       [11]
 Package epstopdf Info: Source file: <peopleProfile.eps>
 (epstopdf)                    date: 2016-03-10 17:52:05
 (epstopdf)                    size: 3541106 bytes
@@ -1120,36 +1115,36 @@ Package epstopdf Info: Source file: <peopleProfile.eps>
 (epstopdf)                    size: 38639 bytes
 (epstopdf)             Command: <epstopdf --outfile=peopleProfile-eps-converted
 -to.pdf peopleProfile.eps>
-(epstopdf)             \includegraphics on input line 908.
+(epstopdf)             \includegraphics on input line 882.
 Package epstopdf Info: Output file is already uptodate.
- <peopleProfile-eps-converted-to.pdf, id=485, 698.61pt x 465.74pt>
+ <peopleProfile-eps-converted-to.pdf, id=452, 698.61pt x 465.74pt>
 File: peopleProfile-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peopleProfile-eps-converted-to.pdf>
 Package pdftex.def Info: peopleProfile-eps-converted-to.pdf used on input line 
-908.
+882.
 (pdftex.def)             Requested size: 216.81pt x 144.54135pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.934 
-       [13 <./mapSearching-eps-converted-to.pdf> <./peopleProfile-eps-converted
+l.908 
+       [12 <./mapSearching-eps-converted-to.pdf> <./peopleProfile-eps-converted
 -to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 990--997
+Underfull \hbox (badness 10000) in paragraph at lines 964--971
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 998--1003
+Underfull \hbox (badness 10000) in paragraph at lines 972--977
 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 1007.
+LaTeX Font Info:    Try loading font information for U+msa on input line 981.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 1007.
+LaTeX Font Info:    Try loading font information for U+msb on input line 981.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1157,67 +1152,57 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1032 \end{center}
-                    [14]pdfTeX warning (ext4): destination with the same identi
+l.1006 \end{center}
+                    [13]pdfTeX warning (ext4): destination with the same identi
 fier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1075  
+l.1049  
                    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-[15]pdfTeX warning (ext4): destination with the same identifier (name{page.}) h
+[14]pdfTeX warning (ext4): destination with the same identifier (name{page.}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1155  
-                   authJSON = auth.json() [16]pdfTeX warning (ext4): destinatio
+l.1129  
+                   authJSON = auth.json() [15]pdfTeX warning (ext4): destinatio
 n with the same identifier (name{page.}) has been already used, duplicate ignor
 ed
 <to be read again> 
                    \relax 
-l.1223 
-        [17]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1245.
+l.1197 
+        [16]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1219.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1245 \end{document}
-                      [18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1245.
+l.1219 \end{document}
+                      [17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1219.
  (cs462_group09_final_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1245.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1245.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1219.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1219.
 
-
-
-Package rerunfilecheck Warning: File `cs462_group09_final_report.out' has chang
-ed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `cs462_group09_final_report.out':
-(rerunfilecheck)             Before: 47B8AB423D620B3A143193E12E29303A;2240
-(rerunfilecheck)             After:  6A9F00977A1DEA1819A95E6264DED6FE;2156.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1245.
+Package rerunfilecheck Info: File `cs462_group09_final_report.out' has not chan
+ged.
+(rerunfilecheck)             Checksum: 6A9F00977A1DEA1819A95E6264DED6FE;2156.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1219.
  ) 
 Here is how much of TeX's memory you used:
- 19365 strings out of 493698
- 315865 string characters out of 3144412
+ 19336 strings out of 493698
+ 315456 string characters out of 3144412
  866511 words of memory out of 3000000
- 21931 multiletter control sequences out of 15000+200000
+ 21929 multiletter control sequences out of 15000+200000
  36281 words of font info for 73 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  42i,9n,76p,562b,2092s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{subsection.6.3} has been referenced but does not 
-exist, replaced by a fixed one
-
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files/
-MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/font
-s/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times
-/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on cs462_group09_final_report.pdf (18 pages, 604200 bytes).
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
+s/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
+es/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on cs462_group09_final_report.pdf (17 pages, 599998 bytes).
 PDF statistics:
- 754 PDF objects out of 1000 (max. 8388607)
- 467 named destinations out of 1000 (max. 500000)
- 243 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 717 PDF objects out of 1000 (max. 8388607)
+ 440 named destinations out of 1000 (max. 500000)
+ 235 words of extra memory for PDF output out of 10000 (max. 10000000)
 
