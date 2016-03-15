@@ -77,6 +77,10 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
     
+%\usepackage{floatrow}
+\usepackage{lipsum}
+
+    
 \renewcommand{\lstlistingname}{Code Snippet:}
 
 \begin{document}
@@ -97,7 +101,7 @@
 %\thispagestyle{plain}\pagestyle{plain}
 
 \begin{abstract}
-For 13 weeks our group has been working on a project that is creating tools that
+For the past 6 months our group has been working on a project that is creating tools that
 gives users the ability to look for open source community leaders that are
 hosting events about projects that they are leading. These tools will allow
 users to have the opportunity to find these events in order to become a
@@ -107,19 +111,21 @@ so that it can be easily accessible by people with a passion for wanting to
 contribute to projects. Throughout this document, we look at what this team has
 accomplished for each of the requirements we have laid out, discussing problems
 that have halted our progression through the project, and what we have left to
-do before completion of the project. We are currently at a strong alpha level
-stage for this project as we continue to develop for our beta and version 1.0
-stages. Also included are important images of the user interface we have decided
+do before completion of the project. We are currently at a strong beta level
+stage for this project as we continue to develop for our version 1.0
+release. Also included are important images of the user interface we have decided
 to use, along with pieces of code that we have completed and worked with thus
 far. By the end of this document, you will get a complete picture of how we
-reached our alpha level prototype and what we have left to finish before we have
-a version 1.0 ready to be used.
+reached our beta level tools and what we have left to finish before we have
+a version 1.0 ready to be distributed.
 \end{abstract}
 
 \newpage
 
+\pagenumbering{arabic}
+
 \section{PROJECT PURPOSES AND GOALS}
-After working on the project for about five weeks now, the perspective on what
+After continuous work on this project, the perspective on what
 this community development tool wants to accomplish became clear. After taking
 more time to read and understand the code that was previously written for the
 prototype, we can see clearly on how exactly the data is organized and connected
@@ -127,7 +133,7 @@ using Django and its tools. First and foremost, the purpose of the community
 development tool remains the same. The purpose is to gather information from
 meetup.com and parse that information into a list of upcoming events related to
 Apache and open source projects so that developers in the open source community
-have an easy to access environment where they can hope to participate in those
+have an easy way to access an environment where they can hope to participate in those
 events.
 
 \section{CURRENT PROGRESSION THROUGH REQUIREMENTS}
@@ -162,8 +168,9 @@ events.
 \begin{figure}[H]
   \begin{center}
 	\includegraphics[width=3in, frame]{peoplePage}
+	\captionsetup{width=.4\linewidth}
 	\centering
-  \caption{The people page}
+  \caption{The people page displaying the profile links for the people that have been imported into the application.}
   \end{center}
 \end{figure}
 
@@ -192,6 +199,7 @@ events.
 
 %Below is views.py for showing how the twitter handle is obtained and stored
 \begin{center}
+  \captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py file where twitter handle is identified and stored, language=Python]
             url = "https://api.meetup.com/2/members?offset=0&format=json&group_id=" + 
             str(group.meetupID) + "&photo-host=public&page=500&sig_id=148657742&key=" + 
@@ -223,6 +231,7 @@ events.
     
 %Below is view.html for showing the twitter handle and the button for tweeting
   \begin{center}
+  \captionsetup{width=.5\linewidth}
    \begin{lstlisting}[caption=View.py where the button for tweeting at a person is created and twitter handle is displayed., language=HTML]
         <a href="{{ person.service }}" title="{{ person.service }}" 
         		class="_hs_socialshare" > Tweet at this Person </a>
@@ -245,6 +254,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   \includegraphics[width=3in, frame]{tweet_person1}
+  	\captionsetup{width=.4\linewidth}
   \centering
   \caption{The button that is displayed when a user has a twitter handle that is publicly available on Meetups that allows a user to tweet at the person.}
 
@@ -255,6 +265,7 @@ events.
   \begin{center}
   
   \includegraphics[width=3in, frame]{tweet_person2}
+  	\captionsetup{width=.4\linewidth}
   \centering
   \caption{The HootSuite service is used to send the tweet at the person as we supply the twitter handle and it is up to the user to use their Twitter account to tweet.}
 
@@ -312,6 +323,7 @@ events.
 
 \end{enumerate}
 \begin{center}
+\captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py file that handles the creation of accounts and the login page view, language=Python]
         def login(request):
             state = "Please log in below..."
@@ -354,6 +366,7 @@ events.
     \end{center}
 
     \begin{center}
+    \captionsetup{width=.5\linewidth}
         \begin{lstlisting}[caption=urls.py file where the destinations are stored for login and logout, language=Python]
           url(r'^accounts/login/$', views.login, name='login'),
           url(r'^logout', views.logout_view, name='logout'),
@@ -367,6 +380,7 @@ events.
   \begin{center}
   
   \includegraphics[width=3in, frame]{createAccountForm}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Example usage of the create account form. }
 
@@ -377,6 +391,7 @@ events.
   \begin{center}
   
   \includegraphics[width=3in, frame]{loginSuccess}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing created user actually signing into the website. }
 
@@ -415,6 +430,7 @@ events.
 \end{enumerate}
 
 \begin{center}
+\captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
   search for tweets from the application., language=Python]
     def _twitterAuth():
@@ -500,6 +516,7 @@ events.
 \end{enumerate}
 
 \begin{center}
+\captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
   searching for tweets for the tweets not from the application, language=Python]
     def _twitterAuth():
@@ -567,6 +584,7 @@ events.
   \begin{center}
   
   \includegraphics[width=5in, frame]{listingTweets}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing our application listing the tweets that are located on twitter. }
 
@@ -608,6 +626,7 @@ events.
     %complete, the task will be more trivial compared to the other requirements.
     
     \begin{center}
+    \captionsetup{width=.5\linewidth}
       \begin{lstlisting}[caption=excelutils.py file where the worksheet is generated and exported as an xlsx file, language=Python]
         def WriteToExcel(person_list):
             output = StringIO.StringIO()
@@ -658,6 +677,7 @@ events.
 \begin{figure}[H]
   \begin{center}
   \includegraphics[width=5in, frame]{exporting1}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing export button executing. }
 
@@ -668,6 +688,7 @@ events.
   \begin{center}
   
   \includegraphics[width=6in, frame]{exporting2}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing the list of exported information about people that were imported. }
 
@@ -843,6 +864,7 @@ experience using our tool.
 \end{enumerate}
 
 \begin{center}
+\captionsetup{width=.5\linewidth}
 	\begin{lstlisting}[caption=Views.py shows the eventSearch funciton that allows the view in the template for the events page to pull information from the database. This also shows the URL used to get the info about events along with how it is stored., language=Python]
         def eventSearch(request):
             #return render(request, 'events/eventSearch.html')
@@ -877,6 +899,7 @@ experience using our tool.
 \end{center}
 
 \begin{center}
+\captionsetup{width=.5\linewidth}
 	\begin{lstlisting}[caption=The eventSearch.html has a mixture of JavaScript and HTML that create the Google Map and search bar along with creating markers for events., language=JavaScript]
         function initAutocomplete() {
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -954,7 +977,8 @@ experience using our tool.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=6in, frame]{mapSearching}
+  \includegraphics[width=5in, frame]{mapSearching}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing the map of where you can search a location to see nearby events, also listing events locations. }
 
@@ -1010,6 +1034,7 @@ experience using our tool.
   \begin{center}
   
   \includegraphics[width=5in, frame]{peopleProfile}
+  \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing profile generated for person along with a twitter handle for a method of contacting. }
 
@@ -1017,24 +1042,60 @@ experience using our tool.
 \end{figure}
 
 \section{Feature Requests}
+Throughout the presentation of our tools to our client Ross we were happy to hear that he was really excited about the progress we have made thus far.
+In his excitement in seeing how far we have come with the tools and the progress he has seen
+Ross began asking for feature requests to be added to the tools we have developed thus far.
+We decided to add this section to our report so that we could reference Ross's confidence in our team to make these requests possible if we have time.
+It is important to note that these requests are in no way suppose to be completed by the end of our time with this project.
+These requests are for future ideas for the tools and are options for use to complete if we have time. Our client also would like us to submit patches for the tools
+that we have made thus far as he approves of the work we have done. We will be working
+on creating these patches in the coming weeks.
+The requirements that have had feature requests proposed are shown below.
+
+\subsection{Add user accounts to the application}
+\begin{enumerate}
+	\item Have a field for the user to enter their Twitter ID if they have one
+\end{enumerate}
+
+\subsection{List tweets about events via the app and not via the app}
+\begin{enumerate}
+	\item Improve quality of what you see currently by caching.
+    \item Possibly improve the quality of tweets returned by using Hootsuite.
+    \item Search tweets with multiple tags to be displayed.
+    \item List all of the users tweets and the ones containing hashtags, separate pages.
+    \item Mark users who are in groups that are not relevant just like you can do with the events themselves.
+\end{enumerate}
+
+\subsection{Export a list of people with information}
+\begin{enumerate}
+	\item Add some more fields to the exported list such as what group they are associated with and a list of topics they are interested in.
+\end{enumerate}
+
+\subsection{Improve hashtag searching of application for better results on relevant events}
+\begin{enumerate}
+	\item Find any opportunity to improve the searching by hashtags method. This requirement can always use some tweaking but it is good that the searching has improved.
+\end{enumerate}
+
+\subsection{Add feature to generate a profile of people for community developers to have contacting information easily viewable}
+\begin{enumerate}
+	\item Create profiles for the people that are imported that are hosting the events as these people might be more interesting to contact for community developers.
+\end{enumerate}
 
 \subsection{Implement system of improve sorting of finding events by nearby location within radius of the user}
-
-When this tool was presented to our client he was pleased to see what was done and came up with some feature requests he would like to see for this tool.
-  It is important to note that these are not required they are just something our client would like to see
-  in the future. Whether it be from us or by someone else in the future.
-  \begin{enumerate}
+\begin{enumerate}
   \item Have map and list of events and start times be side by side on the page.
   \item Calculate distance from where the user has searched to where the location is and display how far away each location is and sort by distance.
-  \end{enumerate}
+\end{enumerate}
 
 \section{PROBLEMS ENCOUNTERED}
 
 Throughout this term we have encountered many problems that have impeded our
-progress for this project. This was to be expected as with all projects events
+progress for this project. This was to be expected as with all projects. 
+Events
 occur that can halt progress and bring forth challenges that, as a group, we
 needed to overcome. The problems that we have faced are listed below along with
-the methods we used to get through the situation.
+the methods we used to get through the situation. We also ran into the occasioin coding block where we would have days where not much progress was obtained. However, we feel this did not impeded our progress as
+it is just part of being a computer scientist.
 
 \subsection{Problem 1}
 Deciding which platform we were going to be developing on using Docker. This was
@@ -1099,9 +1160,9 @@ structure ready for us when we began beta level implementation. With all
 requirements completed at the beta level we then began to look ahead to see when
 we want to accomplish the tiny tweaks and bug fixes for the 1.0 release. \\
 
-We are going to focus our attention on choosing dates to fully version 1.0
-complete each requirements. This means that we will move on from the expected
-completion date for a new data that we will except to have no bugs and tiny
+We are going to focus our attention on choosing dates to fully implement version 1.0 and 
+complete each requirement. This means that we will move on from the expected
+completion date for beta to a new date that we will except to have no bugs and tiny
 tweaks finished. Below shows our future timeline for getting these items
 completed for version 1.0 release. \\
 
