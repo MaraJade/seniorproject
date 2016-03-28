@@ -1,6 +1,0 @@
-#!/usr/bin/python
-import curses
-import meetups
-
-meetups.importMeetups()
-meetups.createFiles()
