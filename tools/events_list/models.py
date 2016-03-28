@@ -53,6 +53,7 @@ class Person(models.Model):
     groups = models.ManyToManyField(Group, related_name="members")
     topics = models.ManyToManyField(Topic, related_name="people")
     meetupID =  models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+    is_applicable = models.BooleanField(help_text = "Indicates if a person is applicable to our audience or not", default=True)
 
     def __str__(self):
         return self.name
