@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Community Development: People</title>
+  {% include "include/head.html" %}
+</head>
+<body>
+  {% include "include/navbar.html" %}
+
+  <h1>People</h1>
+
+  {% if user.is_authenticated %}
+    <form method="POST">
+      {% csrf_token %}
+      <input type="submit" name="excel" value="Export Info">
+    </form>
+  {% endif %}
+
+  {% if person_list %}
+    <script>
+      $(document).ready(function(){
+      $('#peopleList').dataTable({
+          "order": [[ 0, "asc" ]],
+          "stateSave": true
+        });
+      });
+    </script>	
+
+    <table id="peopleList" class="table table-striped">
+      <thead>
+	<tr>
+	  <th>Name</th>
+	  <th>City</th>
+	  <th>State</th>
+	  <th>Country</th>
+      <th>Actions</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for person in person_list %}
+	<tr>
+	  <td><a href="{% url 'viewPerson' person.id %}">{{ person.name }}</a></td>
+	  <td>{{ person.city }}</td>
+	  <td>{{ person.state }}</td>
+	  <td>{{ person.country }}</td>
+	  <td>{% if user.is_authenticated %}
+           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+          {% endif %}
+          </td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No people are available.</p>
+  {% endif %}
+</body>
+</html>
