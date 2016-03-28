@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^groups/(?P<group_id>[0-9]+)/importMembers/$', views.importMembers, name='importMembers'),
 
     url(r'^people/$', views.personIndex, name='personIndex'),
+    url(r'^people/(?P<person_id>[0-9]+)/toggleNA/$', views.togglePersonNA, name='togglePersonNA'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
     url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),

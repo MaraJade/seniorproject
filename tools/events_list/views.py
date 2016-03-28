@@ -167,7 +167,8 @@ def toggleGroupNA(request, id):
 
 # Lists all the people
 def personIndex(request):
-    person_list = Person.objects.all()
+    person_list = Person.objects.all().filter(is_applicable = True)
+    #person_list = Person.objects.all()
     template = loader.get_template('people/index.html')
     context = RequestContext(request, {
                              'person_list': person_list
@@ -180,6 +181,25 @@ def personIndex(request):
         return response
 
     return HttpResponse(template.render(context))    
+
+# Toggle the is_applicable field on a given person
+def togglePersonNA(request, person_id):
+    person = get_object_or_404(Person, pk = person_id)
+    person.is_applicable = not person.is_applicable
+    person.save()
+
+    log = Log();
+    desc = "Person (id=" + person_id + ") marked as "
+    if (person.is_applicable):
+        desc = desc + "applicable "
+    else:
+        desc = desc + "not applicable "
+    log.description = desc;
+    log.object_id = person_id
+    log.action_type = Log.GROUP_UPDATE
+    log.save()
+
+    return redirect('events_list.views.personIndex')
 
 # Shows a specific person's information
 def viewPerson(request, person_id):

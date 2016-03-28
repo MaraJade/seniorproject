@@ -33,6 +33,7 @@
 	  <th>City</th>
 	  <th>State</th>
 	  <th>Country</th>
+      <th>Actions</th>
 	</tr>
       </thead>
       <tbody>
@@ -42,6 +43,10 @@
 	  <td>{{ person.city }}</td>
 	  <td>{{ person.state }}</td>
 	  <td>{{ person.country }}</td>
+	  <td>{% if user.is_authenticated %}
+           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+          {% endif %}
+          </td>
 	</tr>
 	{% endfor %}
       </tbody>
