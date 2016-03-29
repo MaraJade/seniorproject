@@ -163,6 +163,11 @@ def toggleGroupNA(request, id):
         event.is_applicable = group.is_applicable
         event.save()
 
+    persons = Person.objects.filter(groups = group)
+    for person in persons:
+        person.is_applicable = group.is_applicable
+        person.save()
+
     return redirect('events_list.views.groupIndex')
 
 # Lists all the people
