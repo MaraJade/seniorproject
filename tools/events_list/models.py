@@ -39,7 +39,7 @@ class Hashtag(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length = 50)
     bio = models.TextField()
-    service = models.CharField(max_length = 50)
+    service = models.CharField(max_length = 50, default='')
     country = models.CharField(max_length = 2)
     state = models.CharField(max_length = 2)
     city = models.CharField(max_length = 30)
@@ -64,15 +64,15 @@ class Person(models.Model):
 class Event(models.Model):
     name = models.CharField(max_length=200)
     #added additional fields for event specific location - Justin Bruntmyer
-    country = models.CharField(max_length = 2)
+    country = models.CharField(max_length = 2, default='')
     def save(self, force_insert=False, force_update=False):
         self.country = self.country.upper()
         super(Event, self).save(force_insert, force_update)
-    state = models.CharField(max_length = 2)
-    city = models.CharField(max_length = 30)
-    address_1 = models.CharField(max_length = 40)
-    latitude = models.DecimalField(max_digits=10, decimal_places=6)
-    longitude = models.DecimalField(max_digits=10, decimal_places=6)
+    state = models.CharField(max_length = 2, default='')
+    city = models.CharField(max_length = 30, default='')
+    address_1 = models.CharField(max_length = 40, default='')
+    latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
     # end addition - Jusitn Bruntmyer
     event_url = models.URLField()
     group = models.ForeignKey(Group)
