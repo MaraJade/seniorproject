@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from events_list.models import Event, Group, Hashtag, Log, Person, Topic
+from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host
 from datetime import datetime, timedelta
 from .excel_utils import WriteToExcel
 from operator import itemgetter
@@ -447,8 +447,16 @@ def _callMeetupsCom(hashtag):
                     event.longitude = meetup['venue']['lon']
             #end getting locaiton info - Justin Bruntmyer
             if 'event_hosts' in meetup.keys():
-                if 'member_name' in meetup['event_hosts'].keys():
-                    event.event_hostname = meetup['event_hosts']['member_name']
+                for host in meetup['event_hosts']:
+                    try:
+                        record = Host.objects.get(meetupID = host['member_id'])
+                    except Host.DoesNotExist:
+                        record = Host()
+                    record.name = host['member_name']
+                    record.meetupID = host['member_id']
+                    record.save()
+                    event.hosts.add(record)
+
             event.meetupID = meetup['id']
             event.group = group
             event.description = unicode(meetup['description'])
