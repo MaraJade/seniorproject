@@ -82,6 +82,7 @@ class Event(models.Model):
     local_end = models.DateTimeField()
     utc_offset = models.BigIntegerField()
     hashtags = models.ManyToManyField(Hashtag, related_name="events")
+    event_hostname = models.CharField(max_length=200, default='')
     is_applicable = models.BooleanField(help_text = "Indicates if an event is applicable to our audience or not.", default=True)
     
     @property

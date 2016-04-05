@@ -10,41 +10,6 @@
 
   <h1>Events Via Search</h1>
 
-{% if upcoming_events_list %}
-<script>
-  $(document).ready(function(){
-    $('#eventList').dataTable({
-       "order": [[ 4, "asc" ]],
-       "stateSave": true
-    });
-  });
-</script>
-
-
-<table id="eventList" class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Local Start Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for event in upcoming_events_list %}
-    <tr>
-      <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
-      <td>{{ event.latitude }}</td> <!-- now getting event locaiton (JB)-->
-      <td>{{ event.longitude }}</td>
-      <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<p>No events are available.</p>
-{% endif %}
-
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -149,6 +114,15 @@
         var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
+
+        {% for even in upcoming_events_list %}
+              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
+              var marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                  title: '{{ even.name }}'
+              });
+          {% endfor %}
         searchBox.addListener('places_changed', function() {
           var places = searchBox.getPlaces();
 
@@ -161,16 +135,6 @@
               marker.setMap(null);
           });
           markers = [];
-
-          {% for even in upcoming_events_list %}
-              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
-              var marker = new google.maps.Marker({
-                  position: myLatLng,
-                  map: map,
-                  title: '{{ even.name }}'
-              });
-          {% endfor %}
-
 
           // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
@@ -213,5 +177,41 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&sensor=true&callback=initMap"
          async defer></script> 
+
+{% if upcoming_events_list %}
+<script>
+  $(document).ready(function(){
+    $('#eventList').dataTable({
+       "order": [[ 4, "asc" ]],
+       "stateSave": true
+    });
+  });
+</script>
+
+
+<table id="eventList" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Local Start Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in upcoming_events_list %}
+    <tr>
+      <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
+      <td>{{ event.latitude }}</td> <!-- now getting event locaiton (JB)-->
+      <td>{{ event.longitude }}</td>
+      <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No events are available.</p>
+{% endif %}
+
 </body>
 </html>
