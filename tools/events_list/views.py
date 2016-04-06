@@ -189,15 +189,15 @@ def personIndex(request):
 
 #List people hosting events
 def eventHosts(request):
-    person_list = Person.objects.all()
+    host_list = Host.objects.all()
     template = loader.get_template('people/eventHosts.html')
     context = RequestContext(request, {
-                             'person_list': person_list
+                             'host_list': host_list
     })
     if 'excel' in request.POST:
         response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
-        xlsx_data = WriteToExcel(person_list)
+        response['Content-Disposition'] = 'attachment; filename=hosts.xlsx'
+        xlsx_data = WriteToExcel(host_list)
         response.write(xlsx_data)
         return response
 
@@ -359,7 +359,7 @@ def _callMeetupsCom(hashtag):
 
     # Radius is defined around Lexington, KY, but it's infinite radius, so
     # should work everywhere.
-    url = "https://api.meetup.com/2/open_events?&sign=true&fields=events_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
+    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 
     print "Fetching meetups ..."
 
@@ -446,16 +446,6 @@ def _callMeetupsCom(hashtag):
                 if 'lon' in meetup['venue'].keys():
                     event.longitude = meetup['venue']['lon']
             #end getting locaiton info - Justin Bruntmyer
-            if 'event_hosts' in meetup.keys():
-                for host in meetup['event_hosts']:
-                    try:
-                        record = Host.objects.get(meetupID = host['member_id'])
-                    except Host.DoesNotExist:
-                        record = Host()
-                    record.name = host['member_name']
-                    record.meetupID = host['member_id']
-                    record.save()
-                    event.hosts.add(record)
 
             event.meetupID = meetup['id']
             event.group = group
@@ -471,6 +461,18 @@ def _callMeetupsCom(hashtag):
             event.utc_offset = offset
             event.is_applicable = group.is_applicable                
             event.save()
+
+            if 'event_hosts' in meetup.keys():
+                for host in meetup['event_hosts']:
+                    try:
+                        record = Host.objects.get(meetupID = host['id'])
+                    except Host.DoesNotExist:
+                        record = Host()
+                    record.name = host['member_name']
+                    record.meetupID = host['member_id']
+                    record.eventname = event.name
+                    record.save()
+                    event.hosts.add(record)
 
             event.hashtags.add(hashtag)
             event.save()

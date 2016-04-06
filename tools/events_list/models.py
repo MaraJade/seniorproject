@@ -16,6 +16,7 @@ class Topic(models.Model):
 class Host(models.Model):
     name = models.CharField(max_length=200)
     meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+    eventname = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
