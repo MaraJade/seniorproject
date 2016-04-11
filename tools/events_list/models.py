@@ -13,13 +13,31 @@ class Topic(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
+class HostTopic(models.Model):
+    name = models.CharField(max_length=200)
+    urlkey = models.CharField(max_length=50)
+    meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
 class Host(models.Model):
     name = models.CharField(max_length=200)
+    fullName= models.CharField(max_length=200)
     meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
     eventname = models.CharField(max_length=200)
     largePhoto = models.URLField()
     photo = models.URLField()
     thumbnail = models.URLField()
+    country = models.CharField(max_length = 2)
+    state = models.CharField(max_length = 2)
+    city = models.CharField(max_length = 30)
+    service = models.CharField(max_length = 50, default='')
+    topics = models.ManyToManyField(HostTopic, related_name="hosts")
 
     def __str__(self):
         return self.name

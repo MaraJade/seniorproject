@@ -274,6 +274,60 @@ def _canImport():
         pass
     return can_import
 
+def importHosts(request, personHost_id):
+    personHost = get_object_or_404(Host, pk = personHost_id)
+
+    log = Log()
+    log.description = "Hosts imported"
+    log.action_type = Log.EVENT_IMPORT
+    log.save()
+
+    url = "https://api.meetup.com/2/member/"+ str(personHost.meetupID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+    response = urllib2.urlopen(url)
+    result = response.read()
+
+    data = json.loads(result)
+    hostsInfo = data[result]
+
+    for hostStuff in hostsInfo:
+        try:
+            host = Host.objects.get(meetupID = hostStuff['id'])
+        except Host.DoesNotExist:
+            host = Host()
+
+        try:
+            host.country = hostStuff['country']
+            host.fullName = hostStuff['name']
+            host.city = hostStuff['city']
+            host.state = hostStuff['state']
+            #host.link = hostStuff['link']
+            if 'other_services' in hostStuff.keys():
+                if 'twitter' in hostStuff['other_services'].keys():
+                    if 'identifier' in hostStuff['other_services']['twitter'].keys():
+                        host.service = hostStuff['other_services']['twitter']['identifier']
+            host.save()
+            
+            if 'topics' in hostStuff.keys():
+                for topic in hostStuff['topics']:
+                    try:
+                        record = HostTopic.objects.get(meetupID = topic['id'])
+                    except HostTopic.DoesNotExist:
+                        record = HostTopic()
+                    record.urlkey = topic['urlkey']
+                    record.name = topic['name']
+                    record.meetupID = topic['id']
+                    record.save()
+                    host.topics.add(record)
+
+
+            person.save()
+        except:
+            print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
+
+    return redirect('eventHosts')
+            
+                
+
 def importMembers(request, group_id):
     group = get_object_or_404(Group, pk = group_id)
 
