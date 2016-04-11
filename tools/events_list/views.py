@@ -465,7 +465,7 @@ def _callMeetupsCom(hashtag):
             if 'event_hosts' in meetup.keys():
                 for host in meetup['event_hosts']:
                     try:
-                        record = Host.objects.get(meetupID = host['id'])
+                        record = Host.objects.get(meetupID = host['member_id'])
                     except Host.DoesNotExist:
                         record = Host()
                     record.name = host['member_name']
