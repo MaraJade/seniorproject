@@ -38,7 +38,7 @@
       <tbody>
 	{% for person in host_list %}
 	<tr>
-	  <td><a href="{% url 'viewPerson' person.id %}">{{ person.name }}</a></td>
+	  <td><a href="{% url 'viewHost' person.id %}">{{ person.name }}</a></td>
 	  <td>{{ person.meetupID }}</td>
     <td>{{ person.eventname }}</td>
 	  <td>{% if user.is_authenticated %}

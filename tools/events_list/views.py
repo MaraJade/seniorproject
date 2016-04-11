@@ -249,6 +249,14 @@ def viewPerson(request, person_id):
     })
     return HttpResponse(template.render(context))
 
+def viewHost(request, personHost_id):
+    personHost = get_object_or_404(Host, pk = personHost_id)
+   
+    template = loader.get_template('people/eventHosts.html')
+    context = RequestContext(request, {
+                             'personHost': personHost
+    })
+    return HttpResponse(template.render(context))
 
 def _canImport():
     if settings.DEBUG:
