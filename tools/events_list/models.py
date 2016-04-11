@@ -17,6 +17,9 @@ class Host(models.Model):
     name = models.CharField(max_length=200)
     meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
     eventname = models.CharField(max_length=200)
+    largePhoto = models.URLField()
+    photo = models.URLField()
+    thumbnail = models.URLField()
 
     def __str__(self):
         return self.name

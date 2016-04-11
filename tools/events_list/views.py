@@ -252,7 +252,7 @@ def viewPerson(request, person_id):
 def viewHost(request, personHost_id):
     personHost = get_object_or_404(Host, pk = personHost_id)
    
-    template = loader.get_template('people/eventHosts.html')
+    template = loader.get_template('people/viewHosts.html')
     context = RequestContext(request, {
                              'personHost': personHost
     })
@@ -479,6 +479,13 @@ def _callMeetupsCom(hashtag):
                     record.name = host['member_name']
                     record.meetupID = host['member_id']
                     record.eventname = event.name
+                    if 'photo' in host.keys():
+                        if 'highres_link' in host['photo'].keys():
+                            record.largePhoto = host['photo']['highres_link']
+                        if 'photo_link' in host['photo'].keys():
+                            record.photo = host['photo']['photo_link']
+                        if 'thumb_link' in host['photo'].keys():
+                            record.thumbnail = host['photo']['thumb_link']
                     record.save()
                     event.hosts.add(record)
 

@@ -30,9 +30,9 @@
       <thead>
 	<tr>
 	  <th>Name</th>
-    <th>ID</th>
-    <th>Event</th>
-      <th>Actions</th>
+          <th>ID</th>
+          <th>Event</th>
+          <th>Actions</th>
 	</tr>
       </thead>
       <tbody>
@@ -40,9 +40,9 @@
 	<tr>
 	  <td><a href="{% url 'viewHost' person.id %}">{{ person.name }}</a></td>
 	  <td>{{ person.meetupID }}</td>
-    <td>{{ person.eventname }}</td>
+          <td>{{ person.eventname }}</td>
 	  <td>{% if user.is_authenticated %}
-           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+          <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
           {% endif %}
           </td>
 	</tr>
