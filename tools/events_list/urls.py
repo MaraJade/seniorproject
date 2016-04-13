@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^(?P<event_id>[0-9]+)/$', views.viewEvent, name='viewEvent'),
     url(r'^(?P<event_id>[0-9]+)/toggleNA/$', views.toggleEventNA, name='toggleEventNA'),
     url(r'^importMeetups/$', views.importMeetups, name='importMeetups'),
+    url(r'^importAllHosts/$', views.importAllHosts, name='importAllHosts'),
 
     url(r'^eventSearch/$', views.eventSearch, name='eventSearch'),
     url(r'^events/14-days/list.md$', views.eventList, name='eventListMD'),

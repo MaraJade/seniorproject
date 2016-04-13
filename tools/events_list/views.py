@@ -192,7 +192,8 @@ def eventHosts(request):
     host_list = Host.objects.all()
     template = loader.get_template('people/eventHosts.html')
     context = RequestContext(request, {
-                             'host_list': host_list
+                             'host_list': host_list,
+                             'can_import': _canImport()
     })
     if 'excel' in request.POST:
         response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -274,15 +275,32 @@ def _canImport():
         pass
     return can_import
 
-def importHosts(request, personHost_id):
-    personHost = get_object_or_404(Host, pk = personHost_id)
+def importAllHosts(request):
+    # Import latest meetups from meetup.com, if we didn't import them within the last hour
+    log = Log()
+    log.description = "Events imported"
+    log.action_type = Log.EVENT_IMPORT
+    log.save()
+
+    # get all the hashtags from the DB
+    hosts = Host.objects.all()
+
+    # iterate over them all makeing a call to meetups.com for each one and adding results to the database
+    for host in hosts:
+      importHosts(host.meetupID)
+
+    return redirect('eventHosts')
+
+
+def importHosts(hostID):
+    #hostID = get_object_or_404(Host, pk = hostID)
 
     log = Log()
     log.description = "Hosts imported"
     log.action_type = Log.EVENT_IMPORT
     log.save()
 
-    url = "https://api.meetup.com/2/member/"+ str(personHost.meetupID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+    url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
     response = urllib2.urlopen(url)
     result = response.read()
 
@@ -323,7 +341,7 @@ def importHosts(request, personHost_id):
     except:
         print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
 
-    return redirect('eventHosts') 
+    #return redirect('eventHosts') 
                 
 
 def importMembers(request, group_id):

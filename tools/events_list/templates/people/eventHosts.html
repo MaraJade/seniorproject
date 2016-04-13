@@ -24,7 +24,8 @@
           "stateSave": true
         });
       });
-    </script>	
+    </script>
+    
 
     <table id="peopleList" class="table table-striped">
       <thead>
@@ -42,7 +43,7 @@
 	  <td>{{ person.meetupID }}</td>
           <td>{{ person.eventname }}</td>
 	  <td>{% if user.is_authenticated %}
-          <a href="{% url 'importHosts' person.id %}">Import Hosts</a>
+          <!--<a href="{% url 'importHosts' person.id %}">Import Hosts</a>-->
           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
           {% endif %}
           </td>

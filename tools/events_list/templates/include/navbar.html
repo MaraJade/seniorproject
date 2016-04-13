@@ -69,6 +69,7 @@
   	    {% if can_import %}
               {% if user.is_authenticated %}
                 <li><a href="{% url 'importMeetups' %}">Import Meetups</a></li>
+                <li><a href="{% url 'importAllHosts' %}">Import Hosts</a></li>
               {% endif %}
 	    {% endif %}
 
