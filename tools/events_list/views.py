@@ -287,45 +287,43 @@ def importHosts(request, personHost_id):
     result = response.read()
 
     data = json.loads(result)
-    hostsInfo = data[result]
+    hostsInfo = data
 
-    for hostStuff in hostsInfo:
-        try:
-            host = Host.objects.get(meetupID = hostStuff['id'])
-        except Host.DoesNotExist:
-            host = Host()
+    #for hostsInfo in data:
+    try:
+        host = Host.objects.get(meetupID = hostsInfo['id'])
+    except Host.DoesNotExist:
+        host = Host()
+    try:
+        host.country = hostsInfo['country']
+        host.fullName = hostsInfo['name']
+        host.city = hostsInfo['city']
+        host.state = hostsInfo['state']
+        #host.link = hostStuff['link']
+        if 'other_services' in hostsInfo.keys():
+            if 'twitter' in hostsInfo['other_services'].keys():
+                if 'identifier' in hostsInfo['other_services']['twitter'].keys():
+                    host.service = hostsInfo['other_services']['twitter']['identifier']
+        host.save()
 
-        try:
-            host.country = hostStuff['country']
-            host.fullName = hostStuff['name']
-            host.city = hostStuff['city']
-            host.state = hostStuff['state']
-            #host.link = hostStuff['link']
-            if 'other_services' in hostStuff.keys():
-                if 'twitter' in hostStuff['other_services'].keys():
-                    if 'identifier' in hostStuff['other_services']['twitter'].keys():
-                        host.service = hostStuff['other_services']['twitter']['identifier']
-            host.save()
-            
-            if 'topics' in hostStuff.keys():
-                for topic in hostStuff['topics']:
-                    try:
-                        record = HostTopic.objects.get(meetupID = topic['id'])
-                    except HostTopic.DoesNotExist:
-                        record = HostTopic()
-                    record.urlkey = topic['urlkey']
-                    record.name = topic['name']
-                    record.meetupID = topic['id']
-                    record.save()
-                    host.topics.add(record)
+        if 'topics' in hostsInfo.keys():
+            for topic in hostsInfo['topics']:
+                try:
+                    record = HostTopic.objects.get(meetupID = topic['id'])
+                except HostTopic.DoesNotExist:
+                    record = HostTopic()
+                record.urlkey = topic['urlkey']
+                record.name = topic['name']
+                record.meetupID = topic['id']
+                record.save()
+                host.topics.add(record)
 
 
-            person.save()
-        except:
-            print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
+        person.save()
+    except:
+        print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
 
-    return redirect('eventHosts')
-            
+    return redirect('eventHosts') 
                 
 
 def importMembers(request, group_id):
