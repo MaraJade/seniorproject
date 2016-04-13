@@ -7,8 +7,30 @@
 <body>
   {% include "include/navbar.html" %}
   <h4>Tweets from the app</h4>
-  {% for tweet in tweets %}
-    {% autoescape off %}{{ tweet }}{% endautoescape %}
-  {% endfor %}
+  <table cellspacing="0" cellpadding="0" border="0" width="325">
+    <!--{{ tweets }}-->
+    {% for hashtag, data in tweets.items %}
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="1" border="1" width="300">
+            <tr>
+              <th>{{ hashtag }}</th>
+            </tr>
+          </table>
+        </td>
+      </tr>
+        <td>
+          <div style="width:500px; height:1000px; overflow:auto;">
+            <table cellspacing="0" cellpadding="1" border="1" width="500">
+                <td>
+                  {% for tweet in data %}
+                    {% autoescape off %}{{ tweet }}{% endautoescape %}
+                  {% endfor %}
+                </td>
+            </table>
+          </div>
+        </td>
+    {% endfor %}
+  </table>
 </body>
 </html>

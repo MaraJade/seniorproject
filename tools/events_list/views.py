@@ -485,12 +485,15 @@ def _twitterAuth():
     return authJSON['access_token']
 
 def _oembedTweets(tweets):
-    oembed = []
-    for tweet in tweets:
-        url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-        embededResponse = requests.get(url)
-        embeded = embededResponse.json()
-        oembed.append(embeded['html'])
+    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+    oembed = dict()
+    for hashtag in hashtags:
+        oembed[hashtag.name] = []
+        for i in range(0, len(tweets[hashtag.name]) - 1):
+            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
+            embededResponse = requests.get(url)
+            embeded = embededResponse.json()
+            oembed[hashtag.name].append(embeded['html'])
 
     return oembed
 
@@ -504,22 +507,23 @@ def tweetsNotApp(request):
     # Get the hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
-    oembed = []
-    allTweets = []
+    #oembed = []
+    allTweets = dict()
     for hashtag in hashtags:
+        allTweets[hashtag.name] = []
         url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
         headers = {'Authorization': "Bearer " + accessToken}
         response = requests.get(url, headers=headers)
         tweetsJSON = response.json()
         for tweet in tweetsJSON['statuses']:
             #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
-            allTweets.append(tweet)
+            allTweets[hashtag.name].append(tweet['id'])
 
     # Supposed to sort the tweets so they will be in order of posting, doesn't
     # really work. Does at least kinda mix up the tweets so they're not blocks
     # of one hashtag
     #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
-    sortedTweets = sorted(allTweets, key=itemgetter('id'))
+    #sortedTweets = sorted(allTweets, key=itemgetter('id'))
 
     oembed = _oembedTweets(allTweets)
 
@@ -534,15 +538,16 @@ def tweetsApp(request):
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
     oembed = []
-    allTweets = []
-    for person in person_list:
-        for hashtag in hashtags:
-            url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
-            headers = {'Authorization': "Bearer " + accessToken}
-            response = requests.get(url, headers=headers)
-            tweetsJSON = response.json()
-            for tweet in tweetsJSON['statuses']:
-                allTweets.append(tweet)
+    allTweets = dict()
+    #for person in person_list:
+    for hashtag in hashtags:
+        allTweets[hashtag.name] = []
+        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
+        headers = {'Authorization': "Bearer " + accessToken}
+        response = requests.get(url, headers=headers)
+        tweetsJSON = response.json()
+        for tweet in tweetsJSON['statuses']:
+            allTweets[hashtag.name].append(tweet['id'])
 
     oembed = _oembedTweets(allTweets)
 
