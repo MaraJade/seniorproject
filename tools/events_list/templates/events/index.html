@@ -35,7 +35,7 @@
     {% for event in upcoming_events_list %}
     <tr>
       <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
-      <td>{{ event.city }}, {{ event.state }}</td> <!-- now getting event locaiton (JB)-->
+      <td>{{ event.city }} {{ event.state }}</td> <!-- now getting event locaiton (JB)-->
       <td>{{ event.country }}</td>
       <td>
 	{% for hashtag in event.hashtags.all %}

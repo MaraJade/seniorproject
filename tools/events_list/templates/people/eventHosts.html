@@ -16,7 +16,7 @@
     </form>
   {% endif %}
 
-  {% if person_list %}
+  {% if host_list %}
     <script>
       $(document).ready(function(){
       $('#peopleList').dataTable({
@@ -30,21 +30,20 @@
       <thead>
 	<tr>
 	  <th>Name</th>
-	  <th>City</th>
-	  <th>State</th>
-	  <th>Country</th>
-      <th>Actions</th>
+          <th>ID</th>
+          <th>Event</th>
+          <th>Actions</th>
 	</tr>
       </thead>
       <tbody>
-	{% for person in person_list %}
+	{% for person in host_list %}
 	<tr>
-	  <td><a href="{% url 'viewPerson' person.id %}">{{ person.name }}</a></td>
-	  <td>{{ person.city }}</td>
-	  <td>{{ person.state }}</td>
-	  <td>{{ person.country }}</td>
+	  <td><a href="{% url 'viewHost' person.id %}">{{ person.name }}</a></td>
+	  <td>{{ person.meetupID }}</td>
+          <td>{{ person.eventname }}</td>
 	  <td>{% if user.is_authenticated %}
-           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+          <a href="{% url 'importHosts' person.id %}">Import Hosts</a>
+          <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
           {% endif %}
           </td>
 	</tr>

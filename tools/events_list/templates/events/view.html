@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>{{ event.name }}</h1>
-  <p>{{ event.city }}, {{ event.state }}, {{event.country }}</p> <!-- now getting event locaiton (JB)-->
+  <p>{{ event.city }}, {{ event.state }} {{event.country }}</p> <!-- now getting event locaiton (JB)-->
   {{ event.description | safe }}
 
   <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>

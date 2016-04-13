@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from events_list.models import Event, Group, Hashtag, Log, Person, Topic
+from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host
 from datetime import datetime, timedelta
 from .excel_utils import WriteToExcel
 from operator import itemgetter
@@ -189,15 +189,15 @@ def personIndex(request):
 
 #List people hosting events
 def eventHosts(request):
-    person_list = Person.objects.all()
+    host_list = Host.objects.all()
     template = loader.get_template('people/eventHosts.html')
     context = RequestContext(request, {
-                             'person_list': person_list
+                             'host_list': host_list
     })
     if 'excel' in request.POST:
         response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
-        xlsx_data = WriteToExcel(person_list)
+        response['Content-Disposition'] = 'attachment; filename=hosts.xlsx'
+        xlsx_data = WriteToExcel(host_list)
         response.write(xlsx_data)
         return response
 
@@ -249,6 +249,14 @@ def viewPerson(request, person_id):
     })
     return HttpResponse(template.render(context))
 
+def viewHost(request, personHost_id):
+    personHost = get_object_or_404(Host, pk = personHost_id)
+   
+    template = loader.get_template('people/viewHosts.html')
+    context = RequestContext(request, {
+                             'personHost': personHost
+    })
+    return HttpResponse(template.render(context))
 
 def _canImport():
     if settings.DEBUG:
@@ -265,6 +273,60 @@ def _canImport():
     except:
         pass
     return can_import
+
+def importHosts(request, personHost_id):
+    personHost = get_object_or_404(Host, pk = personHost_id)
+
+    log = Log()
+    log.description = "Hosts imported"
+    log.action_type = Log.EVENT_IMPORT
+    log.save()
+
+    url = "https://api.meetup.com/2/member/"+ str(personHost.meetupID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+    response = urllib2.urlopen(url)
+    result = response.read()
+
+    data = json.loads(result)
+    hostsInfo = data[result]
+
+    for hostStuff in hostsInfo:
+        try:
+            host = Host.objects.get(meetupID = hostStuff['id'])
+        except Host.DoesNotExist:
+            host = Host()
+
+        try:
+            host.country = hostStuff['country']
+            host.fullName = hostStuff['name']
+            host.city = hostStuff['city']
+            host.state = hostStuff['state']
+            #host.link = hostStuff['link']
+            if 'other_services' in hostStuff.keys():
+                if 'twitter' in hostStuff['other_services'].keys():
+                    if 'identifier' in hostStuff['other_services']['twitter'].keys():
+                        host.service = hostStuff['other_services']['twitter']['identifier']
+            host.save()
+            
+            if 'topics' in hostStuff.keys():
+                for topic in hostStuff['topics']:
+                    try:
+                        record = HostTopic.objects.get(meetupID = topic['id'])
+                    except HostTopic.DoesNotExist:
+                        record = HostTopic()
+                    record.urlkey = topic['urlkey']
+                    record.name = topic['name']
+                    record.meetupID = topic['id']
+                    record.save()
+                    host.topics.add(record)
+
+
+            person.save()
+        except:
+            print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
+
+    return redirect('eventHosts')
+            
+                
 
 def importMembers(request, group_id):
     group = get_object_or_404(Group, pk = group_id)
@@ -359,7 +421,7 @@ def _callMeetupsCom(hashtag):
 
     # Radius is defined around Lexington, KY, but it's infinite radius, so
     # should work everywhere.
-    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
+    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 
     print "Fetching meetups ..."
 
@@ -446,6 +508,7 @@ def _callMeetupsCom(hashtag):
                 if 'lon' in meetup['venue'].keys():
                     event.longitude = meetup['venue']['lon']
             #end getting locaiton info - Justin Bruntmyer
+
             event.meetupID = meetup['id']
             event.group = group
             event.description = unicode(meetup['description'])
@@ -460,6 +523,25 @@ def _callMeetupsCom(hashtag):
             event.utc_offset = offset
             event.is_applicable = group.is_applicable                
             event.save()
+
+            if 'event_hosts' in meetup.keys():
+                for host in meetup['event_hosts']:
+                    try:
+                        record = Host.objects.get(meetupID = host['member_id'])
+                    except Host.DoesNotExist:
+                        record = Host()
+                    record.name = host['member_name']
+                    record.meetupID = host['member_id']
+                    record.eventname = event.name
+                    if 'photo' in host.keys():
+                        if 'highres_link' in host['photo'].keys():
+                            record.largePhoto = host['photo']['highres_link']
+                        if 'photo_link' in host['photo'].keys():
+                            record.photo = host['photo']['photo_link']
+                        if 'thumb_link' in host['photo'].keys():
+                            record.thumbnail = host['photo']['thumb_link']
+                    record.save()
+                    event.hosts.add(record)
 
             event.hashtags.add(hashtag)
             event.save()

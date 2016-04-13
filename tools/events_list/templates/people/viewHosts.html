@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ person.name }}</title>
+  <title>{{ personHost.name }}</title>
   {% include "include/head.html" %}
 </head>
 <body>
   {% include "include/navbar.html" %}
 
-  <h1>{{ person.name }}</h1>
+  <h1>{{ personHost.name }}</h1>
 
   <!--<form action="construction">
     <input type="submit" value="Tweet at this person">
@@ -30,7 +30,7 @@
   </p>
 
 
-  <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
+  <p><span class="right"><img src="{{ personHost.photo }}"></img></span> {{ person.bio }}</p>
 
   <p>{{ person.service }}, {{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
 
