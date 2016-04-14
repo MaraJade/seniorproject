@@ -42,6 +42,7 @@ class Host(models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
     url = models.URLField(default='')
     event_link = models.URLField(default='')
+    lastVisit = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name

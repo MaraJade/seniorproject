@@ -317,8 +317,8 @@ def importHosts(hostID):
         host.fullName = hostsInfo['name']
         host.city = hostsInfo['city']
         host.state = hostsInfo['state']
-        #visited = float(str(hostsInfo['visited'])[0:-3])
-        #host.lastVisit = datetime.utcfromtimestamp(visited)
+        visited = float(str(hostsInfo['visited'])[0:-3])
+        host.lastVisit = datetime.utcfromtimestamp(visited)
         if 'lon' in hostsInfo.keys():
             host.longitude = hostsInfo['lon']
         if 'lat' in hostsInfo.keys():
