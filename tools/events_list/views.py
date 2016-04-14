@@ -317,7 +317,13 @@ def importHosts(hostID):
         host.fullName = hostsInfo['name']
         host.city = hostsInfo['city']
         host.state = hostsInfo['state']
-        #host.link = hostStuff['link']
+        #visited = float(str(hostsInfo['visited'])[0:-3])
+        #host.lastVisit = datetime.utcfromtimestamp(visited)
+        if 'lon' in hostsInfo.keys():
+            host.longitude = hostsInfo['lon']
+        if 'lat' in hostsInfo.keys():
+            host.latitude = hostsInfo['lat']
+        host.url = hostsInfo['link']
         if 'other_services' in hostsInfo.keys():
             if 'twitter' in hostsInfo['other_services'].keys():
                 if 'identifier' in hostsInfo['other_services']['twitter'].keys():
@@ -549,6 +555,7 @@ def _callMeetupsCom(hashtag):
                     record.name = host['member_name']
                     record.meetupID = host['member_id']
                     record.eventname = event.name
+                    record.event_link = event.event_url
                     if 'photo' in host.keys():
                         if 'highres_link' in host['photo'].keys():
                             record.largePhoto = host['photo']['highres_link']

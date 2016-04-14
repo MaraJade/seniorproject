@@ -38,6 +38,10 @@ class Host(models.Model):
     city = models.CharField(max_length = 30)
     service = models.CharField(max_length = 50, default='')
     topics = models.ManyToManyField(HostTopic, related_name="hosts")
+    latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+    url = models.URLField(default='')
+    event_link = models.URLField(default='')
 
     def __str__(self):
         return self.name
