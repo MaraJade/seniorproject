@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^eventHosts/$', views.eventHosts, name='eventHosts'),
     url(r'^eventHosts/(?P<personHost_id>[0-9]+)/importHosts/$', views.importHosts, name='importHosts'),
     url(r'^eventHosts/(?P<personHost_id>[0-9]+)/$', views.viewHost, name='viewHost'),
-    url(r'^notEventHosts/$', views.notEventHosts, name='notEventHosts'),
     url(r'^people/(?P<person_id>[0-9]+)/toggleNA/$', views.togglePersonNA, name='togglePersonNA'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),

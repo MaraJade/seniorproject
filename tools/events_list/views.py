@@ -204,23 +204,6 @@ def eventHosts(request):
 
     return HttpResponse(template.render(context))
 
-#List people not hosting events
-def notEventHosts(request):
-    person_list = Person.objects.all()
-    template = loader.get_template('people/notEventHosts.html')
-    context = RequestContext(request, {
-                             'person_list': person_list
-    })
-    if 'excel' in request.POST:
-        response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
-        xlsx_data = WriteToExcel(person_list)
-        response.write(xlsx_data)
-        return response
-
-    return HttpResponse(template.render(context))
-
-
 # Toggle the is_applicable field on a given person
 def togglePersonNA(request, person_id):
     person = get_object_or_404(Person, pk = person_id)
