@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host
 from datetime import datetime, timedelta
-from .excel_utils import WriteToExcel
+from .excel_utils import WriteToExcel, WriteToExcelHost
 from operator import itemgetter
 
 import json
@@ -198,8 +198,8 @@ def eventHosts(request):
     if 'excel' in request.POST:
         response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename=hosts.xlsx'
-        xlsx_data = WriteToExcel(host_list)
-        response.write(xlsx_data)
+        xlsx_data2 = WriteToExcelHost(host_list)
+        response.write(xlsx_data2)
         return response
 
     return HttpResponse(template.render(context))
