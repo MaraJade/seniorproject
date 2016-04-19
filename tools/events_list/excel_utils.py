@@ -53,7 +53,20 @@ def WriteToExcel(person_list):
     worksheet_s.write(4, 8, ugettext("URL"), header)
 
     #column widths
-    bio_col_width = 25
+    bio_col_width = 42
+    service_col_width = 22
+    name_col_width = 30
+    meetupID_col_width = 22
+    city_col_width = 22
+    url_col_width = 42
+
+    #Change column widths
+    worksheet_s.set_column('B:B', name_col_width)
+    worksheet_s.set_column('C:C', service_col_width)
+    worksheet_s.set_column('D:D', bio_col_width)
+    worksheet_s.set_column('G:G', city_col_width)
+    worksheet_s.set_column('H:H', meetupID_col_width)
+    worksheet_s.set_column('I:I', url_col_width)
 
     #add data to the table
     for idx, data in enumerate(person_list):
@@ -121,8 +134,20 @@ def WriteToExcelHost(host_list):
     worksheet_s.write(4, 8, ugettext("URL"), header)
 
     #column widths
-    bio_col_width = 25
-    eventname_col_width = 25
+    eventname_col_width = 42
+    service_col_width = 22
+    name_col_width = 30
+    meetupID_col_width = 22
+    city_col_width = 22
+    url_col_width = 42
+   
+    #Change column widths
+    worksheet_s.set_column('B:B', name_col_width)
+    worksheet_s.set_column('C:C', service_col_width)
+    worksheet_s.set_column('D:D', eventname_col_width)
+    worksheet_s.set_column('G:G', city_col_width)
+    worksheet_s.set_column('H:H', meetupID_col_width)
+    worksheet_s.set_column('I:I', url_col_width)
 
     #add data to the table
     for idx, data in enumerate(host_list):
