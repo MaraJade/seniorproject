@@ -21,7 +21,15 @@
         padding: 0;
       }
       #map {
-        height: 70%;
+        height: 80%;
+        width: 35%;
+        float: right;
+        min-height: 250px;
+        border: 1px solid black;
+      }
+      #eventList: {
+        float: left;
+        border: 1px solid red;
       }
       .controls {
         margin-top: 10px;
@@ -154,7 +162,7 @@
               title: place.name,
               position: place.geometry.location
             }));
-            
+
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -187,31 +195,54 @@
     });
   });
 </script>
+<style type="text/css">
+        #eventList {
+          height: 80%;
+          width: 65%;
+          float: left;
+          border: 1px solid black;
+          overflow: auto;
+        }
+        .table {
+            display: table;
+        }
 
+        .row {
+            display: table-row;
+        }
 
-<table id="eventList" class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Local Start Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for event in upcoming_events_list %}
-    <tr>
-      <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
-      <td>{{ event.latitude }}</td> <!-- now getting event locaiton (JB)-->
-      <td>{{ event.longitude }}</td>
-      <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+        .column {
+            display: table-cell;
+            vertical-align: top;
+        }
+    </style>
+    
+  <div id="eventList">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Local Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in upcoming_events_list %}
+          <tr>
+            <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
+            <td>{{ event.latitude }}</td> 
+            <td>{{ event.longitude }}</td>
+            <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+  </div>
 {% else %}
 <p>No events are available.</p>
 {% endif %}
+
+
 
 </body>
 </html>
