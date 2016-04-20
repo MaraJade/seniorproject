@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Community Development: Hosts</title>
+  <title>Community Development: Event Hosts</title>
   {% include "include/head.html" %}
 </head>
 <body>
   {% include "include/navbar.html" %}
 
-  <h1>Hosts</h1>
-
+  <h1>Event Hosts</h1>
   {% if user.is_authenticated %}
     <form method="POST">
       {% csrf_token %}
