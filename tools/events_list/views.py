@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host
+from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host, HostTopic
 from datetime import datetime, timedelta
 from .excel_utils import WriteToExcel, WriteToExcelHost
 from operator import itemgetter
