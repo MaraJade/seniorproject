@@ -32,24 +32,82 @@
 
   <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
 
-  <p>{{ person.service }}, {{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
-
   <p><a href="{{ person.url }}">Member's Home Page</a></p>
 
-  <h2>Topics</h2>
+  <p>Last Active: {{ person.lastVisit }}</p>
+  
+  <div style="max-width:70%; max-height:600px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ person.service }}</td>
+            <td>{{ person.city }}</td>
+            <td>{{ person.state }}</td>
+            <td>{{ person.country }}</td>
+            <td>{{ person.latitude }}</td>
+            <td>{{ person.longitude }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div style="max-width:70%; max-height:200px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Topics</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for topic in person.topics.all %}
+          <tr>
+            <td>{{ topic }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+  <div style="max-width:70%; max-height:200px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Groups</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in person.groups.all %}
+          <tr>
+            <td>{{ group }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+<!--   <h2>Topics</h2>
   <ul>
     {% for topic in person.topics.all %}
       <li>{{ topic }}</li>
     {% endfor %}
-  </ul>
+  </ul> -->
 
-  <h2>Groups</h2>
+<!--   <h2>Groups</h2>
   <ul>
     {% for group in person.groups.all %}
       <li>{{ group }}</li>
     {% endfor %}
-  </ul>
+  </ul> -->
   
-  <p>Last Active: {{ person.lastVisit }}</p>
 </body>
 </html>
