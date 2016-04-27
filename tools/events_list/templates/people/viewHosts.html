@@ -30,22 +30,53 @@
   </p>
 
 
-  <p><span class="right"><img src="{{ personHost.photo }}"></img></span> {{ personHost.bio }}</p>
-
-  <p>{{ personHost.service }}, {{ personHost.city }}, {{ personHost.state }}, {{ personHost.country }} ({{ personHost.latitude }}, {{ personHost.longitude }})</p>
-
-  <p><a href="{{ personHost.url }}">Host's Home Page</a></p>
-
-  <p>Hosting Event: <a href="{{ personHost.event_link }}"> {{ personHost.eventname }}</a></p>
-
-  <h2>Topics</h2>
-  <ul>
-    {% for topic in personHost.topics.all %}
-      <li>{{ topic }}</li>
-    {% endfor %}
-  </ul>
+  <p><span class="right" style="border: 3px solid grey"><img src="{{ personHost.photo }}"></img></span> {{ personHost.bio }}</p>
 
   <p>Last Active: {{ personHost.lastVisit }}</p>
+  <p><a href="{{ personHost.url }}">Host's Home Page</a></p>
+  <p>Hosting Event: <a href="{{ personHost.event_link }}"> {{ personHost.eventname }}</a></p>
+
+  <div style="max-width:70%; max-height:600px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ personHost.service }}</td>
+            <td>{{ personHost.city }}</td>
+            <td>{{ personHost.state }}</td>
+            <td>{{ personHost.country }}</td>
+            <td>{{ personHost.latitude }}</td>
+            <td>{{ personHost.longitude }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div style="max-width:70%; max-height:400px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Topics</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for topic in personHost.topics.all %}
+          <tr>
+            <td>{{ topic }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>  
 
 
   <input type="button" value="Testing Click Count" onclick="set_test()">

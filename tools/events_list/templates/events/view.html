@@ -6,10 +6,6 @@
 </head>
 <body>
   <h1>{{ event.name }}</h1>
-  <p>{{ event.city }}, {{ event.state }} {{event.country }}</p> <!-- now getting event locaiton (JB)-->
-  {{ event.description | safe }}
-
-  <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>
 
   <p>
   <a href="{{ event.event_url }}" title="{{ event.tweet }}" class="_hs_socialshare">Share</a>
@@ -27,15 +23,31 @@
   </p>  
 
   <p>Hashtags: 
-	{% for hashtag in event.hashtags.all %}
-	  {{ hashtag.name }},
-	{% endfor %}
+  {% for hashtag in event.hashtags.all %}
+    {{ hashtag.name }},
+  {% endfor %}
   </p>
-
   <p>Organized by: {{ event.group.name }}</p>
-
   <p><a href="{{ event.event_url }}" target="_blank">Source</a></p>
-
+  <div style="max-width:100%; max-height:600px; overflow:auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ event.city }}, {{ event.state }} {{ event.country }}</td>
+            <td> {{ event.description | safe }}</td>
+            <td><p>{{ event.local_start }} (UTC start: {{ event.utc_start }})</p></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <!-- {{ event.description | safe }} -->
   <p>Applicable: {{ event.is_applicable }} <a href="{% url 'toggleEventNA' event.id %}">Toggle N/A</a></p>
 </body>
 </html>
