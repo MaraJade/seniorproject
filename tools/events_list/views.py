@@ -585,9 +585,6 @@ def _oembedTweets(tweets):
 
     return oembed
 
-def viewTweets(request):
-    return render(request, 'tweets/view.html')
-   
 def tweetsNotApp(request):
     # Auth with twitter
     accessToken = _twitterAuth()
@@ -640,7 +637,3 @@ def tweetsApp(request):
     oembed = _oembedTweets(allTweets)
 
     return render(request, 'tweets/app.html', {'tweets': oembed})
-
-def construction(request):
-    return render(request, 'login/construction.html')
-

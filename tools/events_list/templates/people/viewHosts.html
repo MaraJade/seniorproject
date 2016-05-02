@@ -9,13 +9,9 @@
 
   <h1>{{ personHost.name }}</h1>
 
-  <!--<form action="construction">
-    <input type="submit" value="Tweet at this person">
-  </form>-->
-
   <p>
   <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
-  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare" > </a>
+  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
   <script>
     var _hs = {
                size: 5,
@@ -51,11 +47,9 @@
   <input type="button" value="Testing Click Count" onclick="set_test()">
 
   <script>
-
         var test = 0;    
 
         function set_test() {
-
                 test++;
                 function_one(test);
         }
@@ -63,15 +57,14 @@
         function function_one(test) {
                 if (test > 1)
                 {
-                function_two(); // considering the next alert, I figured you wanted to call function_two first
-                alert("The function called 'function_one' has been called.");
+                  function_two(); // considering the next alert, I figured you wanted to call function_two first
+                  alert("The function called 'function_one' has been called.");
                 }
         }
 
         function function_two() {
                 alert("The function called 'function_two' has been called.");
         }
- 
   </script>
 
 </body>
