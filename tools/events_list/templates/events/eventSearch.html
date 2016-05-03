@@ -120,6 +120,7 @@
         });
 
         var markers = [];
+        var cirlces = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
 
@@ -138,12 +139,14 @@
         if (places.length == 0) {
           return;
         }
-
+        
         //Clear out the old markers.
         markers.forEach(function(marker) {
           marker.setMap(null);
         });
+
         markers = [];
+        circles = [];
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
@@ -164,6 +167,16 @@
           position: place.geometry.location
         }));
 
+        var covered = {
+           map: map,
+           radius: 20000,
+           fillColor: '#AA0000'
+        };
+
+        circles.push(new google.maps.Circle(covered));
+
+        circles[0].bindTo('center', markers[0], 'position');
+
         if (place.geometry.viewport) {
           // Only geocodes have viewport.
           bounds.union(place.geometry.viewport);
@@ -174,7 +187,7 @@
         map.fitBounds(bounds);
       });
      }
- 
+
      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
