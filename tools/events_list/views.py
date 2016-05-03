@@ -25,8 +25,7 @@ import csv
 # This is now Mara's key
 # FIXME: make this a configuration value
 MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
-TWITTER_CONSUMER_TOKEN = "5fqpzXtaoZmwF29KAHc0Grit3"
-TWITTER_CONSUMER_SECRET = "uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
+TWITTER_API_KEY = "5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
 
 logger = logging.getLogger(__name__)
 
@@ -556,7 +555,7 @@ def _callMeetupsCom(hashtag):
 
 def _twitterAuth():
     # Encode the keys
-    key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
+    key = base64.b64encode(TWITTER_API_KEY)
 
     # Set needed values
     authURL = "https://api.twitter.com/oauth2/token"
@@ -592,7 +591,6 @@ def tweetsNotApp(request):
     # Get the hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
-    #oembed = []
     allTweets = dict()
     for hashtag in hashtags:
         allTweets[hashtag.name] = []
@@ -601,14 +599,7 @@ def tweetsNotApp(request):
         response = requests.get(url, headers=headers)
         tweetsJSON = response.json()
         for tweet in tweetsJSON['statuses']:
-            #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
             allTweets[hashtag.name].append(tweet['id'])
-
-    # Supposed to sort the tweets so they will be in order of posting, doesn't
-    # really work. Does at least kinda mix up the tweets so they're not blocks
-    # of one hashtag
-    #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
-    #sortedTweets = sorted(allTweets, key=itemgetter('id'))
 
     oembed = _oembedTweets(allTweets)
 
@@ -624,7 +615,6 @@ def tweetsApp(request):
 
     oembed = []
     allTweets = dict()
-    #for person in person_list:
     for hashtag in hashtags:
         allTweets[hashtag.name] = []
         url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"

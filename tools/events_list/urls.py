@@ -28,8 +28,6 @@ urlpatterns = [
     url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
     url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),
     url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
-    url(r'^tweets', views.viewTweets, name='viewTweets'),
-    url(r'^construction', views.construction, name='construction'),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^logout', views.logout_view, name='logout'),
 ]

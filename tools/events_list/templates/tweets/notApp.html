@@ -8,7 +8,7 @@
   {% include "include/navbar.html" %}
   <h4>Tweets not from the app</h4>
     <!--{{ tweets }}-->
-    {% for hashtag, data in tweets.items %}
+  {% for hashtag, data in tweets.items %}
     <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
       <table class="table table-striped">
         <thead>
@@ -27,6 +27,6 @@
         </tbody>
       </table>
     </div>
-    {% endfor %}
+  {% endfor %}
 </body>
 </html>
