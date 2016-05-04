@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  4 MAY 2016 12:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  4 MAY 2016 13:47
 entering extended mode
 **cs462_group09_final_report.tex
 (cs462_group09_final_report.tex
@@ -989,13 +989,13 @@ Package epstopdf Info: Source file: <exporting1.eps>
 (epstopdf)                    size: 39562 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting1-eps-converted-to
 .pdf exporting1.eps>
-(epstopdf)             \includegraphics on input line 649.
+(epstopdf)             \includegraphics on input line 626.
 Package epstopdf Info: Output file is already uptodate.
  <exporting1-eps-converted-to.pdf, id=395, 594.22pt x 371.3875pt>
 File: exporting1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting1-eps-converted-to.pdf>
-Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 649
+Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 626
 .
 (pdftex.def)             Requested size: 361.34999pt x 225.85468pt.
  [9]
@@ -1007,26 +1007,22 @@ Package epstopdf Info: Source file: <exporting2.eps>
 (epstopdf)                    size: 130331 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting2-eps-converted-to
 .pdf exporting2.eps>
-(epstopdf)             \includegraphics on input line 660.
+(epstopdf)             \includegraphics on input line 637.
 Package epstopdf Info: Output file is already uptodate.
 
-<exporting2-eps-converted-to.pdf, id=435, 874.26625pt x 420.57124pt>
+<exporting2-eps-converted-to.pdf, id=434, 874.26625pt x 420.57124pt>
 File: exporting2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting2-eps-converted-to.pdf>
-Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 660
+Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 637
 .
 (pdftex.def)             Requested size: 433.62pt x 208.59734pt.
- [10 <./exporting1-eps-converted-to.pdf> <./exporting2-eps-converted-to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 722--730
+
+Underfull \hbox (badness 10000) in paragraph at lines 688--709
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 731--737
-
- []
-
+[10 <./exporting1-eps-converted-to.pdf> <./exporting2-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <peopleProfileAfter.eps>
 (epstopdf)                    date: 2016-05-04 12:46:10
 (epstopdf)                    size: 3664773 bytes
@@ -1035,43 +1031,46 @@ Package epstopdf Info: Source file: <peopleProfileAfter.eps>
 (epstopdf)                    size: 39494 bytes
 (epstopdf)             Command: <epstopdf --outfile=peopleProfileAfter-eps-conv
 erted-to.pdf peopleProfileAfter.eps>
-(epstopdf)             \includegraphics on input line 741.
+(epstopdf)             \includegraphics on input line 713.
 Package epstopdf Info: Output file is already uptodate.
-<peopleProfileAfter-eps-converted-to.pdf, id=450, 671.50874pt x 507.8975pt>
+
+<peopleProfileAfter-eps-converted-to.pdf, id=449, 671.50874pt x 507.8975pt>
 File: peopleProfileAfter-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peopleProfileAfter-eps-converted-to.pdf>
 Package pdftex.def Info: peopleProfileAfter-eps-converted-to.pdf used on input 
-line 741.
+line 713.
 (pdftex.def)             Requested size: 361.34999pt x 273.30733pt.
 Package epstopdf Info: Source file: <eventPageAfter.eps>
 (epstopdf)                    date: 2016-05-04 12:53:13
 (epstopdf)                    size: 4493158 bytes
 (epstopdf)             Output file: <eventPageAfter-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-04 12:54:35
+(epstopdf)                    size: 108997 bytes
 (epstopdf)             Command: <epstopdf --outfile=eventPageAfter-eps-converte
 d-to.pdf eventPageAfter.eps>
-(epstopdf)             \includegraphics on input line 752.
-runsystem(epstopdf --outfile=eventPageAfter-eps-converted-to.pdf eventPageAfter
-.eps)...executed (allowed).
+(epstopdf)             \includegraphics on input line 724.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <eventPageAfter-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-05-04 12:54:35
-(epstopdf)                    size: 108997 bytes.
-
-<eventPageAfter-eps-converted-to.pdf, id=451, 800.9925pt x 522.95375pt>
+<eventPageAfter-eps-converted-to.pdf, id=450, 800.9925pt x 522.95375pt>
 File: eventPageAfter-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eventPageAfter-eps-converted-to.pdf>
 Package pdftex.def Info: eventPageAfter-eps-converted-to.pdf used on input line
- 752.
+ 724.
 (pdftex.def)             Requested size: 361.34999pt x 235.9175pt.
  [11 <./peopleProfileAfter-eps-converted-to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 774--775
+Underfull \hbox (badness 10000) in paragraph at lines 732--739
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 788--789
+Underfull \hbox (badness 10000) in paragraph at lines 754--755
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 768--769
 
  []
 
@@ -1084,17 +1083,17 @@ Package epstopdf Info: Source file: <mapSearching.eps>
 (epstopdf)                    size: 79840 bytes
 (epstopdf)             Command: <epstopdf --outfile=mapSearching-eps-converted-
 to.pdf mapSearching.eps>
-(epstopdf)             \includegraphics on input line 972.
+(epstopdf)             \includegraphics on input line 952.
 Package epstopdf Info: Output file is already uptodate.
 
-<mapSearching-eps-converted-to.pdf, id=590, 685.56125pt x 643.40375pt>
+<mapSearching-eps-converted-to.pdf, id=579, 685.56125pt x 643.40375pt>
 File: mapSearching-eps-converted-to.pdf Graphic file (type pdf)
 
 <use mapSearching-eps-converted-to.pdf>
 Package pdftex.def Info: mapSearching-eps-converted-to.pdf used on input line 9
-72.
+52.
 (pdftex.def)             Requested size: 361.34999pt x 339.13702pt.
- [15 <./mapSearching-eps-converted-to.pdf>]
+ [15]
 Package epstopdf Info: Source file: <peopleProfile.eps>
 (epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 3541106 bytes
@@ -1103,51 +1102,53 @@ Package epstopdf Info: Source file: <peopleProfile.eps>
 (epstopdf)                    size: 38639 bytes
 (epstopdf)             Command: <epstopdf --outfile=peopleProfile-eps-converted
 -to.pdf peopleProfile.eps>
-(epstopdf)             \includegraphics on input line 1028.
+(epstopdf)             \includegraphics on input line 1008.
 Package epstopdf Info: Output file is already uptodate.
- <peopleProfile-eps-converted-to.pdf, id=615, 698.61pt x 465.74pt>
+
+<peopleProfile-eps-converted-to.pdf, id=609, 698.61pt x 465.74pt>
 File: peopleProfile-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peopleProfile-eps-converted-to.pdf>
 Package pdftex.def Info: peopleProfile-eps-converted-to.pdf used on input line 
-1028.
+1008.
 (pdftex.def)             Requested size: 361.34999pt x 240.89989pt.
- [16 <./peopleProfile-eps-converted-to.pdf>] [17]
-Underfull \hbox (badness 10000) in paragraph at lines 1147--1154
+ [16 <./mapSearching-eps-converted-to.pdf>] [17 <./peopleProfile-eps-converted-
+to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 1127--1134
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1155--1160
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 1135--1140
 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 1164.
+LaTeX Font Info:    Try loading font information for U+msa on input line 1144.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 1164.
+LaTeX Font Info:    Try loading font information for U+msb on input line 1144.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1190.
- [18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1190.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1170.
+ [19]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1170.
 
 (cs462_group09_final_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1190.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1190.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1170.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1170.
 
 Package rerunfilecheck Info: File `cs462_group09_final_report.out' has not chan
 ged.
 (rerunfilecheck)             Checksum: 8DDAC48F155006D4AE349844A54EF5C2;2458.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1190.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1170.
  ) 
 Here is how much of TeX's memory you used:
- 19367 strings out of 493698
- 315883 string characters out of 3144412
- 865347 words of memory out of 3000000
+ 19366 strings out of 493698
+ 315876 string characters out of 3144412
+ 818347 words of memory out of 3000000
  21941 multiletter control sequences out of 15000+200000
  37359 words of font info for 74 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
@@ -1156,9 +1157,9 @@ Here is how much of TeX's memory you used:
 s/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on cs462_group09_final_report.pdf (19 pages, 744798 bytes).
+Output written on cs462_group09_final_report.pdf (20 pages, 745503 bytes).
 PDF statistics:
- 756 PDF objects out of 1000 (max. 8388607)
- 456 named destinations out of 1000 (max. 500000)
+ 758 PDF objects out of 1000 (max. 8388607)
+ 455 named destinations out of 1000 (max. 500000)
  261 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -563,7 +563,7 @@ events.
 
 \subsection{Export a list of people with Information}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: When taking on this requirement we quickly realized that
+  \item Completed Implementation: When taking on this requirement we quickly realized that
     the Meetup API would not provide email address for its users which was
     understandable. We then looked at what other information would be useful to
     extract about the people that were loaded into the database. This lead us to
@@ -571,29 +571,6 @@ events.
     state, and city. The export can be executed by clicking on the 'Export Info'
     button located in the top left of the people page and creates a file in a XLSX
     format which can be directly opened or saved.
-
-  %\item Current Progress: The only possible input actions that users are allowed
-    %is the ability to import events and group members for the current
-    %application. A very useful tool that could be included is the ability to
-    %export a list into a csv for all people and their email addresses that are in
-    %a community group so that the user has that tool to contact any person from
-    %there. An issue that has come across through looking at the nature of meetup
-    %parsing and the current application is that we are unable to parse emails
-    %from users that are in groups because that information is simply not
-    %available. This halts the process in being able to export that part of the
-    %list and we may have to re-purpose this requirement. Under the “people” page,
-    %there is a button available for the user to click on intended for this
-    %requirement but has not yet been fully implemented.
-
-  \item Things to Complete: This requirement is complete. For the 1.0 version
-    release we were planning on looking into designing a better button for
-    aesthetic purposes but other than that nothing needs to be done.
-
-  %\item Things to Complete: In terms of completion of this requirement, we still
-    %need to fully implement the export function of this button. Functionally only
-    %leads the user to a blank page and it does not yet generate the needed
-    %information from the database. This requirement should not be an issue to
-    %complete, the task will be more trivial compared to the other requirements.
     
     \begin{center}
     \captionsetup{width=.5\linewidth}
@@ -708,32 +685,27 @@ events.
 
 \subsection{Improve the visuals of the tool's look as a whole}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The application itself is fairly organized at the
-    moment. The navigation bar implementation really helps the user keep track
-    navigating between each page. When viewing the list of events, the events are
-    listed in chronological order starting with the most recent. There is a search
-    bar available for the user to type in for a certain event that they wish to
-    view. There are other sorting mechanisms to view those events in another
-    sorting order. However, there are some elements missing that could still be
-    improved to help users navigating on the webpage. There are a few improvements
-    that still should still be implemented to overall help the feel of the
-    website.
-
-  \item Things to Complete: When viewing a single event, all the relevant
-    information is parsed and organized well for the user to view, but it is in a
-    plain text format. Functionally, this is great, but the page itself can still
-    be improved to make the page look more appealing and easier to view. This can
-    be applied to viewing a specific person as well. There a few pages missing
-    still that need to be created such as a page that contains information about a
-    specific group. This page would be especially useful for users wishing to
-    learn more about a specific group or community to start to get involved in. \\
-    
-    Upon improving the visuals of the website we will want to get feedback on the changes we have made to figure out
-    if those changes have appealed to users of the tool. In order to figure this out we have decided to create
-    A user study where we sit the user down with our website and ask them to complete a list of tasks.
-    We will be interacting with the user and helping them if they have any questions and we will be taking notes as well during the experience.
-    Once the set of tasks are attempted or completed we will then have a set of questions that we will ask the user.
-    The list of tasks and questions are shown below: \\
+  \item Completed Implementation: The application itself began as a fairly organized
+  	piece. The navigation bar implementation really helps the user keep track navigating
+  	between each page. When viewing the list of events, the events are listed in
+  	chronological order starting with the most recent. There is a search bar
+  	available for the user to type in for a certain event that they wish to view. There
+  	are other sorting mechanisms to view those events in another sorting order.
+  	Our focus in this requirement were to mainly to improve how data is displayed. This
+  	specifically applies to to the event page and people profiles. Along with the addition
+  	of the Host objects, the generated host profiles would have a visual update as well.
+  	As displayed in Figure 9, the improvement of the profile page is shown with categories
+  	specifically labeled and displayed in concrete areas of the page. If the certain variable
+  	does not exist, then the user can clearly see where that detail would go on the page.
+  	Topics are more clearly organized have are configured under a scrollable table as well.
+  	Overall, this addition makes the people profile page much more organized and legible.
+  	In addition to the updated people profile page, the event page is also upgraded in Figure
+  	10. Similar to the profile upgrade, the event page now has categories that specifically
+  	detail where objects belong. This is much more particularly important where the description
+  	is displayed for the event. Previously, it was much more difficult for the user's eye to
+  	view where the venue of event would be. Now in this update, that portion is clearly labeled
+  	which allows the user to spend less time reading and to quickly see the information
+  	that they want to. \\
     
 \begin{figure}[H]
   \begin{center}
@@ -756,6 +728,14 @@ events.
   with details}
   \end{center}
 \end{figure}
+
+    Upon improving the visuals of the website we will want to get feedback on the changes we have 
+    made to figure out if those changes have appealed to users of the tool. In order to figure this	
+    out we have decided to create a user study where we sit the user down with our website and ask 
+    them to complete a list of tasks. We will be interacting with the user and helping them if they 
+    have any questions and we will be taking notes as well during the experience.
+    Once the set of tasks are attempted or completed we will then have a set of questions that we 
+    will ask the user. The list of tasks and questions are shown below: \\
 
 \begin{enumerate}
 	\item Tasks:
