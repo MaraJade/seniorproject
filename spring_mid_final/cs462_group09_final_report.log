@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  4 MAY 2016 13:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  4 MAY 2016 13:56
 entering extended mode
 **cs462_group09_final_report.tex
 (cs462_group09_final_report.tex
@@ -863,7 +863,7 @@ File: peoplePage-eps-converted-to.pdf Graphic file (type pdf)
 <use peoplePage-eps-converted-to.pdf>
 Package pdftex.def Info: peoplePage-eps-converted-to.pdf used on input line 171
 .
-(pdftex.def)             Requested size: 216.81pt x 182.56339pt.
+(pdftex.def)             Requested size: 361.34999pt x 304.26656pt.
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -896,7 +896,7 @@ Package epstopdf Info: Source file: <tweet_person1.eps>
 (epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
 
-<tweet_person1-eps-converted-to.pdf, id=171, 272.01625pt x 128.48pt>
+<tweet_person1-eps-converted-to.pdf, id=165, 272.01625pt x 128.48pt>
 File: tweet_person1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person1-eps-converted-to.pdf>
@@ -914,7 +914,7 @@ Package epstopdf Info: Source file: <tweet_person2.eps>
 (epstopdf)             \includegraphics on input line 268.
 Package epstopdf Info: Output file is already uptodate.
 
-<tweet_person2-eps-converted-to.pdf, id=172, 533.995pt x 212.795pt>
+<tweet_person2-eps-converted-to.pdf, id=166, 533.995pt x 212.795pt>
 File: tweet_person2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person2-eps-converted-to.pdf>
@@ -934,7 +934,7 @@ rted-to.pdf createAccountForm.eps>
 (epstopdf)             \includegraphics on input line 352.
 Package epstopdf Info: Output file is already uptodate.
 
-<createAccountForm-eps-converted-to.pdf, id=198, 361.35pt x 262.9825pt>
+<createAccountForm-eps-converted-to.pdf, id=188, 361.35pt x 262.9825pt>
 File: createAccountForm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use createAccountForm-eps-converted-to.pdf>
@@ -1148,7 +1148,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1170.
 Here is how much of TeX's memory you used:
  19366 strings out of 493698
  315876 string characters out of 3144412
- 818347 words of memory out of 3000000
+ 819381 words of memory out of 3000000
  21941 multiletter control sequences out of 15000+200000
  37359 words of font info for 74 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
@@ -1157,7 +1157,7 @@ Here is how much of TeX's memory you used:
 s/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on cs462_group09_final_report.pdf (20 pages, 745503 bytes).
+Output written on cs462_group09_final_report.pdf (20 pages, 745358 bytes).
 PDF statistics:
  758 PDF objects out of 1000 (max. 8388607)
  455 named destinations out of 1000 (max. 500000)
