@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  10 MAR 2016 18:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.7)  4 MAY 2016 12:54
 entering extended mode
 **cs462_group09_final_report.tex
 (cs462_group09_final_report.tex
@@ -20,7 +20,6 @@ LaTeX Font Info:    Try loading font information for OT1+ptm on input line 503.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-** ATTENTION: Single column mode is not typically used with IEEE publications.
 -- Using 8.5in x 11in (letter) paper.
 -- Using PDF output.
 \@IEEEnormalsizeunitybaselineskip=\dimen105
@@ -709,6 +708,14 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@dimlist=\toks46
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+
+Package geometry Warning: Over-specification in `h'-direction.
+    `width' (542.025pt) is ignored.
+
+
+Package geometry Warning: Over-specification in `v'-direction.
+    `height' (722.7pt) is ignored.
+
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\listings.sty"
 \lst@mode=\count167
 \lst@gtempboxa=\box39
@@ -735,22 +742,22 @@ File: listings.cfg 2014/09/06 1.5e listings configuration
 Package: listings 2014/09/06 1.5e (Carsten Heinz)
 
 (cs462_group09_final_report.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
+LaTeX Font Info:    ... okay on input line 88.
 
--- Lines per column: 60 (approximate, difference = 2.7pt).
+-- Lines per column: 57 (approximate, difference = 2.56499pt).
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
@@ -772,7 +779,7 @@ Package caption Info: End \AtBeginDocument code.
 \everyMPtoPDFconversion=\toks49
 )
 \AtBeginShipoutBox=\box42
-Package hyperref Info: Link coloring OFF on input line 82.
+Package hyperref Info: Link coloring OFF on input line 88.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -781,9 +788,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count181
 )
-LaTeX Info: Redefining \ref on input line 82.
-LaTeX Info: Redefining \pageref on input line 82.
-LaTeX Info: Redefining \nameref on input line 82.
+LaTeX Info: Redefining \ref on input line 88.
+LaTeX Info: Redefining \pageref on input line 88.
+LaTeX Info: Redefining \nameref on input line 88.
 
 (cs462_group09_final_report.out) (cs462_group09_final_report.out)
 \@outlinefile=\write3
@@ -792,27 +799,27 @@ LaTeX Info: Redefining \nameref on input line 82.
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
-* paper: letterpaper
+* paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(36.135pt, 542.025pt, 36.13501pt)
-* v-part:(T,H,B)=(28.90799pt, 722.7pt, 43.362pt)
+* h-part:(L,W,R)=(54.2025pt, 505.89pt, 54.2025pt)
+* v-part:(T,H,B)=(54.2025pt, 686.56499pt, 54.2025pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=542.025pt
-* \textheight=722.7pt
-* \oddsidemargin=-36.135pt
-* \evensidemargin=-36.135pt
-* \topmargin=-76.704pt
+* \textwidth=505.89pt
+* \textheight=686.56499pt
+* \oddsidemargin=-18.06749pt
+* \evensidemargin=-18.06749pt
+* \topmargin=-56.94075pt
 * \headheight=12.0pt
-* \headsep=21.342pt
+* \headsep=26.87326pt
 * \topskip=12.0pt
-* \footskip=25.80774pt
+* \footskip=38.27646pt
 * \marginparwidth=20.0pt
 * \marginparsep=10.0pt
 * \columnsep=12.0pt
-* \skip\footins=10.79993pt plus 4.79993pt minus 2.39996pt
+* \skip\footins=16.19989pt plus 7.19989pt minus 3.59995pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -828,17 +835,11 @@ Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!
-Non-PDF special ignored!{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!
-Non-PDF special ignored!]
-Missing character: There is no ‚ in font ptmri7t!
-Missing character: There is no Ä in font ptmri7t!
-Missing character: There is no ú in font ptmri7t!
-Missing character: There is no ‚ in font ptmri7t!
-Missing character: There is no Ä in font ptmri7t!
-Missing character: There is no ù in font ptmri7t!
+Non-PDF special ignored!
+Non-PDF special ignored!{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -846,363 +847,318 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 Package epstopdf Info: Source file: <peoplePage.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 4153430 bytes
 (epstopdf)             Output file: <peoplePage-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:56:56
+(epstopdf)                    date: 2016-05-04 12:48:41
 (epstopdf)                    size: 54556 bytes
 (epstopdf)             Command: <epstopdf --outfile=peoplePage-eps-converted-to
 .pdf peoplePage.eps>
-(epstopdf)             \includegraphics on input line 164.
+(epstopdf)             \includegraphics on input line 171.
 Package epstopdf Info: Output file is already uptodate.
 
-<peoplePage-eps-converted-to.pdf, id=102, 673.51625pt x 567.11874pt>
+<peoplePage-eps-converted-to.pdf, id=110, 673.51625pt x 567.11874pt>
 File: peoplePage-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peoplePage-eps-converted-to.pdf>
-Package pdftex.def Info: peoplePage-eps-converted-to.pdf used on input line 164
+Package pdftex.def Info: peoplePage-eps-converted-to.pdf used on input line 171
 .
 (pdftex.def)             Requested size: 216.81pt x 182.56339pt.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
+ [1 <./peoplePage-eps-converted-to.pdf>]
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2014/09/06 1.5e listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 195.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 195.
+nput line 204.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 204.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.199  
-                  response = urllib2.urlopen(url) [2 <./peoplePage-eps-converte
-d-to.pdf>] ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2014/09/06 1.5e listings language file
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
-)
+) [2]
 Package epstopdf Info: Source file: <tweet_person1.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 386022 bytes
 (epstopdf)             Output file: <tweet_person1-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:56:57
+(epstopdf)                    date: 2016-05-04 12:48:42
 (epstopdf)                    size: 8410 bytes
 (epstopdf)             Command: <epstopdf --outfile=tweet_person1-eps-converted
 -to.pdf tweet_person1.eps>
-(epstopdf)             \includegraphics on input line 247.
+(epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
 
-<tweet_person1-eps-converted-to.pdf, id=115, 272.01625pt x 128.48pt>
+<tweet_person1-eps-converted-to.pdf, id=171, 272.01625pt x 128.48pt>
 File: tweet_person1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person1-eps-converted-to.pdf>
 Package pdftex.def Info: tweet_person1-eps-converted-to.pdf used on input line 
-247.
+257.
 (pdftex.def)             Requested size: 216.81pt x 102.40968pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.253 
-       [3]
 Package epstopdf Info: Source file: <tweet_person2.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 1236526 bytes
 (epstopdf)             Output file: <tweet_person2-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:56:58
+(epstopdf)                    date: 2016-05-04 12:48:44
 (epstopdf)                    size: 17658 bytes
 (epstopdf)             Command: <epstopdf --outfile=tweet_person2-eps-converted
 -to.pdf tweet_person2.eps>
-(epstopdf)             \includegraphics on input line 257.
+(epstopdf)             \includegraphics on input line 268.
 Package epstopdf Info: Output file is already uptodate.
- <tweet_person2-eps-converted-to.pdf, id=164, 533.995pt x 212.795pt>
+
+<tweet_person2-eps-converted-to.pdf, id=172, 533.995pt x 212.795pt>
 File: tweet_person2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use tweet_person2-eps-converted-to.pdf>
 Package pdftex.def Info: tweet_person2-eps-converted-to.pdf used on input line 
-257.
+268.
 (pdftex.def)             Requested size: 216.81pt x 86.39903pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.339  
-              def logout_view(request): [4 <./tweet_person1-eps-converted-to.pd
-f> <./tweet_person2-eps-converted-to.pdf>]
+ [3 <./tweet_person1-eps-converted-to.pdf> <./tweet_person2-eps-converted-to.pd
+f>]
 Package epstopdf Info: Source file: <createAccountForm.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:38:59
 (epstopdf)                    size: 1037032 bytes
 (epstopdf)             Output file: <createAccountForm-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:56:59
+(epstopdf)                    date: 2016-05-04 12:48:45
 (epstopdf)                    size: 17229 bytes
 (epstopdf)             Command: <epstopdf --outfile=createAccountForm-eps-conve
 rted-to.pdf createAccountForm.eps>
-(epstopdf)             \includegraphics on input line 369.
+(epstopdf)             \includegraphics on input line 352.
 Package epstopdf Info: Output file is already uptodate.
 
-<createAccountForm-eps-converted-to.pdf, id=200, 361.35pt x 262.9825pt>
+<createAccountForm-eps-converted-to.pdf, id=198, 361.35pt x 262.9825pt>
 File: createAccountForm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use createAccountForm-eps-converted-to.pdf>
 Package pdftex.def Info: createAccountForm-eps-converted-to.pdf used on input l
-ine 369.
+ine 352.
 (pdftex.def)             Requested size: 216.81pt x 157.7907pt.
+ [4]
 Package epstopdf Info: Source file: <loginSuccess.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 763708 bytes
 (epstopdf)             Output file: <loginSuccess-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:00
+(epstopdf)                    date: 2016-05-04 12:48:46
 (epstopdf)                    size: 12952 bytes
 (epstopdf)             Command: <epstopdf --outfile=loginSuccess-eps-converted-
 to.pdf loginSuccess.eps>
-(epstopdf)             \includegraphics on input line 379.
+(epstopdf)             \includegraphics on input line 363.
 Package epstopdf Info: Output file is already uptodate.
 
-<loginSuccess-eps-converted-to.pdf, id=201, 327.2225pt x 212.795pt>
+<loginSuccess-eps-converted-to.pdf, id=239, 327.2225pt x 212.795pt>
 File: loginSuccess-eps-converted-to.pdf Graphic file (type pdf)
 
 <use loginSuccess-eps-converted-to.pdf>
 Package pdftex.def Info: loginSuccess-eps-converted-to.pdf used on input line 3
-79.
+63.
 (pdftex.def)             Requested size: 216.81pt x 140.99387pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.396 
-       [5 <./createAccountForm-eps-converted-to.pdf> <./loginSuccess-eps-conver
-ted-to.pdf>]
+ [5 <./createAccountForm-eps-converted-to.pdf> <./loginSuccess-eps-converted-to
+.pdf>] [6] [7]
 Package epstopdf Info: Source file: <listingTweets.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 4176598 bytes
 (epstopdf)             Output file: <listingTweets-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:03
+(epstopdf)                    date: 2016-05-04 12:48:49
 (epstopdf)                    size: 53361 bytes
 (epstopdf)             Command: <epstopdf --outfile=listingTweets-eps-converted
 -to.pdf listingTweets.eps>
-(epstopdf)             \includegraphics on input line 450.
+(epstopdf)             \includegraphics on input line 556.
 Package epstopdf Info: Output file is already uptodate.
 
-<listingTweets-eps-converted-to.pdf, id=237, 677.53125pt x 567.11874pt>
+<listingTweets-eps-converted-to.pdf, id=372, 677.53125pt x 567.11874pt>
 File: listingTweets-eps-converted-to.pdf Graphic file (type pdf)
 
 <use listingTweets-eps-converted-to.pdf>
 Package pdftex.def Info: listingTweets-eps-converted-to.pdf used on input line 
-450.
-(pdftex.def)             Requested size: 216.81pt x 181.4817pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.509  
-                  worksheet_s.write(4, 4, ugettext("Country"), header) [6 <./li
-stingTweets-eps-converted-to.pdf>]
+556.
+(pdftex.def)             Requested size: 361.34999pt x 302.47528pt.
+ [8 <./listingTweets-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <exporting1.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 2399844 bytes
 (epstopdf)             Output file: <exporting1-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:05
+(epstopdf)                    date: 2016-05-04 12:48:50
 (epstopdf)                    size: 39562 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting1-eps-converted-to
 .pdf exporting1.eps>
-(epstopdf)             \includegraphics on input line 541.
+(epstopdf)             \includegraphics on input line 649.
 Package epstopdf Info: Output file is already uptodate.
-
-<exporting1-eps-converted-to.pdf, id=266, 594.22pt x 371.3875pt>
+ <exporting1-eps-converted-to.pdf, id=395, 594.22pt x 371.3875pt>
 File: exporting1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting1-eps-converted-to.pdf>
-Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 541
+Package pdftex.def Info: exporting1-eps-converted-to.pdf used on input line 649
 .
-(pdftex.def)             Requested size: 216.81pt x 135.50713pt.
+(pdftex.def)             Requested size: 361.34999pt x 225.85468pt.
+ [9]
 Package epstopdf Info: Source file: <exporting2.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 3992835 bytes
 (epstopdf)             Output file: <exporting2-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:07
+(epstopdf)                    date: 2016-05-04 12:48:52
 (epstopdf)                    size: 130331 bytes
 (epstopdf)             Command: <epstopdf --outfile=exporting2-eps-converted-to
 .pdf exporting2.eps>
-(epstopdf)             \includegraphics on input line 551.
+(epstopdf)             \includegraphics on input line 660.
 Package epstopdf Info: Output file is already uptodate.
 
-<exporting2-eps-converted-to.pdf, id=267, 874.26625pt x 420.57124pt>
+<exporting2-eps-converted-to.pdf, id=435, 874.26625pt x 420.57124pt>
 File: exporting2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use exporting2-eps-converted-to.pdf>
-Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 551
+Package pdftex.def Info: exporting2-eps-converted-to.pdf used on input line 660
 .
 (pdftex.def)             Requested size: 433.62pt x 208.59734pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.557 
-       [7 <./exporting1-eps-converted-to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 599--607
+ [10 <./exporting1-eps-converted-to.pdf> <./exporting2-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 722--730
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 608--614
+Underfull \hbox (badness 10000) in paragraph at lines 731--737
 
  []
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.622 		\item B
-               rowse 2-3 people profiles. [8 <./exporting2-eps-converted-to.pdf
->]
-Underfull \hbox (badness 10000) in paragraph at lines 629--630
+Package epstopdf Info: Source file: <peopleProfileAfter.eps>
+(epstopdf)                    date: 2016-05-04 12:46:10
+(epstopdf)                    size: 3664773 bytes
+(epstopdf)             Output file: <peopleProfileAfter-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-04 12:48:55
+(epstopdf)                    size: 39494 bytes
+(epstopdf)             Command: <epstopdf --outfile=peopleProfileAfter-eps-conv
+erted-to.pdf peopleProfileAfter.eps>
+(epstopdf)             \includegraphics on input line 741.
+Package epstopdf Info: Output file is already uptodate.
+<peopleProfileAfter-eps-converted-to.pdf, id=450, 671.50874pt x 507.8975pt>
+File: peopleProfileAfter-eps-converted-to.pdf Graphic file (type pdf)
+
+<use peopleProfileAfter-eps-converted-to.pdf>
+Package pdftex.def Info: peopleProfileAfter-eps-converted-to.pdf used on input 
+line 741.
+(pdftex.def)             Requested size: 361.34999pt x 273.30733pt.
+Package epstopdf Info: Source file: <eventPageAfter.eps>
+(epstopdf)                    date: 2016-05-04 12:53:13
+(epstopdf)                    size: 4493158 bytes
+(epstopdf)             Output file: <eventPageAfter-eps-converted-to.pdf>
+(epstopdf)             Command: <epstopdf --outfile=eventPageAfter-eps-converte
+d-to.pdf eventPageAfter.eps>
+(epstopdf)             \includegraphics on input line 752.
+runsystem(epstopdf --outfile=eventPageAfter-eps-converted-to.pdf eventPageAfter
+.eps)...executed (allowed).
+
+Package epstopdf Info: Result file: <eventPageAfter-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-04 12:54:35
+(epstopdf)                    size: 108997 bytes.
+
+<eventPageAfter-eps-converted-to.pdf, id=451, 800.9925pt x 522.95375pt>
+File: eventPageAfter-eps-converted-to.pdf Graphic file (type pdf)
+
+<use eventPageAfter-eps-converted-to.pdf>
+Package pdftex.def Info: eventPageAfter-eps-converted-to.pdf used on input line
+ 752.
+(pdftex.def)             Requested size: 361.34999pt x 235.9175pt.
+ [11 <./peopleProfileAfter-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 774--775
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 643--644
+Underfull \hbox (badness 10000) in paragraph at lines 788--789
 
  []
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.696     \newpage
-                   [9]pdfTeX warning (ext4): destination with the same identifi
-er (name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.774  
-                      if (places.length == 0) { [10]
+[12 <./eventPageAfter-eps-converted-to.pdf>] [13] [14]
 Package epstopdf Info: Source file: <mapSearching.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 4794138 bytes
 (epstopdf)             Output file: <mapSearching-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:09
+(epstopdf)                    date: 2016-05-04 12:48:57
 (epstopdf)                    size: 79840 bytes
 (epstopdf)             Command: <epstopdf --outfile=mapSearching-eps-converted-
 to.pdf mapSearching.eps>
-(epstopdf)             \includegraphics on input line 827.
+(epstopdf)             \includegraphics on input line 972.
 Package epstopdf Info: Output file is already uptodate.
 
-<mapSearching-eps-converted-to.pdf, id=399, 685.56125pt x 643.40375pt>
+<mapSearching-eps-converted-to.pdf, id=590, 685.56125pt x 643.40375pt>
 File: mapSearching-eps-converted-to.pdf Graphic file (type pdf)
 
 <use mapSearching-eps-converted-to.pdf>
-Package pdftex.def Info: mapSearching-eps-converted-to.pdf used on input line 8
-27.
-(pdftex.def)             Requested size: 216.81pt x 203.47829pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.833 
-       [11]
+Package pdftex.def Info: mapSearching-eps-converted-to.pdf used on input line 9
+72.
+(pdftex.def)             Requested size: 361.34999pt x 339.13702pt.
+ [15 <./mapSearching-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <peopleProfile.eps>
-(epstopdf)                    date: 2016-03-10 17:52:05
+(epstopdf)                    date: 2016-05-04 12:39:00
 (epstopdf)                    size: 3541106 bytes
 (epstopdf)             Output file: <peopleProfile-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-03-10 17:57:12
+(epstopdf)                    date: 2016-05-04 12:48:59
 (epstopdf)                    size: 38639 bytes
 (epstopdf)             Command: <epstopdf --outfile=peopleProfile-eps-converted
 -to.pdf peopleProfile.eps>
-(epstopdf)             \includegraphics on input line 882.
+(epstopdf)             \includegraphics on input line 1028.
 Package epstopdf Info: Output file is already uptodate.
- <peopleProfile-eps-converted-to.pdf, id=452, 698.61pt x 465.74pt>
+ <peopleProfile-eps-converted-to.pdf, id=615, 698.61pt x 465.74pt>
 File: peopleProfile-eps-converted-to.pdf Graphic file (type pdf)
 
 <use peopleProfile-eps-converted-to.pdf>
 Package pdftex.def Info: peopleProfile-eps-converted-to.pdf used on input line 
-882.
-(pdftex.def)             Requested size: 216.81pt x 144.54135pt.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.908 
-       [12 <./mapSearching-eps-converted-to.pdf> <./peopleProfile-eps-converted
--to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 964--971
+1028.
+(pdftex.def)             Requested size: 361.34999pt x 240.89989pt.
+ [16 <./peopleProfile-eps-converted-to.pdf>] [17]
+Underfull \hbox (badness 10000) in paragraph at lines 1147--1154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 972--977
+Underfull \hbox (badness 10000) in paragraph at lines 1155--1160
 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 981.
+LaTeX Font Info:    Try loading font information for U+msa on input line 1164.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 981.
+LaTeX Font Info:    Try loading font information for U+msb on input line 1164.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1006 \end{center}
-                    [13]pdfTeX warning (ext4): destination with the same identi
-fier (name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1049  
-                   hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-[14]pdfTeX warning (ext4): destination with the same identifier (name{page.}) h
-as been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1129  
-                   authJSON = auth.json() [15]pdfTeX warning (ext4): destinatio
-n with the same identifier (name{page.}) has been already used, duplicate ignor
-ed
-<to be read again> 
-                   \relax 
-l.1197 
-        [16]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1219.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1219 \end{document}
-                      [17]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1219.
- (cs462_group09_final_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1219.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1219.
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1190.
+ [18]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1190.
+
+(cs462_group09_final_report.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1190.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1190.
 
 Package rerunfilecheck Info: File `cs462_group09_final_report.out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 6A9F00977A1DEA1819A95E6264DED6FE;2156.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1219.
+(rerunfilecheck)             Checksum: 8DDAC48F155006D4AE349844A54EF5C2;2458.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1190.
  ) 
 Here is how much of TeX's memory you used:
- 19336 strings out of 493698
- 315456 string characters out of 3144412
- 866511 words of memory out of 3000000
- 21929 multiletter control sequences out of 15000+200000
- 36281 words of font info for 73 fonts, out of 3000000 for 9000
+ 19367 strings out of 493698
+ 315883 string characters out of 3144412
+ 865347 words of memory out of 3000000
+ 21941 multiletter control sequences out of 15000+200000
+ 37359 words of font info for 74 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 42i,9n,76p,562b,2092s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,9n,76p,562b,2204s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on cs462_group09_final_report.pdf (17 pages, 599998 bytes).
+Output written on cs462_group09_final_report.pdf (19 pages, 744798 bytes).
 PDF statistics:
- 717 PDF objects out of 1000 (max. 8388607)
- 440 named destinations out of 1000 (max. 500000)
- 235 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 756 PDF objects out of 1000 (max. 8388607)
+ 456 named destinations out of 1000 (max. 500000)
+ 261 words of extra memory for PDF output out of 10000 (max. 10000000)
 

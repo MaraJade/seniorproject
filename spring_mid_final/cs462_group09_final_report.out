@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{PROJECT PURPOSES AND GOALS}{}% 1
 \BOOKMARK [1][-]{section.2}{CURRENT PROGRESSION THROUGH REQUIREMENTS}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Fix the “People” page where the list of community leaders are shown}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Fix the People page where the list of community leaders are shown}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Tweet at a person listed in the database}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Add user accounts to application and track when a user has tweeted an event}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.4}{List tweets about events and/or people via the application}{section.2}% 6
@@ -11,13 +11,15 @@
 \BOOKMARK [2][-]{subsection.2.9}{Implement system of improved sorting of finding events by nearby location within radius of the user}{section.2}% 11
 \BOOKMARK [2][-]{subsection.2.10}{Add feature to generate a profile for people and have it display a way to contact the person if a method is available}{section.2}% 12
 \BOOKMARK [1][-]{section.3}{Feature Requests}{}% 13
-\BOOKMARK [2][-]{subsection.3.1}{Implement system of improve sorting of finding events by nearby location within radius of the user}{section.3}% 14
-\BOOKMARK [1][-]{section.4}{PROBLEMS ENCOUNTERED}{}% 15
-\BOOKMARK [2][-]{subsection.4.1}{Problem 1}{section.4}% 16
-\BOOKMARK [2][-]{subsection.4.2}{Problem 2}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.3}{Problem 3}{section.4}% 18
-\BOOKMARK [2][-]{subsection.4.4}{Problem 4}{section.4}% 19
-\BOOKMARK [1][-]{section.5}{TIMELINE UPDATE}{}% 20
-\BOOKMARK [1][-]{section.6}{CODE SNIPPETS}{}% 21
-\BOOKMARK [2][-]{subsection.6.1}{List tweets about events and/or people via the application}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.2}{List tweets about events and/or people not via the application}{section.6}% 23
+\BOOKMARK [2][-]{subsection.3.1}{Add user accounts to the application}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.2}{List tweets about events via the app and not via the app}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.3}{Export a list of people with information}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.4}{Improve hashtag searching of application for better results on relevant events}{section.3}% 17
+\BOOKMARK [2][-]{subsection.3.5}{Add feature to generate a profile of people for community developers to have contacting information easily viewable}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.6}{Implement system of improve sorting of finding events by nearby location within radius of the user}{section.3}% 19
+\BOOKMARK [1][-]{section.4}{PROBLEMS ENCOUNTERED}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{Problem 1}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.2}{Problem 2}{section.4}% 22
+\BOOKMARK [2][-]{subsection.4.3}{Problem 3}{section.4}% 23
+\BOOKMARK [2][-]{subsection.4.4}{Problem 4}{section.4}% 24
+\BOOKMARK [1][-]{section.5}{TIMELINE UPDATE}{}% 25

@@ -277,50 +277,19 @@ events.
 
 \subsection{Add user accounts to application and track when a user has tweeted an event}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The purpose of adding user accounts to the applications
-    is to be able to track when users tweeting about events or people. Currently,
-    the account creation is working along with being able to sign in successfully
-    with a confirmation of signing in by displaying a welcome message along with
+  \item Completed Implementation: The purpose of adding user accounts to the applications
+    is to be able to track when users tweeting about events or people. With the completion
+    of this requirement, the account creation is working along with being able to sign in 
+    successfully with a confirmation of signing in by displaying a welcome message along with
     the user's username. There is also a login and logout button located in the
     top right section of the website on all pages allowing the user to login or
-    logout at anytime. We decided to make action functions within the application
+    logout at anytime. Everything is also backended with features of the website only existing
+    if the user has an authorized account. This means that action functions within the application
     which include importing meetups, importing members, marking events as not
     applicable, and marking groups as not applicable to be behind being signed in.
-    This means if you are not logged in you can't perform these actions.
- 
-  %\item Current Progress: The purpose to adding user accounts to the
-    %application is to be able to have an input and contribute to keep track of
-    %all of the users and tweets that they have posted about Apache and open
-    %source material. Although this is currently the only purpose of the user
-    %account as time allows through the requirements, the use of having access
-    %to a login and account is still important and can be branched out to many
-    %other purposes following continued development on the application. Another
-    %possible use through a stretch goal for the account is to add their own
-    %nearby location through location services so that when the user navigates
-    %to the Geo-Location page, then the website will automatically locate an
-    %event based on their location. For the purpose of tracking when a user has
-    %tween about an event. It is useful because it gives more information
-    %available for people to track activity on topics that people care about and
-    %invest their time to develop. Our current development at this stage
-    %contains the main account creation page where users can click on and go to
-    %on the website. Currently once that information is submitted, the website
-    %has yet to complete the application and leads to a “in current development
-    %page.”
-
-  \item Things to Complete: The creating account page does not currently save
-    the first and last name to the database. We will need to make sure to get
-    those stored when accounts are created. We also need to track the events of
-    the user tweeting an event from our application, which is the event trigger
-    of pressing the tweet at button. This will be helpful for warning people of
-    events they have already tweeted about.
-
-  %\item Things to Complete: The application still has yet to complete the
-    %database side of the addition of the user accounts. The user has access to
-    %the account creation page, but anything that they enter will not be stored
-    %into the database yet because that it is not yet implemented. Also, other
-    %main attributes of what the account should contain such as “TwitterID”,
-    %“Account locations” and other various variables are still have yet to be
-    %decided and implemented via the application.
+    This means if you are not logged in with the authorized account, you can't perform these 
+    actions. Note that the accounts created are allowed access to these features, but do not
+    have access to the administrative page that deals with the Django database.
 
 \end{enumerate}
 \begin{center}
@@ -765,6 +734,28 @@ events.
     We will be interacting with the user and helping them if they have any questions and we will be taking notes as well during the experience.
     Once the set of tasks are attempted or completed we will then have a set of questions that we will ask the user.
     The list of tasks and questions are shown below: \\
+    
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=5in, frame]{peopleProfileAfter}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing updated generated profile for person with 
+  organized attributes and scrollable text }
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=5in, frame]{eventPageAfter}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Updated event page with description labels and reorganized arrangements
+  with details}
+  \end{center}
+\end{figure}
 
 \begin{enumerate}
 	\item Tasks:
