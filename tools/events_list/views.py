@@ -609,8 +609,8 @@ def tweetsNotApp(request):
 def tweetsApp(request):
     # Auth with Twitter
     accessToken = _twitterAuth()
-    # Get people
-    person_list = Person.objects.all()
+
+    # Get hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
     oembed = []
