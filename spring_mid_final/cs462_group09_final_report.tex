@@ -141,29 +141,27 @@ events.
 
 \subsection{Fix the People page where the list of community leaders are shown}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The “People” page currently takes all of the people in
-    the database and lists them onto the page. Normally, if the prototype is
-    hosted on a local machine and the database is relatively small, then the page
-    loads fine in a minimal amount of time. The issue is nested in the actual
-    hosted site by Apache where hundreds of thousands people are imported into the
-    database daily and dramatically slowing down the loading time of the page.
-    With our current progression of the project, we have not made significant
-    progress into improving the loading time of the page. We use our own local
-    host to import a small amount of members at a time and that requirement is set
-    to be worked on shortly for Beta implementation. The guideline for working
-    towards accomplishing this requirement is to limit the amount of people loaded
-    at a time onto the page. For Beta, we have rearranged where the table is
-    generated for the people page in the function within views.py. This change
-    specifically was introduced because a bug was found where when the table is
-    generated, then if the amount of people were too many, then the table would
-    crash and not build. With the rearrangement, now the table does not break
-    through a large build and now tends to load faster.
-
-  \item Things to Complete: Currently, the implementation of the fix for the
-    People page is local. We have yet to test it on the host that Apache is
-    using to run the prototype currently. We predict that the fix will work but
-    it will need to be approved and patched into the live site for
-    clarification.
+  \item Completed Implementation: The “People” page currently takes all of the
+    people in the database and lists them onto the page. Normally, if the
+    prototype is hosted on a local machine and the database is relatively small,
+    then the page loads fine in a minimal amount of time. The issue is nested in
+    the actual hosted site by Apache where hundreds of thousands people are
+    imported into the database daily and dramatically slowing down the loading
+    time of the page.  With our current progression of the project, we have not
+    made significant progress into improving the loading time of the page. We
+    use our own local host to import a small amount of members at a time and
+    that requirement is set to be worked on shortly for Beta implementation. The
+    guideline for working towards accomplishing this requirement is to limit the
+    amount of people loaded at a time onto the page. For Beta, we have
+    rearranged where the table is generated for the people page in the function
+    within views.py. This change specifically was introduced because a bug was
+    found where when the table is generated, then if the amount of people were
+    too many, then the table would crash and not build. With the rearrangement,
+    now the table does not break through a large build and now tends to load
+    faster. Unfortunately, the implementation of the fix for the People page is
+    local. We have yet to test it on the host that Apache is using to run the
+    prototype currently. We predict that the fix will work but it will need to
+    be approved and patched into the live site for clarification.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -370,33 +368,17 @@ events.
 
 \subsection{List tweets about events and/or people via the application}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: We cannot currently track when a user tweets from our
-    application, but we have implemented a round-about way to do so. As shown in
-    the code snippet, the website makes a call to Twitter's search API, requesting
-    all tweets from a certain user that contain a certain hashtag. The hashtags
-    are the same as the ones used to get events from meetup.com. Once it has the
-    tweets, it uses the id from each one to make another call to Twitter's
-    OEmbed API, which sends back HTML that is used in the page's template to
-    present embedded tweets to users.
-
-  %\item Current Progress: When an event is viewed by a user, a button is available
-  %  so that the user can tweet about the event if they choose so. Current
-  %  progression on the application has the button available, but currently does
-  %  not link to the correct page for Twitter to access the user’s account to
-  %  automatically generate the Tweet for the user. The intention of this purpose
-  %  is to gain more publicity that is readily available for the user through
-  %  auto-generated tweets and hashtags for more people to see and to introduce
-  %  more traffic.
-
-  \item Things to Complete: We still need to implement a form of tracking users
-    tweeting from the application so that we can pull only the tweets that they
-    created, instead of potentially unrelated tweets.
-
-  %\item Things to Complete: This button would be utilized by the web tool
-  %  Hootsuite, an application that would have access to the user’s Twitter account
-  %  if they have it saved on their web browser. Hootsuite would generate an
-  %  automated tweet such as “This great open source event is coming up! Come read
-  %  more about it here! via (our web application).”
+  \item Completed Implementation: We were unable to track the precise tweets
+    made from our application, but we have found an alternative that mostly
+    works. As shown in the code snippet, the website makes a call to Twitter's
+    search API, requesting all tweets that contain a certain hashtag as well as
+    the hashtag \#Meetup. The hashtags are the same as the ones used to get
+    events from meetup.com. Once it has the tweets, it uses the id from each one
+    to make another call to Twitter's OEmbed API, which sends back HTML that is
+    used in the page's template to present embedded tweets to users. This still
+    pulls a few tweets that are unrelated, but bit of filtering would work.
+    Unfortunately this would be difficult, and is outside the scope of our
+    project.
 \end{enumerate}
 
 \begin{center}
@@ -405,7 +387,7 @@ events.
   search for tweets from the application., language=Python]
     def _twitterAuth():
         # Encode the keys
-        key = base64.b64encode(TWITTER_AUTH_KEY)
+        key = base64.b64encode(TWITTER_API_KEY)
 
         # Set needed values
         authURL = "https://api.twitter.com/oauth2/token"
@@ -422,32 +404,35 @@ events.
         return authJSON['access_token']
 
     def _oembedTweets(tweets):
-        oembed = []
-        for tweet in tweets:
-            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-            embededResponse = requests.get(url)
-            embeded = embededResponse.json()
-            oembed.append(embeded['html'])
+        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+        oembed = dict()
+        for hashtag in hashtags:
+            oembed[hashtag.name] = []
+            for i in range(0, len(tweets[hashtag.name]) - 1):
+                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
+                embededResponse = requests.get(url)
+                embeded = embededResponse.json()
+                oembed[hashtag.name].append(embeded['html'])
 
         return oembed
 
     def tweetsApp(request):
         # Auth with Twitter
         accessToken = _twitterAuth()
-        # Get people
-        person_list = Person.objects.all()
+
+        # Get hashtags
         hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
         oembed = []
-        allTweets = []
-        for person in person_list:
-            for hashtag in hashtags:
-                url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
-                headers = {'Authorization': "Bearer " + accessToken}
-                response = requests.get(url, headers=headers)
-                tweetsJSON = response.json()
-                for tweet in tweetsJSON['statuses']:
-                    allTweets.append(tweet)
+        allTweets = dict()
+        for hashtag in hashtags:
+            allTweets[hashtag.name] = []
+            url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
+            headers = {'Authorization': "Bearer " + accessToken}
+            response = requests.get(url, headers=headers)
+            tweetsJSON = response.json()
+            for tweet in tweetsJSON['statuses']:
+                allTweets[hashtag.name].append(tweet['id'])
 
         oembed = _oembedTweets(allTweets)
 
@@ -457,32 +442,16 @@ events.
 
 \subsection{List tweets about events and/or people not via the application}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The website now has a tweet parser. As shown in the
-    code snippet, it sends a call to Twitter's search API, requesting all tweets
-    with a certain hashtag. The hashtags are the same as the ones used to get
-    events from meetup.com. Once it has the tweets, it uses the id from each one
-    to make another call to Twitter's OEmbed API, which sends back HTML that is
-    used in the page's template to present embedded tweets to users.
-
-  %\item Current Progress: Currently, the website parses events that are listed
-  %  through meetup.com. We want to extend this feature as well through Twitter so
-  %  that it reads any tweets related to a relevant event that is posted. If a
-  %  certain hashtag is used, then the application picks up that tweet, parses the
-  %  information through the tweet itself and the user that tweeted it. This parser
-  %  is not yet built and still is under current development. There is currently a
-  %  button on the application under the navigation tool where the user and click
-  %  on to view all tweets, but currently no data has been parsed yet for the tool.
-
-  \item Things to Complete: The search results currently contain all instances
-    of the hashtag requested, even when they are not relevant to any event, or
-    even open source. The search needs refinement, however, this will be
-    difficult, and may not be ready in time for the 1.0 release
-
-  %\item Things to Complete: We still need to develop the parser for the tweet and
-  %  extend that for the webpage tool. The tool should look like an organized list
-  %  that has all tweets listed in chronological order starting from the most
-  %  recent. Eventually, there should be a category of tweets based on hashtags
-  %  relevant for what topic the user wants to see.
+  \item Completed Implementation: The website now has a tweet parser. As shown
+    in the code snippet, it sends a call to Twitter's search API, requesting all
+    tweets with a certain hashtag. The hashtags are the same as the ones used to
+    get events from meetup.com. Once it has the tweets, it uses the id from each
+    one to make another call to Twitter's OEmbed API, which sends back HTML that
+    is used in the page's template to present embedded tweets to users.  The
+    search results currently contain all instances of the hashtag requested,
+    even when they are not relevant to any event, or even open source. The
+    search needs refinement, however, this will be difficult, and is not within
+    the scope of the project
 \end{enumerate}
 
 \begin{center}
@@ -491,7 +460,7 @@ events.
   searching for tweets for the tweets not from the application, language=Python]
     def _twitterAuth():
         # Encode the keys
-        key = base64.b64encode(TWITTER_AUTH_KEY)
+        key = base64.b64encode(TWITTER_API_KEY)
 
         # Set needed values
         authURL = "https://api.twitter.com/oauth2/token"
@@ -508,18 +477,18 @@ events.
         return authJSON['access_token']
 
     def _oembedTweets(tweets):
-        oembed = []
-        for tweet in tweets:
-            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-            embededResponse = requests.get(url)
-            embeded = embededResponse.json()
-            oembed.append(embeded['html'])
+        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+        oembed = dict()
+        for hashtag in hashtags:
+            oembed[hashtag.name] = []
+            for i in range(0, len(tweets[hashtag.name]) - 1):
+                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
+                embededResponse = requests.get(url)
+                embeded = embededResponse.json()
+                oembed[hashtag.name].append(embeded['html'])
 
         return oembed
 
-    def viewTweets(request):
-        return render(request, 'tweets/view.html')
-       
     def tweetsNotApp(request):
         # Auth with twitter
         accessToken = _twitterAuth()
@@ -527,22 +496,15 @@ events.
         # Get the hashtags
         hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
-        oembed = []
-        allTweets = []
+        allTweets = dict()
         for hashtag in hashtags:
+            allTweets[hashtag.name] = []
             url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
             headers = {'Authorization': "Bearer " + accessToken}
             response = requests.get(url, headers=headers)
             tweetsJSON = response.json()
             for tweet in tweetsJSON['statuses']:
-                #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
-                allTweets.append(tweet)
-
-        # Supposed to sort the tweets so they will be in order of posting, doesn't
-        # really work. Does at least kinda mix up the tweets so they're not blocks
-        # of one hashtag
-        #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
-        sortedTweets = sorted(allTweets, key=itemgetter('id'))
+                allTweets[hashtag.name].append(tweet['id'])
 
         oembed = _oembedTweets(allTweets)
 
@@ -644,43 +606,15 @@ events.
 
 \subsection{Improve hashtag searching of application to improve finding more relevant events}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The solution to this issue was to change one word in
+  \item Completed Implementation: The solution to this issue was to change one word in
     the call to the meetup.com API. In the API there are many different
     restrictions you can use to request events. Two of them come into play here:
     "text" and "topic." The text query searches through the content of the
     events, while the topic query looks at the topics related to the group. The
     original query was looking at text, which resulted in a lot of unrelated
-    events. The query was fixed to use "topic," which is reduced unwanted events
-    significantly.
-
-  %\item Current Progress: The web application currently successfully parses
-  %  information from events that are in any way related to Apache and open source
-  %  development. The issue at hand is that around 50 percent of the events parsed
-  %  are also completely unrelated meetup events that do not have the same
-  %  development intention of the application such as mountain bike racing and
-  %  hiking events. These types of events are also parsed through the application
-  %  which thus calls for the improvement of the searching algorithm for finding
-  %  more relevant events. Currently the webpage has the tool to mark events not
-  %  applicable which would remove the event completely from the list of events.
-  %  This is a good short term solution for the current day, but it is not an
-  %  automated process and marking relevant events not applicable is also very
-  %  possible. In order to improve the available sorting of more relevant events,
-  %  we need to develop a more viable option still.
-
-  \item Things to Complete: This requirement is complete but untested. It
-    appears that no unrealted events are being aquired, but more testing and
-    examination is required before it can be confirmed that it works.
-
-  %\item Things to Complete: The intended solution looks at how the information is
-  %  gathered. Currently the searching of the application looks for keywords. In
-  %  this case the keyword is the hashtag of Apache. Any event that has the word
-  %  Apache in it will thus then show up the in the event list. Oddly enough, there
-  %  are some events even still that show up on the list which do not even contain
-  %  the keyword Apache. Our solution is to create filter keywords that remove
-  %  events that have a keyword that is not related to the intention of the
-  %  application. We will also create a more broad range of keywords to search for
-  %  to view events as well. This will hopefully improve the amount of events that
-  %  are more relevant to open source development.
+    events. The query was fixed to use "topic," which has reduced unwanted events
+    significantly. A thourough examination of events imported resulted in no
+    unrelated events pulled in.
 \end{enumerate}
 
 \subsection{Improve the visuals of the tool's look as a whole}
