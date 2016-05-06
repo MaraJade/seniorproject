@@ -1,37 +1,41 @@
-TARGET=cs462_group09_final_report
-HTML=main_html
-SRC={$TARGET}
+LATEX	= latex -shell-escape
+DVIPS	= dvips
+DVIPDF  = dvipdft
+XDVI	= xdvi -gamma 4
+GH		= gv
 
-default: pdf
+EXAMPLES = $(wildcard *.h)
+SRC	:= $(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
+TRG	= $(SRC:%.tex=%.dvi)
+PSF	= $(SRC:%.tex=%.ps)
+PDF	= $(SRC:%.tex=%.pdf)
 
-both: pdf html
+pdf: $(PDF)
 
-dvi: ${TARGET}.tex 
-#	pygmentize the input source file -- THIS NAME SHOULD BE SAFE
-#	pygmentize -f latex -o __${TARGET}.tex ${TARGET}.tex
-#	run latex twice to get references correct
-	latex ${TARGET}.tex
-#	you can also have a bibtex line here
-#	bibtex $(TARGET)
-	latex $(TARGET).tex
-#	remove the pygmentized output to avoid cluttering up the directory
-#	rm __${TARGET}.tex
+ps: $(PSF)
 
-ps: dvi
-	dvips -R -Poutline -t letter ${TARGET}.dvi -o ${TARGET}.ps
+$(TRG): %.dvi: %.tex $(EXAMPLES)
+	$(LATEX) $<
+	$(LATEX) $<
+	$(LATEX) $<
 
-pdf: ps
-	ps2pdf ${TARGET}.ps
+$(PSF):%.ps: %.dvi
+	$(DVIPS) -R -Poutline -t letter $< -o $@
 
+$(PDF): %.pdf: %.ps
+#	$(DVIPDF) -o $@ $<
+	ps2pdf $<
 
-html:
-	cp ${TARGET}.tex ${HTML}.tex
-	latex ${HTML}.tex
-	latex2html -split 0 -noshow_section_numbers -local_icons -no_navigation -noinfo -noaddress ${HTML}
+show: $(TRG)
+	@for i in $(TRG) ; do $(XDVI) $$i & done
 
-	sed 's/<BR><HR>//g' < ${HTML}/index.html > ${HTML}/index2.html
-	mv ${HTML}/index2.html ${TARGET}.html
-	rm ${HTML}.*
-	rm -rf ${HTML}
+showps: $(PSF)
+	@for i in $(PSF) ; do $(GH) $$i & done
 
+all: pdf
+
+clean:
+	rm -f *.pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg
+
+.PHONY: all show clean ps pdf showps
 
