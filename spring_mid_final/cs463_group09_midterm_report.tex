@@ -467,24 +467,7 @@ and strain on the web server overall.
 \captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
   searching for tweets for the tweets not from the application, language=Python]
-    def _twitterAuth():
-        # Encode the keys
-        key = base64.b64encode(TWITTER_API_KEY)
-
-        # Set needed values
-        authURL = "https://api.twitter.com/oauth2/token"
-        content_type = "application/x-www-form-urlencoded;charset=UTF-8"
-        body = "grant_type=client_credentials"
-
-        # Create the header
-        authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
-        # Get auth
-        auth = requests.post(authURL, headers=authHeaders, data=body)
-        # Get the response in a useable format
-        authJSON = auth.json()
-        
-        return authJSON['access_token']
-
+   
     def _oembedTweets(tweets):
         hashtags = Hashtag.objects.all().exclude(name = "Meetup")
         oembed = dict()
@@ -524,7 +507,7 @@ and strain on the web server overall.
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=5in, frame]{listingTweets}
+  \includegraphics[width=6in, frame]{listingTweets}
   \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing our application listing the tweets that are located on twitter. }
@@ -713,7 +696,7 @@ and strain on the web server overall.
         url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 
          try:
-             #getting location of the events instead of groups show below - Justin Bruntmyer
+             #getting location of the events instead of groups show below
              if 'venue' in meetup.keys():
                  if 'lat' in meetup['venue'].keys():
                      event.latitude = meetup['venue']['lat']
@@ -726,33 +709,34 @@ and strain on the web server overall.
 \captionsetup{width=.5\linewidth}
 	\begin{lstlisting}[caption=The eventSearch.html has a mixture of JavaScript and HTML that create the Google Map and search bar along with creating markers for events., language=JavaScript]
            
-            // Create the search box and link it to the UI element. Along with creating markers.
+            // Create the search box and link it to the UI element. 
+            // Along with creating markers.
 
-                {% for even in upcoming_events_list %}
-                    var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
-                    var marker = new google.maps.Marker({
-                        position: myLatLng,
-                        map: map,
-                        title: '{{ even.name }}'
-                    });
-                {% endfor %}
-                // For each place, get the icon, name and location.
-                var bounds = new google.maps.LatLngBounds();
-                places.forEach(function(place) {
-                    var icon = {
-                        url: place.icon,
-                        size: new google.maps.Size(71, 71),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(17, 34),
-                        scaledSize: new google.maps.Size(25, 25)
-                    };
+            {% for even in upcoming_events_list %}
+               var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
+               var marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                  title: '{{ even.name }}'
+               });
+            {% endfor %}
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                var icon = {
+                   url: place.icon,
+                   size: new google.maps.Size(71, 71),
+                   origin: new google.maps.Point(0, 0),
+                   anchor: new google.maps.Point(17, 34),
+                   scaledSize: new google.maps.Size(25, 25)
+                };
 
-                    // Create a marker for each place.
-                    markers.push(new google.maps.Marker({
-                        map: map,
-                        icon: icon,
-                        title: place.name,
-                        position: place.geometry.location
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                   map: map,
+                   icon: icon,
+                   title: place.name,
+                   position: place.geometry.location
                    
 	\end{lstlisting}
 \end{center}
