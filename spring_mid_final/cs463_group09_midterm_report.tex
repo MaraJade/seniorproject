@@ -155,7 +155,7 @@ and strain on the web server overall.
 \section{CURRENT PROGRESSION THROUGH REQUIREMENTS}
 
 \subsection{Fix the People page where the list of community leaders are shown}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: The “People” page currently takes all of the
     people in the database and lists them onto the page. Normally, if the
     prototype is hosted on a local machine and the database is relatively small,
@@ -189,7 +189,7 @@ and strain on the web server overall.
 \end{figure}
 
 \subsection{Tweet at a person listed in the database}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: Each person who is imported into the application
     is generated their own profile page based off of their Meetups ID. Information from 
     Meetups about the person’s profile is also parsed in the community development tool. Those profiles
@@ -280,7 +280,7 @@ and strain on the web server overall.
 \end{enumerate}
 
 \subsection{Add user accounts to application and track when a user has tweeted an event}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: The purpose of adding user accounts to the applications
     is to be able to track when users tweeting about events or people. With the completion
     of this requirement, the account creation is working along with being able to sign in 
@@ -376,7 +376,7 @@ and strain on the web server overall.
 \end{figure}
 
 \subsection{List tweets about events and/or people via the application}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: We were unable to track the precise tweets
     made from our application, but we have found an alternative that mostly
     works. As shown in the code snippet, the website makes a call to Twitter's
@@ -450,7 +450,7 @@ and strain on the web server overall.
 \end{center}
 
 \subsection{List tweets about events and/or people not via the application}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: The website now has a tweet parser. As shown
     in the code snippet, it sends a call to Twitter's search API, requesting all
     tweets with a certain hashtag. The hashtags are the same as the ones used to
@@ -516,7 +516,7 @@ and strain on the web server overall.
 \end{figure}
 
 \subsection{Export a list of people with Information}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: When taking on this requirement we quickly realized that
     the Meetup API would not provide email address for its users which was
     understandable. We then looked at what other information would be useful to
@@ -599,7 +599,7 @@ and strain on the web server overall.
 \end{figure}
 
 \subsection{Improve hashtag searching of application to improve finding more relevant events}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: The solution to this issue was to change one word in
     the call to the meetup.com API. In the API there are many different
     restrictions you can use to request events. Two of them come into play here:
@@ -614,7 +614,7 @@ and strain on the web server overall.
 \newpage
 
 \subsection{Improve the visuals of the tool's look as a whole}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Implementation: The application itself began as a fairly organized
   	piece. The navigation bar implementation really helps the user keep track navigating
   	between each page. When viewing the list of events, the events are listed in
@@ -663,7 +663,7 @@ and strain on the web server overall.
 \end{enumerate}
 
 \subsection{Implement system of improved sorting of finding events by nearby location within radius of the user}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
   \item Completed Information: This tool creates a list of all events parsed through 
     the application and displays a marker for each even onto the Google Map displayed
     to the right of the lists of events. A user can search for a specific event by looking
@@ -753,7 +753,7 @@ and strain on the web server overall.
 \end{figure}
 
 \subsection{Add feature to generate a profile for people and have it display a way to contact the person if a method is available}
-\begin{enumerate}[label*=\arabic*.]
+\begin{enumerate}
 
   \item Completed Information: The main goal of the tool is to promote community
     development in the open source scene. What this feature tackles is a way to display
