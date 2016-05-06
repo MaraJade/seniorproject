@@ -104,21 +104,18 @@
 \begin{abstract}
 For the past six months our group has been working on a project that is creating tools that
 gives users the ability to look for open source community leaders that are
-hosting events about projects that they are leading. These tools will allow
+hosting events. These tools will allow
 users to have the opportunity to find these events in order to become a
-contributor to an open source project. This is done in a form of a website that
+contributor to an open source project. This is done in the form of a website that
 will have features for finding certain events dealing with open source projects
 so that it can be easily accessible by people with a passion for wanting to
 contribute to projects. Throughout this document, we look at what this team has
-accomplished for each of the requirements we have laid out, discussing problems
-that have halted our progression through the project, and what we have left to
-do before completion of the project. We are currently at a strong beta level
-stage for this project as we continue to develop for our version 1.0
-release. Also included are important images of the user interface we have decided
-to use, along with pieces of code that we have completed and worked with thus
-far. By the end of this document, you will get a complete picture of how we
-reached our beta level tools and what we have left to finish before we have
-a version 1.0 ready to be distributed.
+accomplished for each of the requirements that have been laid out, discussing problems
+that have halted our progression through the project, and how we changed our timeline.
+Also included are important images of the user interface we have decided
+to use, along with pieces of code that we have completed. By the end of this document, 
+you will get a complete picture of how we
+reached our version 1.0 release.
 \end{abstract}
 
 \newpage
@@ -129,13 +126,15 @@ a version 1.0 ready to be distributed.
 After continuous work on this project, the perspective on what
 this community development tool wants to accomplish became clear. After taking
 more time to read and understand the code that was previously written for the
-prototype, we can see clearly on how exactly the data is organized and connected
+prototype, we can see clearly how the data is organized and connected
 using Django and its tools. First and foremost, the purpose of the community
 development tool remains the same. The purpose is to gather information from
-meetup.com and parse that information into a list of upcoming events related to
+meetup.com which is the website we are pulling information about events and people from.
+Next we parse that information into a list of upcoming events related to
 Apache and open source projects so that developers in the open source community
 have an easy way to access an environment where they can hope to participate in those
-events.
+events. The ultimate goal of this project is to create a set of tools that eager developers
+can use to find events, view community leader profiles, and get involved.
 
 \section{SYSTEMS OUTLINE}
 This project is developed through Django, a free, open source, high-level Python web 
@@ -150,7 +149,7 @@ For the front-end templates, HTML and JavaScript are mainly used. the HTML user 
 is more secure than most sites and allows images and objects to be embedded and used to 
 create interactive forms. JavaScript is used to extend functionality of the website, 
 specifically with the Google Maps feature. Execution on the client side means that the 
-code is executed on the user's processor instead of the web serer which saves bandwidth 
+code is executed on the user's processor instead of the web server which saves bandwidth 
 and strain on the web server overall.
 
 \section{CURRENT PROGRESSION THROUGH REQUIREMENTS}
@@ -255,6 +254,8 @@ and strain on the web server overall.
    \end{lstlisting}
 \end{center}
 
+\newpage
+
 \begin{figure}[H]
   \begin{center}
   \includegraphics[width=3in, frame]{tweet_person1}
@@ -295,6 +296,9 @@ and strain on the web server overall.
     have access to the administrative page that deals with the Django database.
 
 \end{enumerate}
+
+\newpage
+
 \begin{center}
 \captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py file that handles the creation of accounts and the login page view, language=Python]
@@ -386,6 +390,8 @@ and strain on the web server overall.
     project.
 \end{enumerate}
 
+\newpage
+
 \begin{center}
 \captionsetup{width=.5\linewidth}
   \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
@@ -422,11 +428,9 @@ and strain on the web server overall.
         return oembed
 
     def tweetsApp(request):
-        # Auth with Twitter
-        accessToken = _twitterAuth()
+        accessToken = _twitterAuth() # Auth with Twitter
 
-        # Get hashtags
-        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+        hashtags = Hashtag.objects.all().exclude(name = "Meetup") # Get hashtags
 
         oembed = []
         allTweets = dict()
@@ -539,6 +543,8 @@ and strain on the web server overall.
     button located in the top left of the people page and creates a file in a XLSX
     format which can be directly opened or saved.
     
+    \newpage
+    
     \begin{center}
     \captionsetup{width=.5\linewidth}
       \begin{lstlisting}[caption=excelutils.py file where the worksheet is generated and exported as an xlsx file, language=Python]
@@ -622,6 +628,8 @@ and strain on the web server overall.
     unrelated events pulled in.
 \end{enumerate}
 
+\newpage
+
 \subsection{Improve the visuals of the tool's look as a whole}
 \begin{enumerate}[label*=\arabic*.]
   \item Completed Implementation: The application itself began as a fairly organized
@@ -696,6 +704,8 @@ and strain on the web server overall.
 
 \end{enumerate}
 
+\newpage
+
 \begin{center}
 \captionsetup{width=.5\linewidth}
 	\begin{lstlisting}[caption=Views.py shows the eventSearch funciton that allows the view in the template for the events page to pull information from the database. This also shows the URL used to get the info about events along with how it is stored., language=Python]
@@ -712,20 +722,11 @@ and strain on the web server overall.
 	\end{lstlisting}
 \end{center}
 
-\newpage
-
 \begin{center}
 \captionsetup{width=.5\linewidth}
 	\begin{lstlisting}[caption=The eventSearch.html has a mixture of JavaScript and HTML that create the Google Map and search bar along with creating markers for events., language=JavaScript]
-        function initAutocomplete() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 44.5645659, lng: -123.2620435},
-                zoom: 13,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
+           
             // Create the search box and link it to the UI element. Along with creating markers.
-                markers = [];
 
                 {% for even in upcoming_events_list %}
                     var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
@@ -752,12 +753,7 @@ and strain on the web server overall.
                         icon: icon,
                         title: place.name,
                         position: place.geometry.location
-                    }));
-                    
-                  });
-                  map.fitBounds(bounds);
-                });
-         }
+                   
 	\end{lstlisting}
 \end{center}
 
@@ -774,53 +770,28 @@ and strain on the web server overall.
 
 \subsection{Add feature to generate a profile for people and have it display a way to contact the person if a method is available}
 \begin{enumerate}[label*=\arabic*.]
-  \item Current Progress: The main goal of the tool is to promote community
-    development in the open source scene. A very important feature is then to have
-    the best information available for users who would like to start development
-    to be easily viewable. With a generated profiles for people within active
-    groups contributing to Apache projects and project alike that displays a
-    method of contacting said person then it will give people a chance to get
-    involved with the project. Currently, the people generated profiles show the
-    name, a bio, their twitter handle if they have one, location, topics
-    interested in, a picture, source linked to profile on meetup.com, last
-    activity, and the group they are associated with. Since we are not able to
-    pull email address from Meetup we have decided to focus on the service twitter
-    handle as a method of contact which is displayed for the user.
 
-  %\item Current Progress: The main goal of the tool is to promote community
-    %development in the open source scene. A very important feature is then to
-    %have the best information available for users who would like to start
-    %development to be easily viewable. With a generated profile for community
-    %developers to have their contact information, this eases the process for
-    %users in which they can start engaging in the community. Our current
-    %implementation with these profiles are the “people” pages in which
-    %information about the person is available. Contact information about that
-    %specific person is not entirely parsed through and may have to be manually
-    %implemented. This part of the feature has been highly discussed within the
-    %group as many concerns have come up such as how a user would identify
-    %themselves as a community developer or community leader. Permissions that a
-    %user would have to add their own events have been discussed but ultimately
-    %dismissed because of certain attributes that are undesirable such as
+  \item Completed Information: The main goal of the tool is to promote community
+    development in the open source scene. What this feature tackles is a way to display
+    important information about people that are already involved with projects to those
+    who would like to get involved. This feature generates profiles for event hosts along
+    with members of groups that have been imported by the user. These profiles consist of 
+    the of selected person, Twitter handle, location, link to Meetups profile, last activity date, 
+    group associated with, topics they are interested in, a biography, and a picture of themselves.
+    In order to gather the information for these we had to make another API call to Meetups. First,
+    we had to adjust the current API call for importing events to also gather the ID of the event hosts.
+    Once this ID was obtained the next step is another API call gathering information on each event hosts
+    while searching with the ID's gathered. Once this information was obtained the profiles for event
+    hosts and imported group members could be displayed in their own sections of the application.
+    With users having the options to see group members and event hosts there are more opportunities
+    for these users to get involved.
 
-  \item Things to Complete: During the implementation of this requirement we came
-    up with the possibility of adding a page just for people who hose events so
-    that users can have a chance to contact organizers directly. This will require
-    pulling the organizer of each event from the Meetup API, storing it, and
-    displaying just as the people page works now. This page will have organizer
-    profiles for users to go to.
-
-  %\item Things to Complete: Before fully implementing this system, the issue at
-    %the hand is to fully distinguish what part of this development tool will it
-    %belong in and who the intended population is. It is important to have
-    %community leaders to have their contacting information for the public to see,
-    %but it is also dangerous to allow just any individual to post something on an
-    %open webpage.
 \end{enumerate}
 
 \begin{figure}[H]
   \begin{center}
   
-  \includegraphics[width=5in, frame]{peopleProfile}
+  \includegraphics[width=6in, frame]{peopleProfile}
   \captionsetup{width=.4\linewidth}
   \centering
   \caption{Showing profile generated for person along with a twitter handle for a method of contacting. }
@@ -828,15 +799,15 @@ and strain on the web server overall.
   \end{center}
 \end{figure}
 
+\newpage
+
 \section{Feature Requests}
-Throughout the presentation of our tools to our client Ross we were happy to hear that he was really excited about the progress we have made thus far.
+Throughout the presentation of our tools to our client Ross Gardler we were happy to hear that he was really excited about the progress we have made thus far.
 In his excitement in seeing how far we have come with the tools and the progress he has seen
 Ross began asking for feature requests to be added to the tools we have developed thus far.
 We decided to add this section to our report so that we could reference Ross's confidence in our team to make these requests possible if we have time.
-It is important to note that these requests are in no way suppose to be completed by the end of our time with this project.
-These requests are for future ideas for the tools and are options for use to complete if we have time. Our client also would like us to submit patches for the tools
-that we have made thus far as he approves of the work we have done. We will be working
-on creating these patches in the coming weeks.
+These requests are for future ideas for the tools as our client also would like us to submit patches for the tools
+that we have made thus far as he approves of the work we have done. We will be completing these patches and getting them to Ross.
 The requirements that have had feature requests proposed are shown below.
 
 \subsection{Add user accounts to the application}
@@ -909,16 +880,21 @@ client and figured out what was happening as the first week our client was on an
 unexpected trip to the UK and in the second week our client did not realize that
 these meetings occurred every week throughout the term. These things happen and
 once we all had a chance to get on the same page every weekly meeting is going
-smoothly.
+smoothly. This problem also happened at the beginning of the spring term. A new
+weekly meeting time was set up with our client however our client believed that
+our first meeting was in the middle of June. This was a problem as we tried to
+set up a new meeting time but our client was very busy with travel and vacation
+that we were not able to meet with him three weeks prior to expo. Email communication
+was very difficult as well.
 
 \subsection{Problem 3}
 During week three of Winter 2016 we ran into the issue of meetings being
-canceled due to illness and injury. One of our team members experience an injury
+cancelled due to illness and injury. One of our team members experience an injury
 that caused a full group meeting with a TA to occur which halted our progress in
 having to get everyone caught up on the same page. This same week another group
 member became sick and could not make it to two meetings for the week which
-meant that two people could not make it so two meetings were canceled out of the
-weekly three meetings we have as a group. This was not too untactful as we were
+meant that two people could not make it so two meetings were cancelled out of the
+weekly three meetings we have as a group. However, we were
 able to work individually at home but it was still a noticeable disruption from
 the normal work we produce in a week. It did not seem like it was going to
 effect the group at first however when we began to get back on track it took
@@ -943,15 +919,14 @@ When we began the development side of the project we realized that it was best
 to strive for achieving alpha level functionality with all of our features that
 we would like to have. This required us to take a different approach then what
 our timeline originally suggested. With that change we were able to have the
-structure ready for us when we began beta level implementation. With all
-requirements completed at the beta level we then began to look ahead to see when
-we want to accomplish the tiny tweaks and bug fixes for the 1.0 release. \\
+structure ready for us when we began beta level implementation. \\
 
-We are going to focus our attention on choosing dates to fully implement version 1.0 and 
-complete each requirement. This means that we will move on from the expected
-completion date for beta to a new date that we will except to have no bugs and tiny
-tweaks finished. Below shows our future timeline for getting these items
-completed for version 1.0 release. \\
+The timeline below show all of our requirements with their completed status. I have
+recently finished all version 1.0 additions and changes. Over the project we have seen
+this timeline change multiple times as the team learned quickly that things weren't falling
+into plan exactly the first time. With the changes for the alpha implementation and the
+requirements document problems encountered we changed the timeline 3 times. However, it all
+worked out in the end as each requirement has been completed and is ready for version 1.0 release. \\
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
