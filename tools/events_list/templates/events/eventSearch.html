@@ -142,8 +142,15 @@
         
         //Clear out the old markers.
         markers.forEach(function(marker) {
+          circles.forEach(function(circle) {
+            circle.setMap(null);
+          });
           marker.setMap(null);
         });
+
+        // circles.forEach(function(circle) {
+        //   circle.setMap(null);
+        // });
 
         markers = [];
         circles = [];
@@ -167,15 +174,15 @@
           position: place.geometry.location
         }));
 
-        var covered = {
-           map: map,
-           radius: 20000,
-           fillColor: '#AA0000'
-        };
+        circles.push(new google.maps.Circle({
+          map: map,
+          radius: 16093,
+          fillColor: '#AA0000',
+          fillOpacity: 0.35,
+          center: place.geometry.location
+        }));
 
-        circles.push(new google.maps.Circle(covered));
-
-        circles[0].bindTo('center', markers[0], 'position');
+        //circles[0].bindTo('center', markers[0], 'position');
 
         if (place.geometry.viewport) {
           // Only geocodes have viewport.
