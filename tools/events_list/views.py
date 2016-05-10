@@ -432,6 +432,7 @@ def _callMeetupsCom(hashtag):
 
     # Radius is defined around Lexington, KY, but it's infinite radius, so
     # should work everywhere.
+    # Added event_hosts option in API to pull the hosts of the event as well.
     url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 
     print "Fetching meetups ..."
