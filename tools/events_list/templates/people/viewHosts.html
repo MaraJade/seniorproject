@@ -10,7 +10,8 @@
   <h1>{{ personHost.name }}</h1>
 
   <p>
-  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
+  <!--Added person.service to the reference for the social share button in order to tweet using
+the persons twitter handle-->
   <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
   <script>
     var _hs = {
