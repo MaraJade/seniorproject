@@ -280,13 +280,13 @@ def importAllHosts(request):
 
 
 def importHosts(hostID):
-    #hostID = get_object_or_404(Host, pk = hostID)
 
     log = Log()
     log.description = "Hosts imported"
     log.action_type = Log.EVENT_IMPORT
     log.save()
 
+    # New API call to get a specific persons information based on the Host ID
     url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
     response = urllib2.urlopen(url)
     result = response.read()
