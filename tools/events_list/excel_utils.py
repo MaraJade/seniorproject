@@ -4,6 +4,7 @@ from django.utils.translation import ugettext
 
 from .models import Person, Host
 
+#Exports excel file from person_list
 def WriteToExcel(person_list):
     output = StringIO.StringIO()
     workbook = xlsxwriter.Workbook(output)
@@ -85,6 +86,7 @@ def WriteToExcel(person_list):
     xlsx_data = output.getvalue()           #xlsx_data contains the Excel file
     return xlsx_data
 
+#Exports excel file from person_list
 def WriteToExcelHost(host_list):
     output = StringIO.StringIO()
     workbook = xlsxwriter.Workbook(output)

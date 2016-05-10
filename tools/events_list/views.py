@@ -29,6 +29,7 @@ TWITTER_API_KEY = "5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjI
 
 logger = logging.getLogger(__name__)
 
+#Log in function with user input for username and password
 def login(request):
     state = "Please log in below..."
     username = password = ''
@@ -52,10 +53,12 @@ def login(request):
     })
     return HttpResponse(template.render(context))
 
+#Logs the user out
 def logout_view(request):
     logout(request)
     return render(request, 'login/login.html')
 
+#Main page of website that views events
 def index(request):
     now = datetime.now()
     upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
@@ -66,6 +69,7 @@ def index(request):
     })
     return HttpResponse(template.render(context))
 
+#Searches for event by location via Google Maps API
 def eventSearch(request):
     #return render(request, 'events/eventSearch.html')
     now = datetime.now()
@@ -77,7 +81,7 @@ def eventSearch(request):
     })
     return HttpResponse(template.render(context))
 	
-
+#Creates an account for user
 def createAccount(request):
     if request.POST:
         username = request.POST.get('username')
@@ -232,6 +236,7 @@ def viewPerson(request, person_id):
     })
     return HttpResponse(template.render(context))
 
+#Shows a specific host's information
 def viewHost(request, personHost_id):
     personHost = get_object_or_404(Host, pk = personHost_id)
    
