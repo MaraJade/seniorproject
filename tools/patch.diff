@@ -1,6 +1,40 @@
+Index: .svnignore
+===================================================================
+--- .svnignore	(revision 1743253)
++++ .svnignore	(working copy)
+@@ -1,6 +1,7 @@
+ *.cer
+ *.pem
+ *.pfx
++*.pyc
+ 
+ # Generated files
+ groups.json
+@@ -7,4 +8,4 @@
+ meetups.json
+ meetups.mdtext
+ meetups.mlist
+-meetups.tweets
+\ No newline at end of file
++meetups.tweets
+Index: comdev_tools/__init__.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: comdev_tools/__init__.pyc
+===================================================================
+--- comdev_tools/__init__.pyc	(revision 0)
++++ comdev_tools/__init__.pyc	(working copy)
+
+Property changes on: comdev_tools/__init__.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: comdev_tools/settings.py
 ===================================================================
---- comdev_tools/settings.py	(revision 1714713)
+--- comdev_tools/settings.py	(revision 1743253)
 +++ comdev_tools/settings.py	(working copy)
 @@ -105,3 +105,7 @@
  # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -10,9 +44,24 @@ Index: comdev_tools/settings.py
 +# Login
 +
 +LOGIN_URL = '/home/'
+Index: comdev_tools/settings.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: comdev_tools/settings.pyc
+===================================================================
+--- comdev_tools/settings.pyc	(revision 0)
++++ comdev_tools/settings.pyc	(working copy)
+
+Property changes on: comdev_tools/settings.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: comdev_tools/urls.py
 ===================================================================
---- comdev_tools/urls.py	(revision 1714713)
+--- comdev_tools/urls.py	(revision 1743253)
 +++ comdev_tools/urls.py	(working copy)
 @@ -17,6 +17,6 @@
  from django.contrib import admin
@@ -22,17 +71,53 @@ Index: comdev_tools/urls.py
 +    url(r'^', include('events_list.urls')),
      url(r'^admin/', include(admin.site.urls)),
  ]
+Index: comdev_tools/wsgi.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: comdev_tools/wsgi.pyc
+===================================================================
+--- comdev_tools/wsgi.pyc	(revision 0)
++++ comdev_tools/wsgi.pyc	(working copy)
+
+Property changes on: comdev_tools/wsgi.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/admin.py
+===================================================================
+--- events_list/admin.py	(revision 1743253)
++++ events_list/admin.py	(working copy)
+@@ -1,5 +1,5 @@
+ from django.contrib import admin
+-from .models import Event, Group, Hashtag, Log, Person, Topic
++from .models import Event, Group, Hashtag, Log, Person, Topic, Host, HostTopic
+ 
+ admin.site.register(Event)
+ admin.site.register(Group)
+@@ -6,6 +6,8 @@
+ admin.site.register(Hashtag)
+ admin.site.register(Person)
+ admin.site.register(Topic)
++admin.site.register(Host)
++admin.site.register(HostTopic)
+ 
+ admin.site.register(Log)
+ 
 Index: events_list/excel_utils.py
 ===================================================================
 --- events_list/excel_utils.py	(revision 0)
 +++ events_list/excel_utils.py	(working copy)
-@@ -0,0 +1,73 @@
+@@ -0,0 +1,169 @@
 +import StringIO
 +import xlsxwriter
 +from django.utils.translation import ugettext
 +
-+from .models import Person
++from .models import Person, Host
 +
++#Exports excel file from person_list
 +def WriteToExcel(person_list):
 +    output = StringIO.StringIO()
 +    workbook = xlsxwriter.Workbook(output)
@@ -82,7 +167,20 @@ Index: events_list/excel_utils.py
 +    worksheet_s.write(4, 8, ugettext("URL"), header)
 +
 +    #column widths
-+    bio_col_width = 25
++    bio_col_width = 42
++    service_col_width = 22
++    name_col_width = 30
++    meetupID_col_width = 22
++    city_col_width = 22
++    url_col_width = 42
++
++    #Change column widths
++    worksheet_s.set_column('B:B', name_col_width)
++    worksheet_s.set_column('C:C', service_col_width)
++    worksheet_s.set_column('D:D', bio_col_width)
++    worksheet_s.set_column('G:G', city_col_width)
++    worksheet_s.set_column('H:H', meetupID_col_width)
++    worksheet_s.set_column('I:I', url_col_width)
 +
 +    #add data to the table
 +    for idx, data in enumerate(person_list):
@@ -100,19 +198,118 @@ Index: events_list/excel_utils.py
 +    workbook.close()
 +    xlsx_data = output.getvalue()           #xlsx_data contains the Excel file
 +    return xlsx_data
-Index: events_list/forms.py
++
++#Exports excel file from person_list
++def WriteToExcelHost(host_list):
++    output = StringIO.StringIO()
++    workbook = xlsxwriter.Workbook(output)
++    worksheet_s = workbook.add_worksheet("Hosts")
++
++    #excel styles
++    title = workbook.add_format({
++        'bold': True,
++        'font_size': 14,
++        'align': 'center',
++        'valign': 'vcenter'
++    })
++    header = workbook.add_format({
++        'bg_color': '#F7F7F7',
++        'color': 'black',
++        'align': 'center',
++        'valign': 'top',
++        'border': 1
++    })
++    cell = workbook.add_format({
++        'align': 'left',
++        'valign': 'top',
++        'text_wrap': True,
++        'border': 1
++    })
++    cell_center = workbook.add_format({
++        'align': 'center',
++        'valign': 'top',
++        'border': 1
++    })
++
++    #write title
++    host_text = ugettext("Event Hosts")
++    title_text = u"{0} {1}".format(ugettext("Information for"), host_text)
++    #merge cells
++    worksheet_s.merge_range('B2:I2', title_text, title)
++
++    #write header
++    worksheet_s.write(4, 0, ugettext("No"), header)
++    worksheet_s.write(4, 1, ugettext("Name"), header)
++    worksheet_s.write(4, 2, ugettext("Service"), header)
++    worksheet_s.write(4, 3, ugettext("Event Hosting"), header)
++    worksheet_s.write(4, 4, ugettext("Country"), header)
++    worksheet_s.write(4, 5, ugettext("State"), header)
++    worksheet_s.write(4, 6, ugettext("City"), header)
++    worksheet_s.write(4, 7, ugettext("MeetupID"), header)
++    worksheet_s.write(4, 8, ugettext("URL"), header)
++
++    #column widths
++    eventname_col_width = 42
++    service_col_width = 22
++    name_col_width = 30
++    meetupID_col_width = 22
++    city_col_width = 22
++    url_col_width = 42
++   
++    #Change column widths
++    worksheet_s.set_column('B:B', name_col_width)
++    worksheet_s.set_column('C:C', service_col_width)
++    worksheet_s.set_column('D:D', eventname_col_width)
++    worksheet_s.set_column('G:G', city_col_width)
++    worksheet_s.set_column('H:H', meetupID_col_width)
++    worksheet_s.set_column('I:I', url_col_width)
++
++    #add data to the table
++    for idx, data in enumerate(host_list):
++        row = 5 + idx
++        worksheet_s.write_number(row, 0, idx + 1, cell_center)
++        worksheet_s.write_string(row, 1, data.name, cell)
++        worksheet_s.write_string(row, 2, data.service, cell)
++        worksheet_s.write_string(row, 3, data.eventname, cell)
++        worksheet_s.write_string(row, 4, data.country, cell)
++        worksheet_s.write_string(row, 5, data.state, cell)
++        worksheet_s.write_string(row, 6, data.city, cell)
++        worksheet_s.write_number(row, 7, data.meetupID, cell)
++        worksheet_s.write_string(row, 8, data.url, cell)
++
++    workbook.close()
++    xlsx_data2 = output.getvalue()           #xlsx_data contains the Excel file
++    return xlsx_data2
+Index: events_list/migrations/0001_initial.pyc
 ===================================================================
---- events_list/forms.py	(revision 0)
-+++ events_list/forms.py	(working copy)
-@@ -0,0 +1,8 @@
-+from django import forms
-+from models import UserProfile
-+
-+class UserProfileForm(forms.ModelForm):
-+
-+    class Meta:
-+        model = UserProfile
-+        fields = ('twitter_handle',)
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0001_initial.pyc
+===================================================================
+--- events_list/migrations/0001_initial.pyc	(revision 0)
++++ events_list/migrations/0001_initial.pyc	(working copy)
+
+Property changes on: events_list/migrations/0001_initial.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0002_initial_data.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0002_initial_data.pyc
+===================================================================
+--- events_list/migrations/0002_initial_data.pyc	(revision 0)
++++ events_list/migrations/0002_initial_data.pyc	(working copy)
+
+Property changes on: events_list/migrations/0002_initial_data.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0003_person_service.py
 ===================================================================
 --- events_list/migrations/0003_person_service.py	(revision 0)
@@ -139,6 +336,21 @@ Index: events_list/migrations/0003_person_service.py
 +            preserve_default=False,
 +        ),
 +    ]
+Index: events_list/migrations/0003_person_service.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0003_person_service.pyc
+===================================================================
+--- events_list/migrations/0003_person_service.pyc	(revision 0)
++++ events_list/migrations/0003_person_service.pyc	(working copy)
+
+Property changes on: events_list/migrations/0003_person_service.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0003_userprofile.py
 ===================================================================
 --- events_list/migrations/0003_userprofile.py	(revision 0)
@@ -170,6 +382,21 @@ Index: events_list/migrations/0003_userprofile.py
 +            ],
 +        ),
 +    ]
+Index: events_list/migrations/0003_userprofile.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0003_userprofile.pyc
+===================================================================
+--- events_list/migrations/0003_userprofile.pyc	(revision 0)
++++ events_list/migrations/0003_userprofile.pyc	(working copy)
+
+Property changes on: events_list/migrations/0003_userprofile.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0004_merge.py
 ===================================================================
 --- events_list/migrations/0004_merge.py	(revision 0)
@@ -191,6 +418,21 @@ Index: events_list/migrations/0004_merge.py
 +
 +    operations = [
 +    ]
+Index: events_list/migrations/0004_merge.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0004_merge.pyc
+===================================================================
+--- events_list/migrations/0004_merge.pyc	(revision 0)
++++ events_list/migrations/0004_merge.pyc	(working copy)
+
+Property changes on: events_list/migrations/0004_merge.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0005_auto_20160224_0219.py
 ===================================================================
 --- events_list/migrations/0005_auto_20160224_0219.py	(revision 0)
@@ -218,6 +460,21 @@ Index: events_list/migrations/0005_auto_20160224_0219.py
 +            name='UserProfile',
 +        ),
 +    ]
+Index: events_list/migrations/0005_auto_20160224_0219.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0005_auto_20160224_0219.pyc
+===================================================================
+--- events_list/migrations/0005_auto_20160224_0219.pyc	(revision 0)
++++ events_list/migrations/0005_auto_20160224_0219.pyc	(working copy)
+
+Property changes on: events_list/migrations/0005_auto_20160224_0219.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0006_auto_20160301_0148.py
 ===================================================================
 --- events_list/migrations/0006_auto_20160301_0148.py	(revision 0)
@@ -256,6 +513,21 @@ Index: events_list/migrations/0006_auto_20160301_0148.py
 +            preserve_default=False,
 +        ),
 +    ]
+Index: events_list/migrations/0006_auto_20160301_0148.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0006_auto_20160301_0148.pyc
+===================================================================
+--- events_list/migrations/0006_auto_20160301_0148.pyc	(revision 0)
++++ events_list/migrations/0006_auto_20160301_0148.pyc	(working copy)
+
+Property changes on: events_list/migrations/0006_auto_20160301_0148.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0007_event_address_1.py
 ===================================================================
 --- events_list/migrations/0007_event_address_1.py	(revision 0)
@@ -282,6 +554,21 @@ Index: events_list/migrations/0007_event_address_1.py
 +            preserve_default=False,
 +        ),
 +    ]
+Index: events_list/migrations/0007_event_address_1.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0007_event_address_1.pyc
+===================================================================
+--- events_list/migrations/0007_event_address_1.pyc	(revision 0)
++++ events_list/migrations/0007_event_address_1.pyc	(working copy)
+
+Property changes on: events_list/migrations/0007_event_address_1.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0008_event_latitude.py
 ===================================================================
 --- events_list/migrations/0008_event_latitude.py	(revision 0)
@@ -308,6 +595,21 @@ Index: events_list/migrations/0008_event_latitude.py
 +            preserve_default=False,
 +        ),
 +    ]
+Index: events_list/migrations/0008_event_latitude.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0008_event_latitude.pyc
+===================================================================
+--- events_list/migrations/0008_event_latitude.pyc	(revision 0)
++++ events_list/migrations/0008_event_latitude.pyc	(working copy)
+
+Property changes on: events_list/migrations/0008_event_latitude.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0009_event_longitude.py
 ===================================================================
 --- events_list/migrations/0009_event_longitude.py	(revision 0)
@@ -334,6 +636,21 @@ Index: events_list/migrations/0009_event_longitude.py
 +            preserve_default=False,
 +        ),
 +    ]
+Index: events_list/migrations/0009_event_longitude.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0009_event_longitude.pyc
+===================================================================
+--- events_list/migrations/0009_event_longitude.pyc	(revision 0)
++++ events_list/migrations/0009_event_longitude.pyc	(working copy)
+
+Property changes on: events_list/migrations/0009_event_longitude.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/migrations/0010_person_is_applicable.py
 ===================================================================
 --- events_list/migrations/0010_person_is_applicable.py	(revision 0)
@@ -359,9 +676,473 @@ Index: events_list/migrations/0010_person_is_applicable.py
 +            field=models.BooleanField(default=True, help_text=b'Indicates if a person is applicable to our audience or not'),
 +        ),
 +    ]
+Index: events_list/migrations/0010_person_is_applicable.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0010_person_is_applicable.pyc
+===================================================================
+--- events_list/migrations/0010_person_is_applicable.pyc	(revision 0)
++++ events_list/migrations/0010_person_is_applicable.pyc	(working copy)
+
+Property changes on: events_list/migrations/0010_person_is_applicable.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0011_auto_20160404_2142.py
+===================================================================
+--- events_list/migrations/0011_auto_20160404_2142.py	(revision 0)
++++ events_list/migrations/0011_auto_20160404_2142.py	(working copy)
+@@ -0,0 +1,55 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.4 on 2016-04-04 21:42
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0010_person_is_applicable'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='event',
++            name='event_hostname',
++            field=models.CharField(default=b'', max_length=200),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='address_1',
++            field=models.CharField(default=b'', max_length=40),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='city',
++            field=models.CharField(default=b'', max_length=30),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='country',
++            field=models.CharField(default=b'', max_length=2),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='latitude',
++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='longitude',
++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
++        ),
++        migrations.AlterField(
++            model_name='event',
++            name='state',
++            field=models.CharField(default=b'', max_length=2),
++        ),
++        migrations.AlterField(
++            model_name='person',
++            name='service',
++            field=models.CharField(default=b'', max_length=50),
++        ),
++    ]
+Index: events_list/migrations/0011_auto_20160404_2142.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0011_auto_20160404_2142.pyc
+===================================================================
+--- events_list/migrations/0011_auto_20160404_2142.pyc	(revision 0)
++++ events_list/migrations/0011_auto_20160404_2142.pyc	(working copy)
+
+Property changes on: events_list/migrations/0011_auto_20160404_2142.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0012_auto_20160405_2002.py
+===================================================================
+--- events_list/migrations/0012_auto_20160405_2002.py	(revision 0)
++++ events_list/migrations/0012_auto_20160405_2002.py	(working copy)
+@@ -0,0 +1,32 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.4 on 2016-04-05 20:02
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0011_auto_20160404_2142'),
++    ]
++
++    operations = [
++        migrations.CreateModel(
++            name='Host',
++            fields=[
++                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
++                ('name', models.CharField(max_length=200)),
++                ('meetupID', models.BigIntegerField(unique=True, verbose_name=b'Meetups.com ID')),
++            ],
++        ),
++        migrations.RemoveField(
++            model_name='event',
++            name='event_hostname',
++        ),
++        migrations.AddField(
++            model_name='event',
++            name='hosts',
++            field=models.ManyToManyField(related_name='people', to='events_list.Host'),
++        ),
++    ]
+Index: events_list/migrations/0012_auto_20160405_2002.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0012_auto_20160405_2002.pyc
+===================================================================
+--- events_list/migrations/0012_auto_20160405_2002.pyc	(revision 0)
++++ events_list/migrations/0012_auto_20160405_2002.pyc	(working copy)
+
+Property changes on: events_list/migrations/0012_auto_20160405_2002.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0013_host_eventname.py
+===================================================================
+--- events_list/migrations/0013_host_eventname.py	(revision 0)
++++ events_list/migrations/0013_host_eventname.py	(working copy)
+@@ -0,0 +1,21 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.4 on 2016-04-06 20:29
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0012_auto_20160405_2002'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='host',
++            name='eventname',
++            field=models.CharField(default=-1, max_length=200),
++            preserve_default=False,
++        ),
++    ]
+Index: events_list/migrations/0013_host_eventname.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0013_host_eventname.pyc
+===================================================================
+--- events_list/migrations/0013_host_eventname.pyc	(revision 0)
++++ events_list/migrations/0013_host_eventname.pyc	(working copy)
+
+Property changes on: events_list/migrations/0013_host_eventname.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0014_auto_20160411_1950.py
+===================================================================
+--- events_list/migrations/0014_auto_20160411_1950.py	(revision 0)
++++ events_list/migrations/0014_auto_20160411_1950.py	(working copy)
+@@ -0,0 +1,33 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.5 on 2016-04-11 19:50
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0013_host_eventname'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='host',
++            name='largePhoto',
++            field=models.URLField(default=-1),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='photo',
++            field=models.URLField(default=-1),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='thumbnail',
++            field=models.URLField(default=-1),
++            preserve_default=False,
++        ),
++    ]
+Index: events_list/migrations/0014_auto_20160411_1950.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0014_auto_20160411_1950.pyc
+===================================================================
+--- events_list/migrations/0014_auto_20160411_1950.pyc	(revision 0)
++++ events_list/migrations/0014_auto_20160411_1950.pyc	(working copy)
+
+Property changes on: events_list/migrations/0014_auto_20160411_1950.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0015_auto_20160411_2024.py
+===================================================================
+--- events_list/migrations/0015_auto_20160411_2024.py	(revision 0)
++++ events_list/migrations/0015_auto_20160411_2024.py	(working copy)
+@@ -0,0 +1,49 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.5 on 2016-04-11 20:24
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0014_auto_20160411_1950'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='host',
++            name='city',
++            field=models.CharField(default=-1, max_length=30),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='country',
++            field=models.CharField(default=-1, max_length=2),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='fullName',
++            field=models.CharField(default=-1, max_length=200),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='service',
++            field=models.CharField(default=b'', max_length=50),
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='state',
++            field=models.CharField(default=-1, max_length=2),
++            preserve_default=False,
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='topics',
++            field=models.ManyToManyField(related_name='hosts', to='events_list.Topic'),
++        ),
++    ]
+Index: events_list/migrations/0015_auto_20160411_2024.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0015_auto_20160411_2024.pyc
+===================================================================
+--- events_list/migrations/0015_auto_20160411_2024.pyc	(revision 0)
++++ events_list/migrations/0015_auto_20160411_2024.pyc	(working copy)
+
+Property changes on: events_list/migrations/0015_auto_20160411_2024.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0016_auto_20160411_2050.py
+===================================================================
+--- events_list/migrations/0016_auto_20160411_2050.py	(revision 0)
++++ events_list/migrations/0016_auto_20160411_2050.py	(working copy)
+@@ -0,0 +1,29 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.5 on 2016-04-11 20:50
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0015_auto_20160411_2024'),
++    ]
++
++    operations = [
++        migrations.CreateModel(
++            name='HostTopic',
++            fields=[
++                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
++                ('name', models.CharField(max_length=200)),
++                ('urlkey', models.CharField(max_length=50)),
++                ('meetupID', models.BigIntegerField(unique=True, verbose_name=b'Meetups.com ID')),
++            ],
++        ),
++        migrations.AlterField(
++            model_name='host',
++            name='topics',
++            field=models.ManyToManyField(related_name='hosts', to='events_list.HostTopic'),
++        ),
++    ]
+Index: events_list/migrations/0016_auto_20160411_2050.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0016_auto_20160411_2050.pyc
+===================================================================
+--- events_list/migrations/0016_auto_20160411_2050.pyc	(revision 0)
++++ events_list/migrations/0016_auto_20160411_2050.pyc	(working copy)
+
+Property changes on: events_list/migrations/0016_auto_20160411_2050.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0017_auto_20160414_0152.py
+===================================================================
+--- events_list/migrations/0017_auto_20160414_0152.py	(revision 0)
++++ events_list/migrations/0017_auto_20160414_0152.py	(working copy)
+@@ -0,0 +1,35 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.5 on 2016-04-14 01:52
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0016_auto_20160411_2050'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='host',
++            name='event_link',
++            field=models.URLField(default=b''),
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='latitude',
++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='longitude',
++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
++        ),
++        migrations.AddField(
++            model_name='host',
++            name='url',
++            field=models.URLField(default=b''),
++        ),
++    ]
+Index: events_list/migrations/0017_auto_20160414_0152.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0017_auto_20160414_0152.pyc
+===================================================================
+--- events_list/migrations/0017_auto_20160414_0152.pyc	(revision 0)
++++ events_list/migrations/0017_auto_20160414_0152.pyc	(working copy)
+
+Property changes on: events_list/migrations/0017_auto_20160414_0152.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/0018_host_lastvisit.py
+===================================================================
+--- events_list/migrations/0018_host_lastvisit.py	(revision 0)
++++ events_list/migrations/0018_host_lastvisit.py	(working copy)
+@@ -0,0 +1,20 @@
++# -*- coding: utf-8 -*-
++# Generated by Django 1.9.5 on 2016-04-14 02:40
++from __future__ import unicode_literals
++
++from django.db import migrations, models
++
++
++class Migration(migrations.Migration):
++
++    dependencies = [
++        ('events_list', '0017_auto_20160414_0152'),
++    ]
++
++    operations = [
++        migrations.AddField(
++            model_name='host',
++            name='lastVisit',
++            field=models.DateTimeField(blank=True, null=True),
++        ),
++    ]
+Index: events_list/migrations/0018_host_lastvisit.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/0018_host_lastvisit.pyc
+===================================================================
+--- events_list/migrations/0018_host_lastvisit.pyc	(revision 0)
++++ events_list/migrations/0018_host_lastvisit.pyc	(working copy)
+
+Property changes on: events_list/migrations/0018_host_lastvisit.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: events_list/migrations/__init__.pyc
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: events_list/migrations/__init__.pyc
+===================================================================
+--- events_list/migrations/__init__.pyc	(revision 0)
++++ events_list/migrations/__init__.pyc	(working copy)
+
+Property changes on: events_list/migrations/__init__.pyc
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: events_list/models.py
 ===================================================================
---- events_list/models.py	(revision 1714713)
+--- events_list/models.py	(revision 1743253)
 +++ events_list/models.py	(working copy)
 @@ -1,5 +1,6 @@
  from datetime import datetime, timedelta
@@ -370,7 +1151,51 @@ Index: events_list/models.py
  
  class Topic(models.Model):
      name = models.CharField(max_length=200)
-@@ -38,6 +39,7 @@
+@@ -12,6 +13,43 @@
+     def __unicode__(self):
+         return unicode(self.name)
+ 
++class HostTopic(models.Model):
++    name = models.CharField(max_length=200)
++    urlkey = models.CharField(max_length=50)
++    meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
++
++    def __str__(self):
++        return self.name
++
++    def __unicode__(self):
++        return unicode(self.name)
++
++
++class Host(models.Model):
++    name = models.CharField(max_length=200)
++    fullName= models.CharField(max_length=200)
++    meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
++    eventname = models.CharField(max_length=200)
++    largePhoto = models.URLField()
++    photo = models.URLField()
++    thumbnail = models.URLField()
++    country = models.CharField(max_length = 2)
++    state = models.CharField(max_length = 2)
++    city = models.CharField(max_length = 30)
++    service = models.CharField(max_length = 50, default='')
++    topics = models.ManyToManyField(HostTopic, related_name="hosts")
++    latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
++    longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
++    url = models.URLField(default='')
++    event_link = models.URLField(default='')
++    lastVisit = models.DateTimeField(null=True, blank=True)
++
++    def __str__(self):
++        return self.name
++
++    def __unicode__(self):
++        return unicode(self.name)
++
+ class Group(models.Model):
+     name = models.CharField(max_length=200)
+     city = models.CharField(max_length=50)
+@@ -38,6 +76,7 @@
  class Person(models.Model):
      name = models.CharField(max_length = 50)
      bio = models.TextField()
@@ -378,7 +1203,7 @@ Index: events_list/models.py
      country = models.CharField(max_length = 2)
      state = models.CharField(max_length = 2)
      city = models.CharField(max_length = 30)
-@@ -51,6 +53,7 @@
+@@ -51,6 +90,7 @@
      groups = models.ManyToManyField(Group, related_name="members")
      topics = models.ManyToManyField(Topic, related_name="people")
      meetupID =  models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
@@ -386,7 +1211,7 @@ Index: events_list/models.py
  
      def __str__(self):
          return self.name
-@@ -60,6 +63,17 @@
+@@ -60,6 +100,17 @@
  
  class Event(models.Model):
      name = models.CharField(max_length=200)
@@ -404,9 +1229,17 @@ Index: events_list/models.py
      event_url = models.URLField()
      group = models.ForeignKey(Group)
      meetupID = models.CharField(verbose_name = "Meetups.com ID", max_length=50, unique=True)
+@@ -68,6 +119,7 @@
+     local_end = models.DateTimeField()
+     utc_offset = models.BigIntegerField()
+     hashtags = models.ManyToManyField(Hashtag, related_name="events")
++    hosts = models.ManyToManyField(Host, related_name="people")
+     is_applicable = models.BooleanField(help_text = "Indicates if an event is applicable to our audience or not.", default=True)
+     
+     @property
 Index: events_list/readme.md
 ===================================================================
---- events_list/readme.md	(revision 1714713)
+--- events_list/readme.md	(revision 1743253)
 +++ events_list/readme.md	(working copy)
 @@ -14,14 +14,14 @@
  
@@ -430,7 +1263,7 @@ Index: events_list/templates/events/eventSearch.html
 ===================================================================
 --- events_list/templates/events/eventSearch.html	(revision 0)
 +++ events_list/templates/events/eventSearch.html	(working copy)
-@@ -0,0 +1,217 @@
+@@ -0,0 +1,268 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -443,41 +1276,6 @@ Index: events_list/templates/events/eventSearch.html
 +
 +  <h1>Events Via Search</h1>
 +
-+{% if upcoming_events_list %}
-+<script>
-+  $(document).ready(function(){
-+    $('#eventList').dataTable({
-+       "order": [[ 4, "asc" ]],
-+       "stateSave": true
-+    });
-+  });
-+</script>
-+
-+
-+<table id="eventList" class="table table-striped">
-+  <thead>
-+    <tr>
-+      <th>Name</th>
-+      <th>Latitude</th>
-+      <th>Longitude</th>
-+      <th>Local Start Time</th>
-+    </tr>
-+  </thead>
-+  <tbody>
-+    {% for event in upcoming_events_list %}
-+    <tr>
-+      <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
-+      <td>{{ event.latitude }}</td> <!-- now getting event locaiton (JB)-->
-+      <td>{{ event.longitude }}</td>
-+      <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
-+    </tr>
-+    {% endfor %}
-+  </tbody>
-+</table>
-+{% else %}
-+<p>No events are available.</p>
-+{% endif %}
-+
 +  <head>
 +    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 +    <meta charset="utf-8">
@@ -489,7 +1287,15 @@ Index: events_list/templates/events/eventSearch.html
 +        padding: 0;
 +      }
 +      #map {
-+        height: 70%;
++        height: 80%;
++        width: 35%;
++        float: right;
++        min-height: 250px;
++        border: 1px solid black;
++      }
++      #eventList: {
++        float: left;
++        border: 1px solid red;
 +      }
 +      .controls {
 +        margin-top: 10px;
@@ -580,77 +1386,155 @@ Index: events_list/templates/events/eventSearch.html
 +        });
 +
 +        var markers = [];
++        var cirlces = [];
 +        // Listen for the event fired when the user selects a prediction and retrieve
 +        // more details for that place.
-+        searchBox.addListener('places_changed', function() {
-+          var places = searchBox.getPlaces();
 +
-+          if (places.length == 0) {
-+            return;
-+          }
-+
-+          //Clear out the old markers.
-+          markers.forEach(function(marker) {
-+              marker.setMap(null);
-+          });
-+          markers = [];
-+
-+          {% for even in upcoming_events_list %}
++        {% for even in upcoming_events_list %}
 +              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
++
 +              var marker = new google.maps.Marker({
 +                  position: myLatLng,
 +                  map: map,
 +                  title: '{{ even.name }}'
 +              });
-+          {% endfor %}
++        {% endfor %}
++        searchBox.addListener('places_changed', function() {
++        var places = searchBox.getPlaces();
 +
-+
-+          // For each place, get the icon, name and location.
-+          var bounds = new google.maps.LatLngBounds();
-+          places.forEach(function(place) {
-+            var icon = {
-+              url: place.icon,
-+              size: new google.maps.Size(71, 71),
-+              origin: new google.maps.Point(0, 0),
-+              anchor: new google.maps.Point(17, 34),
-+              scaledSize: new google.maps.Size(25, 25)
-+            };
-+
-+            // Create a marker for each place.
-+            markers.push(new google.maps.Marker({
-+              map: map,
-+              icon: icon,
-+              title: place.name,
-+              position: place.geometry.location
-+            }));
-+            
-+            if (place.geometry.viewport) {
-+              // Only geocodes have viewport.
-+              bounds.union(place.geometry.viewport);
-+            } else {
-+              bounds.extend(place.geometry.location);
-+            }
++        if (places.length == 0) {
++          return;
++        }
++        
++        //Clear out the old markers.
++        markers.forEach(function(marker) {
++          circles.forEach(function(circle) {
++            circle.setMap(null);
 +          });
-+          map.fitBounds(bounds);
++          marker.setMap(null);
 +        });
 +
++        // circles.forEach(function(circle) {
++        //   circle.setMap(null);
++        // });
++
++        markers = [];
++        circles = [];
++
++        // For each place, get the icon, name and location.
++        var bounds = new google.maps.LatLngBounds();
++        places.forEach(function(place) {
++        var icon = {
++          url: place.icon,
++          size: new google.maps.Size(71, 71),
++          origin: new google.maps.Point(0, 0),
++          anchor: new google.maps.Point(17, 34),
++          scaledSize: new google.maps.Size(25, 25)
++        };
++
++        // Create a marker for each place.
++        markers.push(new google.maps.Marker({
++          map: map,
++          icon: icon,
++          title: place.name,
++          position: place.geometry.location
++        }));
++
++        circles.push(new google.maps.Circle({
++          map: map,
++          radius: 16093, //10 mi radius
++          strokeWeight: 1,
++          fillColor: '#AA0000',
++          fillOpacity: 0.20,
++          center: place.geometry.location
++        }));
++
++        //circles[0].bindTo('center', markers[0], 'position');
++
++        if (place.geometry.viewport) {
++          // Only geocodes have viewport.
++          bounds.union(place.geometry.viewport);
++          } else {
++            bounds.extend(place.geometry.location);
++          }
++        });
++        map.fitBounds(bounds);
++      });
 +     }
-+ 
++
 +     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 +        infoWindow.setPosition(pos);
 +        infoWindow.setContent(browserHasGeolocation ?
-+                              'Error: The Geolocation service failed.' :
++                              'Error: The Geolocation service is unavailable.' :
 +                              'Error: Your browser doesn\'t support geolocation.');
 +     }
 +
 +    </script>
 +    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&sensor=true&callback=initMap"
 +         async defer></script> 
++
++{% if upcoming_events_list %}
++<script>
++  $(document).ready(function(){
++    $('#eventList').dataTable({
++       "order": [[ 4, "asc" ]],
++       "stateSave": true
++    });
++  });
++</script>
++<style type="text/css">
++        #eventList {
++          height: 80%;
++          width: 65%;
++          float: left;
++          border: 1px solid black;
++          overflow: auto;
++        }
++        .table {
++            display: table;
++        }
++
++        .row {
++            display: table-row;
++        }
++
++        .column {
++            display: table-cell;
++            vertical-align: top;
++        }
++</style>    
++  <div id="eventList">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Name</th>
++            <th>City</th>
++            <th>Country</th>
++            <th>Local Start Time</th>
++          </tr>
++        </thead>
++        <tbody>
++          {% for event in upcoming_events_list %}
++          <tr>
++            <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
++            <td>{{ event.city }}, {{ event.state }}</td> 
++            <td>{{ event.country }}</td>
++            <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
++          </tr>
++          {% endfor %}
++        </tbody>
++  </div>
++{% else %}
++<p>No events are available.</p>
++{% endif %}
++
++
++
 +</body>
 +</html>
 Index: events_list/templates/events/index.html
 ===================================================================
---- events_list/templates/events/index.html	(revision 1714713)
+--- events_list/templates/events/index.html	(revision 1743253)
 +++ events_list/templates/events/index.html	(working copy)
 @@ -10,6 +10,15 @@
  <h1>Events</h1>
@@ -674,7 +1558,7 @@ Index: events_list/templates/events/index.html
        <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
 -      <td>{{ event.group.city }}, {{ event.group.state }}</td>
 -      <td>{{ event.group.country }}</td>
-+      <td>{{ event.city }}, {{ event.state }}</td> <!-- now getting event locaiton (JB)-->
++      <td>{{ event.city }} {{ event.state }}</td> <!-- now getting event locaiton (JB)-->
 +      <td>{{ event.country }}</td>
        <td>
  	{% for hashtag in event.hashtags.all %}
@@ -709,21 +1593,62 @@ Index: events_list/templates/events/index.html
  {% endif %}
 Index: events_list/templates/events/view.html
 ===================================================================
---- events_list/templates/events/view.html	(revision 1714713)
+--- events_list/templates/events/view.html	(revision 1743253)
 +++ events_list/templates/events/view.html	(working copy)
-@@ -6,8 +6,7 @@
+@@ -6,12 +6,7 @@
  </head>
  <body>
    <h1>{{ event.name }}</h1>
 -  <p>{{ event.group.city }}, {{ event.group.state }}, {{event.group.country }}</p>
--
-+  <p>{{ event.city }}, {{ event.state }}, {{event.country }}</p> <!-- now getting event locaiton (JB)-->
-   {{ event.description | safe }}
  
-   <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>
+-  {{ event.description | safe }}
+-
+-  <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>
+-
+   <p>
+   <a href="{{ event.event_url }}" title="{{ event.tweet }}" class="_hs_socialshare">Share</a>
+   <script>
+@@ -28,15 +23,31 @@
+   </p>  
+ 
+   <p>Hashtags: 
+-	{% for hashtag in event.hashtags.all %}
+-	  {{ hashtag.name }},
+-	{% endfor %}
++  {% for hashtag in event.hashtags.all %}
++    {{ hashtag.name }},
++  {% endfor %}
+   </p>
+-
+   <p>Organized by: {{ event.group.name }}</p>
+-
+   <p><a href="{{ event.event_url }}" target="_blank">Source</a></p>
+-
++  <div style="max-width:100%; max-height:600px; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Location</th>
++            <th>Description</th>
++            <th>Start Time</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>{{ event.city }}, {{ event.state }} {{ event.country }}</td>
++            <td> {{ event.description | safe }}</td>
++            <td><p>{{ event.local_start }} (UTC start: {{ event.utc_start }})</p></td>
++          </tr>
++        </tbody>
++      </table>
++  </div>
++  <!-- {{ event.description | safe }} -->
+   <p>Applicable: {{ event.is_applicable }} <a href="{% url 'toggleEventNA' event.id %}">Toggle N/A</a></p>
+ </body>
+ </html>
 Index: events_list/templates/groups/index.html
 ===================================================================
---- events_list/templates/groups/index.html	(revision 1714713)
+--- events_list/templates/groups/index.html	(revision 1743253)
 +++ events_list/templates/groups/index.html	(working copy)
 @@ -10,6 +10,15 @@
    <h1>Groups</h1>
@@ -772,9 +1697,9 @@ Index: events_list/templates/groups/index.html
    {% endif %}
 Index: events_list/templates/include/navbar.html
 ===================================================================
---- events_list/templates/include/navbar.html	(revision 1714713)
+--- events_list/templates/include/navbar.html	(revision 1743253)
 +++ events_list/templates/include/navbar.html	(working copy)
-@@ -1,40 +1,82 @@
+@@ -1,40 +1,81 @@
 -{% load navigationTags %}
 -
 -<nav class="navbar navbar-default">
@@ -854,9 +1779,8 @@ Index: events_list/templates/include/navbar.html
 +        <li class="dropdown">
 +          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" tria-expanded="false">People<span class="caret"></span></a>
 +          <ul class="dropdown-menu">
-+            <li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">View All People</a></li>
++            <li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">View Imported Group Members</a></li>
 +            <li><a class="{% is_active_page request 'eventHosts' %}" href="{% url 'eventHosts' %}">View People Hosting Events</a></li>
-+            <li><a class="{% is_active_page request 'notEventHosts' %}" href="{% url 'notEventHosts' %}">View People Not Hosting Events</a></li>
 +          </ul>
 +        </li>
 +
@@ -864,7 +1788,6 @@ Index: events_list/templates/include/navbar.html
 +	<li class="dropdown">
 +          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tweets<span class="caret"></span></a>
 +          <ul class="dropdown-menu">
-+            <li><a class="{% is_active_page request 'viewTweets' %}" href="{% url 'viewTweets' %}">View all tweets</a></li>
 +            <li><a class="{% is_active_page request 'tweetsApp' %}" href="{% url 'tweetsApp' %}">View tweets from this website</a></li>
 +            <li><a class="{% is_active_page request 'tweetsNotApp' %}" href="{% url 'tweetsNotApp' %}">View tweets not from this website</a></li>
 +          </ul>
@@ -886,6 +1809,7 @@ Index: events_list/templates/include/navbar.html
 +  	    {% if can_import %}
 +              {% if user.is_authenticated %}
 +                <li><a href="{% url 'importMeetups' %}">Import Meetups</a></li>
++                <li><a href="{% url 'importAllHosts' %}">Import Hosts</a></li>
 +              {% endif %}
 +	    {% endif %}
 +
@@ -1067,9 +1991,71 @@ Index: events_list/templates/login/login.html
 +
 +</body>
 +</html>
+Index: events_list/templates/people/eventHosts.html
+===================================================================
+--- events_list/templates/people/eventHosts.html	(revision 0)
++++ events_list/templates/people/eventHosts.html	(working copy)
+@@ -0,0 +1,57 @@
++<!DOCTYPE html>
++<html>
++<head>
++  <title>Community Development: Event Hosts</title>
++  {% include "include/head.html" %}
++</head>
++<body>
++  {% include "include/navbar.html" %}
++
++  <h1>Event Hosts</h1>
++  {% if user.is_authenticated %}
++    <form method="POST">
++      {% csrf_token %}
++      <input type="submit" name="excel" value="Export Info">
++    </form>
++  {% endif %}
++
++  {% if host_list %}
++    <script>
++      $(document).ready(function(){
++      $('#peopleList').dataTable({
++          "order": [[ 0, "asc" ]],
++          "stateSave": true
++        });
++      });
++    </script>
++    
++
++    <table id="peopleList" class="table table-striped">
++      <thead>
++	<tr>
++	  <th>Name</th>
++          <th>ID</th>
++          <th>Event</th>
++          <th>Actions</th>
++	</tr>
++      </thead>
++      <tbody>
++	{% for person in host_list %}
++	<tr>
++	  <td><a href="{% url 'viewHost' person.id %}">{{ person.name }}</a></td>
++	  <td>{{ person.meetupID }}</td>
++          <td>{{ person.eventname }}</td>
++	  <td>{% if user.is_authenticated %}
++          <!--<a href="{% url 'importHosts' person.id %}">Import Hosts</a>-->
++          <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
++          {% endif %}
++          </td>
++	</tr>
++	{% endfor %}
++      </tbody>
++    </table>
++  {% else %}
++    <p>No people are available.</p>
++  {% endif %}
++</body>
++</html>
 Index: events_list/templates/people/index.html
 ===================================================================
---- events_list/templates/people/index.html	(revision 1714713)
+--- events_list/templates/people/index.html	(revision 1743253)
 +++ events_list/templates/people/index.html	(working copy)
 @@ -1,45 +1,58 @@
 -<!DOCTYPE html>
@@ -1120,13 +2106,13 @@ Index: events_list/templates/people/index.html
 +<!DOCTYPE html>
 +<html>
 +<head>
-+  <title>Community Development: People</title>
++  <title>Community Development: Imported People</title>
 +  {% include "include/head.html" %}
 +</head>
 +<body>
 +  {% include "include/navbar.html" %}
 +
-+  <h1>People</h1>
++  <h1>Members Imported</h1>
 +
 +  {% if user.is_authenticated %}
 +    <form method="POST">
@@ -1177,20 +2163,129 @@ Index: events_list/templates/people/index.html
 +</html>
 Index: events_list/templates/people/view.html
 ===================================================================
---- events_list/templates/people/view.html	(revision 1714713)
+--- events_list/templates/people/view.html	(revision 1743253)
 +++ events_list/templates/people/view.html	(working copy)
-@@ -8,9 +8,31 @@
+@@ -8,26 +8,86 @@
    {% include "include/navbar.html" %}
  
    <h1>{{ person.name }}</h1>
+-  <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
+ 
+-  <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
++  <p>
++  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > </a>
++  <script>
++    var _hs = {
++               size: 5,
++               partner: "community.apache.org"
++    };
++    (function() {
++                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
++                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
++                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
++    })();
++  </script>
++  </p>
+ 
+-  <p><a href="{{ person.url }}">Source</a></p>
+ 
+-  <h2>Topics</h2>
+-  <ul>
+-    {% for topic in person.topics.all %}
+-      <li>{{ topic }}</li>
+-    {% endfor %}
+-  </ul>
++  <p><span class="right" style="border: 3px solid grey"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
+ 
+-  <h2>Groups</h2>
+-  <ul>
+-    {% for group in person.groups.all %}
+-      <li>{{ group }}</li>
+-    {% endfor %}
+-  </ul>
++  <p><a href="{{ person.url }}">Member's Home Page</a></p>
+ 
+   <p>Last Active: {{ person.lastVisit }}</p>
++  
++  <div style="max-width:70%; max-height:600px; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Service</th>
++            <th>City</th>
++            <th>State</th>
++            <th>Country</th>
++            <th>Latitude</th>
++            <th>Longitude</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>{{ person.service }}</td>
++            <td>{{ person.city }}</td>
++            <td>{{ person.state }}</td>
++            <td>{{ person.country }}</td>
++            <td>{{ person.latitude }}</td>
++            <td>{{ person.longitude }}</td>
++          </tr>
++        </tbody>
++      </table>
++  </div>
 +
-+  <!--<form action="construction">
-+    <input type="submit" value="Tweet at this person">
-+  </form>-->
++  <div style="max-width:70%; max-height:400px; overflow:auto; float:left;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Topics</th>
++          </tr>
++        </thead>
++        <tbody>
++          {% for topic in person.topics.all %}
++          <tr>
++            <td>{{ topic }}</td>
++          </tr>
++          {% endfor %}
++        </tbody>
++      </table>
++  </div>
++
++  <div style="max-width:70%; max-height:400px; overflow:auto; float:left;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Groups</th>
++          </tr>
++        </thead>
++        <tbody>
++          {% for group in person.groups.all %}
++          <tr>
++            <td>{{ group }}</td>
++          </tr>
++          {% endfor %}
++        </tbody>
++      </table>
++  </div>
+ </body>
+ </html>
+Index: events_list/templates/people/viewHosts.html
+===================================================================
+--- events_list/templates/people/viewHosts.html	(revision 0)
++++ events_list/templates/people/viewHosts.html	(working copy)
+@@ -0,0 +1,102 @@
++<!DOCTYPE html>
++<html>
++<head>
++  <title>{{ personHost.name }}</title>
++  {% include "include/head.html" %}
++</head>
++<body>
++  {% include "include/navbar.html" %}
++
++  <h1>{{ personHost.name }}</h1>
 +
 +  <p>
 +  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
-+  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > Tweet at this Person </a>
++  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
 +  <script>
 +    var _hs = {
 +               size: 5,
@@ -1205,22 +2300,80 @@ Index: events_list/templates/people/view.html
 +  </p>
 +
 +
-   <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
- 
--  <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
-+  <p>{{ person.service }}, {{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
- 
-   <p><a href="{{ person.url }}">Source</a></p>
- 
-@@ -27,7 +49,7 @@
-       <li>{{ group }}</li>
-     {% endfor %}
-   </ul>
--
-+  
-   <p>Last Active: {{ person.lastVisit }}</p>
- </body>
- </html>
++  <p><span class="right" style="border: 3px solid grey"><img src="{{ personHost.photo }}"></img></span> {{ personHost.bio }}</p>
++
++  <p>Last Active: {{ personHost.lastVisit }}</p>
++  <p><a href="{{ personHost.url }}">Host's Home Page</a></p>
++  <p>Hosting Event: <a href="{{ personHost.event_link }}"> {{ personHost.eventname }}</a></p>
++
++  <div style="max-width:70%; max-height:600px; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Service</th>
++            <th>City</th>
++            <th>State</th>
++            <th>Country</th>
++            <th>Latitude</th>
++            <th>Longitude</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>{{ personHost.service }}</td>
++            <td>{{ personHost.city }}</td>
++            <td>{{ personHost.state }}</td>
++            <td>{{ personHost.country }}</td>
++            <td>{{ personHost.latitude }}</td>
++            <td>{{ personHost.longitude }}</td>
++          </tr>
++        </tbody>
++      </table>
++  </div>
++
++  <div style="max-width:70%; max-height:400px; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>Topics</th>
++          </tr>
++        </thead>
++        <tbody>
++          {% for topic in personHost.topics.all %}
++          <tr>
++            <td>{{ topic }}</td>
++          </tr>
++          {% endfor %}
++        </tbody>
++      </table>
++  </div>  
++
++
++  <input type="button" value="Testing Click Count" onclick="set_test()">
++
++  <script>
++        var test = 0;    
++
++        function set_test() {
++                test++;
++                function_one(test);
++        }
++
++        function function_one(test) {
++                if (test > 1)
++                {
++                  function_two(); // considering the next alert, I figured you wanted to call function_two first
++                  alert("The function called 'function_one' has been called.");
++                }
++        }
++
++        function function_two() {
++                alert("The function called 'function_two' has been called.");
++        }
++  </script>
++
++</body>
++</html>
 Index: events_list/templates/profile.html
 ===================================================================
 --- events_list/templates/profile.html	(revision 0)
@@ -1250,7 +2403,7 @@ Index: events_list/templates/tweets/app.html
 ===================================================================
 --- events_list/templates/tweets/app.html	(revision 0)
 +++ events_list/templates/tweets/app.html	(working copy)
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,31 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -1260,8 +2413,25 @@ Index: events_list/templates/tweets/app.html
 +<body>
 +  {% include "include/navbar.html" %}
 +  <h4>Tweets from the app</h4>
-+  {% for tweet in tweets %}
-+    {% autoescape off %}{{ tweet }}{% endautoescape %}
++  {% for hashtag, data in tweets.items %}
++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>#{{ hashtag }}</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>
++            {% for tweet in data %}
++              {% autoescape off %}{{ tweet }}{% endautoescape %}
++            {% endfor %}
++            </td>
++          </tr>
++        </tbody>
++      </table>
++    </div>
 +  {% endfor %}
 +</body>
 +</html>
@@ -1269,7 +2439,7 @@ Index: events_list/templates/tweets/notApp.html
 ===================================================================
 --- events_list/templates/tweets/notApp.html	(revision 0)
 +++ events_list/templates/tweets/notApp.html	(working copy)
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,32 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -1279,8 +2449,26 @@ Index: events_list/templates/tweets/notApp.html
 +<body>
 +  {% include "include/navbar.html" %}
 +  <h4>Tweets not from the app</h4>
-+  {% for tweet in tweets %}
-+    {% autoescape off %}{{ tweet }}{% endautoescape %}
++    <!--{{ tweets }}-->
++  {% for hashtag, data in tweets.items %}
++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
++      <table class="table table-striped">
++        <thead>
++          <tr>
++            <th>#{{ hashtag }}</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>
++            {% for tweet in data %}
++              {% autoescape off %}{{ tweet }}{% endautoescape %}
++            {% endfor %}
++            </td>
++          </tr>
++        </tbody>
++      </table>
++    </div>
 +  {% endfor %}
 +</body>
 +</html>
@@ -1302,7 +2490,7 @@ Index: events_list/templates/tweets/view.html
 +</html>
 Index: events_list/urls.py
 ===================================================================
---- events_list/urls.py	(revision 1714713)
+--- events_list/urls.py	(revision 1743253)
 +++ events_list/urls.py	(working copy)
 @@ -1,19 +1,34 @@
 -from django.conf.urls import url
@@ -1336,6 +2524,7 @@ Index: events_list/urls.py
 +    url(r'^(?P<event_id>[0-9]+)/$', views.viewEvent, name='viewEvent'),
 +    url(r'^(?P<event_id>[0-9]+)/toggleNA/$', views.toggleEventNA, name='toggleEventNA'),
 +    url(r'^importMeetups/$', views.importMeetups, name='importMeetups'),
++    url(r'^importAllHosts/$', views.importAllHosts, name='importAllHosts'),
 +
 +    url(r'^eventSearch/$', views.eventSearch, name='eventSearch'),
 +    url(r'^events/14-days/list.md$', views.eventList, name='eventListMD'),
@@ -1346,35 +2535,35 @@ Index: events_list/urls.py
 +
 +    url(r'^people/$', views.personIndex, name='personIndex'),
 +    url(r'^eventHosts/$', views.eventHosts, name='eventHosts'),
-+    url(r'^notEventHosts/$', views.notEventHosts, name='notEventHosts'),
++    url(r'^eventHosts/(?P<personHost_id>[0-9]+)/importHosts/$', views.importHosts, name='importHosts'),
++    url(r'^eventHosts/(?P<personHost_id>[0-9]+)/$', views.viewHost, name='viewHost'),
 +    url(r'^people/(?P<person_id>[0-9]+)/toggleNA/$', views.togglePersonNA, name='togglePersonNA'),
 +    url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
 +    url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
 +    url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),
 +    url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
-+    url(r'^tweets', views.viewTweets, name='viewTweets'),
-+    url(r'^construction', views.construction, name='construction'),
 +    url(r'^accounts/login/$', views.login, name='login'),
 +    url(r'^logout', views.logout_view, name='logout'),
 +]
 +
 Index: events_list/views.py
 ===================================================================
---- events_list/views.py	(revision 1714713)
+--- events_list/views.py	(revision 1743253)
 +++ events_list/views.py	(working copy)
-@@ -1,22 +1,62 @@
+@@ -1,22 +1,64 @@
  from django.conf import settings
  from django.shortcuts import get_object_or_404, render, redirect
  from django.http import HttpResponse
 -from django.template import RequestContext, loader
+-from events_list.models import Event, Group, Hashtag, Log, Person, Topic
 +from django.template import RequestContext, loader, Context
 +from django.shortcuts import render_to_response
 +from django.contrib.auth import authenticate, logout, login as auth_login
 +from django.contrib.auth.models import User
 +from django.contrib.auth.decorators import login_required
- from events_list.models import Event, Group, Hashtag, Log, Person, Topic
++from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host, HostTopic
  from datetime import datetime, timedelta
-+from .excel_utils import WriteToExcel
++from .excel_utils import WriteToExcel, WriteToExcelHost
 +from operator import itemgetter
 +
  import json
@@ -1392,11 +2581,11 @@ Index: events_list/views.py
  # FIXME: make this a configuration value
 -MEETUP_API_KEY = "3a7711454d145e404e531c2ee6f391d"
 +MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
-+TWITTER_CONSUMER_TOKEN = "5fqpzXtaoZmwF29KAHc0Grit3"
-+TWITTER_CONSUMER_SECRET = "uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
++TWITTER_API_KEY = "5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
  
  logger = logging.getLogger(__name__)
  
++#Log in function with user input for username and password
 +def login(request):
 +    state = "Please log in below..."
 +    username = password = ''
@@ -1420,17 +2609,20 @@ Index: events_list/views.py
 +    })
 +    return HttpResponse(template.render(context))
 +
++#Logs the user out
 +def logout_view(request):
 +    logout(request)
 +    return render(request, 'login/login.html')
 +
++#Main page of website that views events
  def index(request):
      now = datetime.now()
      upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
-@@ -27,6 +67,30 @@
+@@ -27,6 +69,31 @@
      })
      return HttpResponse(template.render(context))
  
++#Searches for event by location via Google Maps API
 +def eventSearch(request):
 +    #return render(request, 'events/eventSearch.html')
 +    now = datetime.now()
@@ -1442,7 +2634,7 @@ Index: events_list/views.py
 +    })
 +    return HttpResponse(template.render(context))
 +	
-+
++#Creates an account for user
 +def createAccount(request):
 +    if request.POST:
 +        username = request.POST.get('username')
@@ -1458,7 +2650,7 @@ Index: events_list/views.py
  def eventList(request):
      now = datetime.now()
      td = timedelta(days = 14)
-@@ -38,6 +102,7 @@
+@@ -38,6 +105,7 @@
  
      return HttpResponse(markdown, content_type="text/plain")
      
@@ -1466,7 +2658,7 @@ Index: events_list/views.py
  def viewEvent(request, event_id):
      event = get_object_or_404(Event, pk = event_id)
  
-@@ -47,8 +112,8 @@
+@@ -47,8 +115,8 @@
      })
      return HttpResponse(template.render(context))
      
@@ -1476,7 +2668,7 @@ Index: events_list/views.py
      event = get_object_or_404(Event, pk = event_id)
      event.is_applicable = not event.is_applicable
      event.save()
-@@ -66,6 +131,7 @@
+@@ -66,6 +134,7 @@
  
      return redirect('events_list.views.index')
  
@@ -1484,7 +2676,7 @@ Index: events_list/views.py
  def groupIndex(request):
      groups_list = Group.objects.all().filter(is_applicable = True)
      template = loader.get_template('groups/index.html')
-@@ -75,8 +141,8 @@
+@@ -75,8 +144,8 @@
      })
      return HttpResponse(template.render(context))
  
@@ -1494,8 +2686,15 @@ Index: events_list/views.py
      group = get_object_or_404(Group, pk = id)
      group.is_applicable = not group.is_applicable
      group.save()
-@@ -99,14 +165,76 @@
+@@ -97,16 +166,67 @@
+         event.is_applicable = group.is_applicable
+         event.save()
  
++    persons = Person.objects.filter(groups = group)
++    for person in persons:
++        person.is_applicable = group.is_applicable
++        person.save()
++
      return redirect('events_list.views.groupIndex')
  
 +# Lists all the people
@@ -1518,36 +2717,20 @@ Index: events_list/views.py
  
 +#List people hosting events
 +def eventHosts(request):
-+    person_list = Person.objects.all()
++    host_list = Host.objects.all()
 +    template = loader.get_template('people/eventHosts.html')
 +    context = RequestContext(request, {
-+                             'person_list': person_list
++                             'host_list': host_list,
++                             'can_import': _canImport()
 +    })
 +    if 'excel' in request.POST:
 +        response = HttpResponse(content_type='application/vnd.ms-excel')
-+        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
-+        xlsx_data = WriteToExcel(person_list)
-+        response.write(xlsx_data)
++        response['Content-Disposition'] = 'attachment; filename=hosts.xlsx'
++        xlsx_data2 = WriteToExcelHost(host_list)
++        response.write(xlsx_data2)
 +        return response
 +
 +    return HttpResponse(template.render(context))
-+
-+#List people not hosting events
-+def notEventHosts(request):
-+    person_list = Person.objects.all()
-+    template = loader.get_template('people/notEventHosts.html')
-+    context = RequestContext(request, {
-+                             'person_list': person_list
-+    })
-+    if 'excel' in request.POST:
-+        response = HttpResponse(content_type='application/vnd.ms-excel')
-+        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
-+        xlsx_data = WriteToExcel(person_list)
-+        response.write(xlsx_data)
-+        return response
-+
-+    return HttpResponse(template.render(context))
-+
 +
 +# Toggle the is_applicable field on a given person
 +def togglePersonNA(request, person_id):
@@ -1572,7 +2755,105 @@ Index: events_list/views.py
  def viewPerson(request, person_id):
      person = get_object_or_404(Person, pk = person_id)
  
-@@ -158,7 +286,12 @@
+@@ -116,6 +236,15 @@
+     })
+     return HttpResponse(template.render(context))
+ 
++#Shows a specific host's information
++def viewHost(request, personHost_id):
++    personHost = get_object_or_404(Host, pk = personHost_id)
++   
++    template = loader.get_template('people/viewHosts.html')
++    context = RequestContext(request, {
++                             'personHost': personHost
++    })
++    return HttpResponse(template.render(context))
+ 
+ def _canImport():
+     if settings.DEBUG:
+@@ -133,6 +262,81 @@
+         pass
+     return can_import
+ 
++def importAllHosts(request):
++    # Import latest meetups from meetup.com, if we didn't import them within the last hour
++    log = Log()
++    log.description = "Events imported"
++    log.action_type = Log.EVENT_IMPORT
++    log.save()
++
++    # get all the hashtags from the DB
++    hosts = Host.objects.all()
++
++    # iterate over them all makeing a call to meetups.com for each one and adding results to the database
++    for host in hosts:
++      importHosts(host.meetupID)
++
++    return redirect('eventHosts')
++
++
++def importHosts(hostID):
++    #hostID = get_object_or_404(Host, pk = hostID)
++
++    log = Log()
++    log.description = "Hosts imported"
++    log.action_type = Log.EVENT_IMPORT
++    log.save()
++
++    url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
++    response = urllib2.urlopen(url)
++    result = response.read()
++
++    data = json.loads(result)
++    hostsInfo = data
++
++    #for hostsInfo in data:
++    try:
++        host = Host.objects.get(meetupID = hostsInfo['id'])
++    except Host.DoesNotExist:
++        host = Host()
++    try:
++        host.country = hostsInfo['country']
++        host.fullName = hostsInfo['name']
++        host.city = hostsInfo['city']
++        host.state = hostsInfo['state']
++        visited = float(str(hostsInfo['visited'])[0:-3])
++        host.lastVisit = datetime.utcfromtimestamp(visited)
++        if 'lon' in hostsInfo.keys():
++            host.longitude = hostsInfo['lon']
++        if 'lat' in hostsInfo.keys():
++            host.latitude = hostsInfo['lat']
++        host.url = hostsInfo['link']
++        if 'other_services' in hostsInfo.keys():
++            if 'twitter' in hostsInfo['other_services'].keys():
++                if 'identifier' in hostsInfo['other_services']['twitter'].keys():
++                    host.service = hostsInfo['other_services']['twitter']['identifier']
++        host.save()
++
++        if 'topics' in hostsInfo.keys():
++            for topic in hostsInfo['topics']:
++                try:
++                    record = HostTopic.objects.get(meetupID = topic['id'])
++                except HostTopic.DoesNotExist:
++                    record = HostTopic()
++                record.urlkey = topic['urlkey']
++                record.name = topic['name']
++                record.meetupID = topic['id']
++                record.save()
++                host.topics.add(record)
++
++
++        person.save()
++    except:
++        print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
++
++    #return redirect('eventHosts') 
++                
++
+ def importMembers(request, group_id):
+     group = get_object_or_404(Group, pk = group_id)
+ 
+@@ -158,7 +362,12 @@
          try:
              person.meetupID = member['id']
              person.name = member['name']
@@ -1585,16 +2866,16 @@ Index: events_list/views.py
              if 'state' in member.keys():
                  person.state = member['state']
              person.city = member['city']
-@@ -221,7 +354,7 @@
+@@ -221,7 +430,7 @@
  
      # Radius is defined around Lexington, KY, but it's infinite radius, so
      # should work everywhere.
 -    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&text=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
-+    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
++    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
  
      print "Fetching meetups ..."
  
-@@ -238,7 +371,7 @@
+@@ -238,7 +447,7 @@
  
      for meetup in meetups:
          groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
@@ -1603,7 +2884,7 @@ Index: events_list/views.py
      keys = groups.keys()
      keyarg = ",".join( keys )
      
-@@ -266,7 +399,7 @@
+@@ -266,7 +475,7 @@
                              meetups.remove(m)
                              
      for meetup in meetups:
@@ -1612,7 +2893,7 @@ Index: events_list/views.py
          grp = grp_deets[ meetup['group']['id'] ]
  
          try:
-@@ -293,6 +426,21 @@
+@@ -293,6 +502,22 @@
          try:
              event.name = unicode(meetup['name'])
              event.event_url = meetup['event_url']
@@ -1631,17 +2912,42 @@ Index: events_list/views.py
 +                if 'lon' in meetup['venue'].keys():
 +                    event.longitude = meetup['venue']['lon']
 +            #end getting locaiton info - Justin Bruntmyer
++
              event.meetupID = meetup['id']
              event.group = group
              event.description = unicode(meetup['description'])
-@@ -312,5 +460,89 @@
+@@ -308,9 +533,102 @@
+             event.is_applicable = group.is_applicable                
+             event.save()
+ 
++            if 'event_hosts' in meetup.keys():
++                for host in meetup['event_hosts']:
++                    try:
++                        record = Host.objects.get(meetupID = host['member_id'])
++                    except Host.DoesNotExist:
++                        record = Host()
++                    record.name = host['member_name']
++                    record.meetupID = host['member_id']
++                    record.eventname = event.name
++                    record.event_link = event.event_url
++                    if 'photo' in host.keys():
++                        if 'highres_link' in host['photo'].keys():
++                            record.largePhoto = host['photo']['highres_link']
++                        if 'photo_link' in host['photo'].keys():
++                            record.photo = host['photo']['photo_link']
++                        if 'thumb_link' in host['photo'].keys():
++                            record.thumbnail = host['photo']['thumb_link']
++                    record.save()
++                    event.hosts.add(record)
++
+             event.hashtags.add(hashtag)
              event.save()
          except:
              print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
 +
 +def _twitterAuth():
 +    # Encode the keys
-+    key = base64.b64encode("5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G")
++    key = base64.b64encode(TWITTER_API_KEY)
 +
 +    # Set needed values
 +    authURL = "https://api.twitter.com/oauth2/token"
@@ -1658,18 +2964,18 @@ Index: events_list/views.py
 +    return authJSON['access_token']
  
 +def _oembedTweets(tweets):
-+    oembed = []
-+    for tweet in tweets:
-+        url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweet['id'])
-+        embededResponse = requests.get(url)
-+        embeded = embededResponse.json()
-+        oembed.append(embeded['html'])
++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
++    oembed = dict()
++    for hashtag in hashtags:
++        oembed[hashtag.name] = []
++        for i in range(0, len(tweets[hashtag.name]) - 1):
++            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
++            embededResponse = requests.get(url)
++            embeded = embededResponse.json()
++            oembed[hashtag.name].append(embeded['html'])
 +
 +    return oembed
 +
-+def viewTweets(request):
-+    return render(request, 'tweets/view.html')
-+   
 +def tweetsNotApp(request):
 +    # Auth with twitter
 +    accessToken = _twitterAuth()
@@ -1677,22 +2983,15 @@ Index: events_list/views.py
 +    # Get the hashtags
 +    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 +
-+    oembed = []
-+    allTweets = []
++    allTweets = dict()
 +    for hashtag in hashtags:
++        allTweets[hashtag.name] = []
 +        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
 +        headers = {'Authorization': "Bearer " + accessToken}
 +        response = requests.get(url, headers=headers)
 +        tweetsJSON = response.json()
 +        for tweet in tweetsJSON['statuses']:
-+            #tweet['created_at'] = datetime.datetime.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y").isoformat()
-+            allTweets.append(tweet)
-+
-+    # Supposed to sort the tweets so they will be in order of posting, doesn't
-+    # really work. Does at least kinda mix up the tweets so they're not blocks
-+    # of one hashtag
-+    #sortedTweets = sorted(allTweets, key=lambda k: k['created_at']) 
-+    sortedTweets = sorted(allTweets, key=itemgetter('id'))
++            allTweets[hashtag.name].append(tweet['id'])
 +
 +    oembed = _oembedTweets(allTweets)
 +
@@ -1702,31 +3001,3053 @@ Index: events_list/views.py
 +def tweetsApp(request):
 +    # Auth with Twitter
 +    accessToken = _twitterAuth()
-+    # Get people
-+    person_list = Person.objects.all()
++
++    # Get hashtags
 +    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 +
 +    oembed = []
-+    allTweets = []
-+    for person in person_list:
-+        for hashtag in hashtags:
-+            url = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + person.service[1:] + "%23" + hashtag.name + "&src=typd"
-+            headers = {'Authorization': "Bearer " + accessToken}
-+            response = requests.get(url, headers=headers)
-+            tweetsJSON = response.json()
-+            for tweet in tweetsJSON['statuses']:
-+                allTweets.append(tweet)
++    allTweets = dict()
++    for hashtag in hashtags:
++        allTweets[hashtag.name] = []
++        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
++        headers = {'Authorization': "Bearer " + accessToken}
++        response = requests.get(url, headers=headers)
++        tweetsJSON = response.json()
++        for tweet in tweetsJSON['statuses']:
++            allTweets[hashtag.name].append(tweet['id'])
 +
 +    oembed = _oembedTweets(allTweets)
 +
 +    return render(request, 'tweets/app.html', {'tweets': oembed})
+Index: patch.diff
+===================================================================
+--- patch.diff	(revision 0)
++++ patch.diff	(working copy)
+@@ -0,0 +1,3021 @@
++Index: .svnignore
++===================================================================
++--- .svnignore	(revision 1743253)
+++++ .svnignore	(working copy)
++@@ -1,6 +1,7 @@
++ *.cer
++ *.pem
++ *.pfx
+++*.pyc
++ 
++ # Generated files
++ groups.json
++@@ -7,4 +8,4 @@
++ meetups.json
++ meetups.mdtext
++ meetups.mlist
++-meetups.tweets
++\ No newline at end of file
+++meetups.tweets
++Index: comdev_tools/__init__.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: comdev_tools/__init__.pyc
++===================================================================
++--- comdev_tools/__init__.pyc	(revision 0)
+++++ comdev_tools/__init__.pyc	(working copy)
 +
-+def construction(request):
-+    return render(request, 'login/construction.html')
++Property changes on: comdev_tools/__init__.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: comdev_tools/settings.py
++===================================================================
++--- comdev_tools/settings.py	(revision 1743253)
+++++ comdev_tools/settings.py	(working copy)
++@@ -105,3 +105,7 @@
++ # https://docs.djangoproject.com/en/1.8/howto/static-files/
++ 
++ STATIC_URL = '/static/'
+++
+++# Login
+++
+++LOGIN_URL = '/home/'
++Index: comdev_tools/settings.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: comdev_tools/settings.pyc
++===================================================================
++--- comdev_tools/settings.pyc	(revision 0)
+++++ comdev_tools/settings.pyc	(working copy)
 +
++Property changes on: comdev_tools/settings.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: comdev_tools/urls.py
++===================================================================
++--- comdev_tools/urls.py	(revision 1743253)
+++++ comdev_tools/urls.py	(working copy)
++@@ -17,6 +17,6 @@
++ from django.contrib import admin
++ 
++ urlpatterns = [
++-    url(r'^events/', include('events_list.urls')),
+++    url(r'^', include('events_list.urls')),
++     url(r'^admin/', include(admin.site.urls)),
++ ]
++Index: comdev_tools/wsgi.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: comdev_tools/wsgi.pyc
++===================================================================
++--- comdev_tools/wsgi.pyc	(revision 0)
+++++ comdev_tools/wsgi.pyc	(working copy)
++
++Property changes on: comdev_tools/wsgi.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/admin.py
++===================================================================
++--- events_list/admin.py	(revision 1743253)
+++++ events_list/admin.py	(working copy)
++@@ -1,5 +1,5 @@
++ from django.contrib import admin
++-from .models import Event, Group, Hashtag, Log, Person, Topic
+++from .models import Event, Group, Hashtag, Log, Person, Topic, Host, HostTopic
++ 
++ admin.site.register(Event)
++ admin.site.register(Group)
++@@ -6,6 +6,8 @@
++ admin.site.register(Hashtag)
++ admin.site.register(Person)
++ admin.site.register(Topic)
+++admin.site.register(Host)
+++admin.site.register(HostTopic)
++ 
++ admin.site.register(Log)
++ 
++Index: events_list/excel_utils.py
++===================================================================
++--- events_list/excel_utils.py	(revision 0)
+++++ events_list/excel_utils.py	(working copy)
++@@ -0,0 +1,169 @@
+++import StringIO
+++import xlsxwriter
+++from django.utils.translation import ugettext
+++
+++from .models import Person, Host
+++
+++#Exports excel file from person_list
+++def WriteToExcel(person_list):
+++    output = StringIO.StringIO()
+++    workbook = xlsxwriter.Workbook(output)
+++    worksheet_s = workbook.add_worksheet("People")
+++
+++    #excel styles
+++    title = workbook.add_format({
+++        'bold': True,
+++        'font_size': 14,
+++        'align': 'center',
+++        'valign': 'vcenter'
+++    })
+++    header = workbook.add_format({
+++        'bg_color': '#F7F7F7',
+++        'color': 'black',
+++        'align': 'center',
+++        'valign': 'top',
+++        'border': 1
+++    })
+++    cell = workbook.add_format({
+++        'align': 'left',
+++        'valign': 'top',
+++        'text_wrap': True,
+++        'border': 1
+++    })
+++    cell_center = workbook.add_format({
+++        'align': 'center',
+++        'valign': 'top',
+++        'border': 1
+++    })
+++
+++    #write title
+++    person_text = ugettext("everyone")
+++    title_text = u"{0} {1}".format(ugettext("Information for"), person_text)
+++    #merge cells
+++    worksheet_s.merge_range('B2:I2', title_text, title)
+++
+++    #write header
+++    worksheet_s.write(4, 0, ugettext("No"), header)
+++    worksheet_s.write(4, 1, ugettext("Name"), header)
+++    worksheet_s.write(4, 2, ugettext("Service"), header)
+++    worksheet_s.write(4, 3, ugettext("Bio"), header)
+++    worksheet_s.write(4, 4, ugettext("Country"), header)
+++    worksheet_s.write(4, 5, ugettext("State"), header)
+++    worksheet_s.write(4, 6, ugettext("City"), header)
+++    worksheet_s.write(4, 7, ugettext("MeetupID"), header)
+++    worksheet_s.write(4, 8, ugettext("URL"), header)
+++
+++    #column widths
+++    bio_col_width = 42
+++    service_col_width = 22
+++    name_col_width = 30
+++    meetupID_col_width = 22
+++    city_col_width = 22
+++    url_col_width = 42
+++
+++    #Change column widths
+++    worksheet_s.set_column('B:B', name_col_width)
+++    worksheet_s.set_column('C:C', service_col_width)
+++    worksheet_s.set_column('D:D', bio_col_width)
+++    worksheet_s.set_column('G:G', city_col_width)
+++    worksheet_s.set_column('H:H', meetupID_col_width)
+++    worksheet_s.set_column('I:I', url_col_width)
+++
+++    #add data to the table
+++    for idx, data in enumerate(person_list):
+++        row = 5 + idx
+++        worksheet_s.write_number(row, 0, idx + 1, cell_center)
+++        worksheet_s.write_string(row, 1, data.name, cell)
+++        worksheet_s.write_string(row, 2, data.service, cell)
+++        worksheet_s.write_string(row, 3, data.bio, cell)
+++        worksheet_s.write_string(row, 4, data.country, cell)
+++        worksheet_s.write_string(row, 5, data.state, cell)
+++        worksheet_s.write_string(row, 6, data.city, cell)
+++        worksheet_s.write_number(row, 7, data.meetupID, cell)
+++        worksheet_s.write_string(row, 8, data.url, cell)
+++
+++    workbook.close()
+++    xlsx_data = output.getvalue()           #xlsx_data contains the Excel file
+++    return xlsx_data
+++
+++#Exports excel file from person_list
+++def WriteToExcelHost(host_list):
+++    output = StringIO.StringIO()
+++    workbook = xlsxwriter.Workbook(output)
+++    worksheet_s = workbook.add_worksheet("Hosts")
+++
+++    #excel styles
+++    title = workbook.add_format({
+++        'bold': True,
+++        'font_size': 14,
+++        'align': 'center',
+++        'valign': 'vcenter'
+++    })
+++    header = workbook.add_format({
+++        'bg_color': '#F7F7F7',
+++        'color': 'black',
+++        'align': 'center',
+++        'valign': 'top',
+++        'border': 1
+++    })
+++    cell = workbook.add_format({
+++        'align': 'left',
+++        'valign': 'top',
+++        'text_wrap': True,
+++        'border': 1
+++    })
+++    cell_center = workbook.add_format({
+++        'align': 'center',
+++        'valign': 'top',
+++        'border': 1
+++    })
+++
+++    #write title
+++    host_text = ugettext("Event Hosts")
+++    title_text = u"{0} {1}".format(ugettext("Information for"), host_text)
+++    #merge cells
+++    worksheet_s.merge_range('B2:I2', title_text, title)
+++
+++    #write header
+++    worksheet_s.write(4, 0, ugettext("No"), header)
+++    worksheet_s.write(4, 1, ugettext("Name"), header)
+++    worksheet_s.write(4, 2, ugettext("Service"), header)
+++    worksheet_s.write(4, 3, ugettext("Event Hosting"), header)
+++    worksheet_s.write(4, 4, ugettext("Country"), header)
+++    worksheet_s.write(4, 5, ugettext("State"), header)
+++    worksheet_s.write(4, 6, ugettext("City"), header)
+++    worksheet_s.write(4, 7, ugettext("MeetupID"), header)
+++    worksheet_s.write(4, 8, ugettext("URL"), header)
+++
+++    #column widths
+++    eventname_col_width = 42
+++    service_col_width = 22
+++    name_col_width = 30
+++    meetupID_col_width = 22
+++    city_col_width = 22
+++    url_col_width = 42
+++   
+++    #Change column widths
+++    worksheet_s.set_column('B:B', name_col_width)
+++    worksheet_s.set_column('C:C', service_col_width)
+++    worksheet_s.set_column('D:D', eventname_col_width)
+++    worksheet_s.set_column('G:G', city_col_width)
+++    worksheet_s.set_column('H:H', meetupID_col_width)
+++    worksheet_s.set_column('I:I', url_col_width)
+++
+++    #add data to the table
+++    for idx, data in enumerate(host_list):
+++        row = 5 + idx
+++        worksheet_s.write_number(row, 0, idx + 1, cell_center)
+++        worksheet_s.write_string(row, 1, data.name, cell)
+++        worksheet_s.write_string(row, 2, data.service, cell)
+++        worksheet_s.write_string(row, 3, data.eventname, cell)
+++        worksheet_s.write_string(row, 4, data.country, cell)
+++        worksheet_s.write_string(row, 5, data.state, cell)
+++        worksheet_s.write_string(row, 6, data.city, cell)
+++        worksheet_s.write_number(row, 7, data.meetupID, cell)
+++        worksheet_s.write_string(row, 8, data.url, cell)
+++
+++    workbook.close()
+++    xlsx_data2 = output.getvalue()           #xlsx_data contains the Excel file
+++    return xlsx_data2
++Index: events_list/migrations/0001_initial.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0001_initial.pyc
++===================================================================
++--- events_list/migrations/0001_initial.pyc	(revision 0)
+++++ events_list/migrations/0001_initial.pyc	(working copy)
++
++Property changes on: events_list/migrations/0001_initial.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0002_initial_data.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0002_initial_data.pyc
++===================================================================
++--- events_list/migrations/0002_initial_data.pyc	(revision 0)
+++++ events_list/migrations/0002_initial_data.pyc	(working copy)
++
++Property changes on: events_list/migrations/0002_initial_data.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0003_person_service.py
++===================================================================
++--- events_list/migrations/0003_person_service.py	(revision 0)
+++++ events_list/migrations/0003_person_service.py	(working copy)
++@@ -0,0 +1,21 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-02-23 02:19
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0002_initial_data'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='person',
+++            name='service',
+++            field=models.CharField(default=123, max_length=50),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0003_person_service.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0003_person_service.pyc
++===================================================================
++--- events_list/migrations/0003_person_service.pyc	(revision 0)
+++++ events_list/migrations/0003_person_service.pyc	(working copy)
++
++Property changes on: events_list/migrations/0003_person_service.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0003_userprofile.py
++===================================================================
++--- events_list/migrations/0003_userprofile.py	(revision 0)
+++++ events_list/migrations/0003_userprofile.py	(working copy)
++@@ -0,0 +1,26 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-02-19 01:50
+++from __future__ import unicode_literals
+++
+++from django.conf import settings
+++from django.db import migrations, models
+++import django.db.models.deletion
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+++        ('events_list', '0002_initial_data'),
+++    ]
+++
+++    operations = [
+++        migrations.CreateModel(
+++            name='UserProfile',
+++            fields=[
+++                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+++                ('twitter_handle', models.CharField(max_length=16)),
+++                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+++            ],
+++        ),
+++    ]
++Index: events_list/migrations/0003_userprofile.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0003_userprofile.pyc
++===================================================================
++--- events_list/migrations/0003_userprofile.pyc	(revision 0)
+++++ events_list/migrations/0003_userprofile.pyc	(working copy)
++
++Property changes on: events_list/migrations/0003_userprofile.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0004_merge.py
++===================================================================
++--- events_list/migrations/0004_merge.py	(revision 0)
+++++ events_list/migrations/0004_merge.py	(working copy)
++@@ -0,0 +1,16 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.2 on 2016-02-24 02:17
+++from __future__ import unicode_literals
+++
+++from django.db import migrations
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0003_person_service'),
+++        ('events_list', '0003_userprofile'),
+++    ]
+++
+++    operations = [
+++    ]
++Index: events_list/migrations/0004_merge.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0004_merge.pyc
++===================================================================
++--- events_list/migrations/0004_merge.pyc	(revision 0)
+++++ events_list/migrations/0004_merge.pyc	(working copy)
++
++Property changes on: events_list/migrations/0004_merge.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0005_auto_20160224_0219.py
++===================================================================
++--- events_list/migrations/0005_auto_20160224_0219.py	(revision 0)
+++++ events_list/migrations/0005_auto_20160224_0219.py	(working copy)
++@@ -0,0 +1,22 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-02-24 02:19
+++from __future__ import unicode_literals
+++
+++from django.db import migrations
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0004_merge'),
+++    ]
+++
+++    operations = [
+++        migrations.RemoveField(
+++            model_name='userprofile',
+++            name='user',
+++        ),
+++        migrations.DeleteModel(
+++            name='UserProfile',
+++        ),
+++    ]
++Index: events_list/migrations/0005_auto_20160224_0219.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0005_auto_20160224_0219.pyc
++===================================================================
++--- events_list/migrations/0005_auto_20160224_0219.pyc	(revision 0)
+++++ events_list/migrations/0005_auto_20160224_0219.pyc	(working copy)
++
++Property changes on: events_list/migrations/0005_auto_20160224_0219.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0006_auto_20160301_0148.py
++===================================================================
++--- events_list/migrations/0006_auto_20160301_0148.py	(revision 0)
+++++ events_list/migrations/0006_auto_20160301_0148.py	(working copy)
++@@ -0,0 +1,33 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-03-01 01:48
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0005_auto_20160224_0219'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='event',
+++            name='city',
+++            field=models.CharField(default=1, max_length=30),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='event',
+++            name='country',
+++            field=models.CharField(default=1, max_length=2),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='event',
+++            name='state',
+++            field=models.CharField(default=1, max_length=2),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0006_auto_20160301_0148.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0006_auto_20160301_0148.pyc
++===================================================================
++--- events_list/migrations/0006_auto_20160301_0148.pyc	(revision 0)
+++++ events_list/migrations/0006_auto_20160301_0148.pyc	(working copy)
++
++Property changes on: events_list/migrations/0006_auto_20160301_0148.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0007_event_address_1.py
++===================================================================
++--- events_list/migrations/0007_event_address_1.py	(revision 0)
+++++ events_list/migrations/0007_event_address_1.py	(working copy)
++@@ -0,0 +1,21 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-03-01 22:03
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0006_auto_20160301_0148'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='event',
+++            name='address_1',
+++            field=models.CharField(default=1, max_length=40),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0007_event_address_1.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0007_event_address_1.pyc
++===================================================================
++--- events_list/migrations/0007_event_address_1.pyc	(revision 0)
+++++ events_list/migrations/0007_event_address_1.pyc	(working copy)
++
++Property changes on: events_list/migrations/0007_event_address_1.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0008_event_latitude.py
++===================================================================
++--- events_list/migrations/0008_event_latitude.py	(revision 0)
+++++ events_list/migrations/0008_event_latitude.py	(working copy)
++@@ -0,0 +1,21 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-03-01 22:11
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0007_event_address_1'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='event',
+++            name='latitude',
+++            field=models.DecimalField(decimal_places=6, default=1, max_digits=10),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0008_event_latitude.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0008_event_latitude.pyc
++===================================================================
++--- events_list/migrations/0008_event_latitude.pyc	(revision 0)
+++++ events_list/migrations/0008_event_latitude.pyc	(working copy)
++
++Property changes on: events_list/migrations/0008_event_latitude.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0009_event_longitude.py
++===================================================================
++--- events_list/migrations/0009_event_longitude.py	(revision 0)
+++++ events_list/migrations/0009_event_longitude.py	(working copy)
++@@ -0,0 +1,21 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-03-01 22:20
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0008_event_latitude'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='event',
+++            name='longitude',
+++            field=models.DecimalField(decimal_places=6, default=1, max_digits=10),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0009_event_longitude.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0009_event_longitude.pyc
++===================================================================
++--- events_list/migrations/0009_event_longitude.pyc	(revision 0)
+++++ events_list/migrations/0009_event_longitude.pyc	(working copy)
++
++Property changes on: events_list/migrations/0009_event_longitude.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0010_person_is_applicable.py
++===================================================================
++--- events_list/migrations/0010_person_is_applicable.py	(revision 0)
+++++ events_list/migrations/0010_person_is_applicable.py	(working copy)
++@@ -0,0 +1,20 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.1 on 2016-03-28 23:41
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0009_event_longitude'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='person',
+++            name='is_applicable',
+++            field=models.BooleanField(default=True, help_text=b'Indicates if a person is applicable to our audience or not'),
+++        ),
+++    ]
++Index: events_list/migrations/0010_person_is_applicable.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0010_person_is_applicable.pyc
++===================================================================
++--- events_list/migrations/0010_person_is_applicable.pyc	(revision 0)
+++++ events_list/migrations/0010_person_is_applicable.pyc	(working copy)
++
++Property changes on: events_list/migrations/0010_person_is_applicable.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0011_auto_20160404_2142.py
++===================================================================
++--- events_list/migrations/0011_auto_20160404_2142.py	(revision 0)
+++++ events_list/migrations/0011_auto_20160404_2142.py	(working copy)
++@@ -0,0 +1,55 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.4 on 2016-04-04 21:42
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0010_person_is_applicable'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='event',
+++            name='event_hostname',
+++            field=models.CharField(default=b'', max_length=200),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='address_1',
+++            field=models.CharField(default=b'', max_length=40),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='city',
+++            field=models.CharField(default=b'', max_length=30),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='country',
+++            field=models.CharField(default=b'', max_length=2),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='latitude',
+++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='longitude',
+++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
+++        ),
+++        migrations.AlterField(
+++            model_name='event',
+++            name='state',
+++            field=models.CharField(default=b'', max_length=2),
+++        ),
+++        migrations.AlterField(
+++            model_name='person',
+++            name='service',
+++            field=models.CharField(default=b'', max_length=50),
+++        ),
+++    ]
++Index: events_list/migrations/0011_auto_20160404_2142.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0011_auto_20160404_2142.pyc
++===================================================================
++--- events_list/migrations/0011_auto_20160404_2142.pyc	(revision 0)
+++++ events_list/migrations/0011_auto_20160404_2142.pyc	(working copy)
++
++Property changes on: events_list/migrations/0011_auto_20160404_2142.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0012_auto_20160405_2002.py
++===================================================================
++--- events_list/migrations/0012_auto_20160405_2002.py	(revision 0)
+++++ events_list/migrations/0012_auto_20160405_2002.py	(working copy)
++@@ -0,0 +1,32 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.4 on 2016-04-05 20:02
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0011_auto_20160404_2142'),
+++    ]
+++
+++    operations = [
+++        migrations.CreateModel(
+++            name='Host',
+++            fields=[
+++                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+++                ('name', models.CharField(max_length=200)),
+++                ('meetupID', models.BigIntegerField(unique=True, verbose_name=b'Meetups.com ID')),
+++            ],
+++        ),
+++        migrations.RemoveField(
+++            model_name='event',
+++            name='event_hostname',
+++        ),
+++        migrations.AddField(
+++            model_name='event',
+++            name='hosts',
+++            field=models.ManyToManyField(related_name='people', to='events_list.Host'),
+++        ),
+++    ]
++Index: events_list/migrations/0012_auto_20160405_2002.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0012_auto_20160405_2002.pyc
++===================================================================
++--- events_list/migrations/0012_auto_20160405_2002.pyc	(revision 0)
+++++ events_list/migrations/0012_auto_20160405_2002.pyc	(working copy)
++
++Property changes on: events_list/migrations/0012_auto_20160405_2002.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0013_host_eventname.py
++===================================================================
++--- events_list/migrations/0013_host_eventname.py	(revision 0)
+++++ events_list/migrations/0013_host_eventname.py	(working copy)
++@@ -0,0 +1,21 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.4 on 2016-04-06 20:29
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0012_auto_20160405_2002'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='host',
+++            name='eventname',
+++            field=models.CharField(default=-1, max_length=200),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0013_host_eventname.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0013_host_eventname.pyc
++===================================================================
++--- events_list/migrations/0013_host_eventname.pyc	(revision 0)
+++++ events_list/migrations/0013_host_eventname.pyc	(working copy)
++
++Property changes on: events_list/migrations/0013_host_eventname.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0014_auto_20160411_1950.py
++===================================================================
++--- events_list/migrations/0014_auto_20160411_1950.py	(revision 0)
+++++ events_list/migrations/0014_auto_20160411_1950.py	(working copy)
++@@ -0,0 +1,33 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.5 on 2016-04-11 19:50
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0013_host_eventname'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='host',
+++            name='largePhoto',
+++            field=models.URLField(default=-1),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='photo',
+++            field=models.URLField(default=-1),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='thumbnail',
+++            field=models.URLField(default=-1),
+++            preserve_default=False,
+++        ),
+++    ]
++Index: events_list/migrations/0014_auto_20160411_1950.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0014_auto_20160411_1950.pyc
++===================================================================
++--- events_list/migrations/0014_auto_20160411_1950.pyc	(revision 0)
+++++ events_list/migrations/0014_auto_20160411_1950.pyc	(working copy)
++
++Property changes on: events_list/migrations/0014_auto_20160411_1950.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0015_auto_20160411_2024.py
++===================================================================
++--- events_list/migrations/0015_auto_20160411_2024.py	(revision 0)
+++++ events_list/migrations/0015_auto_20160411_2024.py	(working copy)
++@@ -0,0 +1,49 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.5 on 2016-04-11 20:24
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0014_auto_20160411_1950'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='host',
+++            name='city',
+++            field=models.CharField(default=-1, max_length=30),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='country',
+++            field=models.CharField(default=-1, max_length=2),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='fullName',
+++            field=models.CharField(default=-1, max_length=200),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='service',
+++            field=models.CharField(default=b'', max_length=50),
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='state',
+++            field=models.CharField(default=-1, max_length=2),
+++            preserve_default=False,
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='topics',
+++            field=models.ManyToManyField(related_name='hosts', to='events_list.Topic'),
+++        ),
+++    ]
++Index: events_list/migrations/0015_auto_20160411_2024.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0015_auto_20160411_2024.pyc
++===================================================================
++--- events_list/migrations/0015_auto_20160411_2024.pyc	(revision 0)
+++++ events_list/migrations/0015_auto_20160411_2024.pyc	(working copy)
++
++Property changes on: events_list/migrations/0015_auto_20160411_2024.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0016_auto_20160411_2050.py
++===================================================================
++--- events_list/migrations/0016_auto_20160411_2050.py	(revision 0)
+++++ events_list/migrations/0016_auto_20160411_2050.py	(working copy)
++@@ -0,0 +1,29 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.5 on 2016-04-11 20:50
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0015_auto_20160411_2024'),
+++    ]
+++
+++    operations = [
+++        migrations.CreateModel(
+++            name='HostTopic',
+++            fields=[
+++                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+++                ('name', models.CharField(max_length=200)),
+++                ('urlkey', models.CharField(max_length=50)),
+++                ('meetupID', models.BigIntegerField(unique=True, verbose_name=b'Meetups.com ID')),
+++            ],
+++        ),
+++        migrations.AlterField(
+++            model_name='host',
+++            name='topics',
+++            field=models.ManyToManyField(related_name='hosts', to='events_list.HostTopic'),
+++        ),
+++    ]
++Index: events_list/migrations/0016_auto_20160411_2050.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0016_auto_20160411_2050.pyc
++===================================================================
++--- events_list/migrations/0016_auto_20160411_2050.pyc	(revision 0)
+++++ events_list/migrations/0016_auto_20160411_2050.pyc	(working copy)
++
++Property changes on: events_list/migrations/0016_auto_20160411_2050.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0017_auto_20160414_0152.py
++===================================================================
++--- events_list/migrations/0017_auto_20160414_0152.py	(revision 0)
+++++ events_list/migrations/0017_auto_20160414_0152.py	(working copy)
++@@ -0,0 +1,35 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.5 on 2016-04-14 01:52
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0016_auto_20160411_2050'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='host',
+++            name='event_link',
+++            field=models.URLField(default=b''),
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='latitude',
+++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='longitude',
+++            field=models.DecimalField(decimal_places=6, default=0, max_digits=10),
+++        ),
+++        migrations.AddField(
+++            model_name='host',
+++            name='url',
+++            field=models.URLField(default=b''),
+++        ),
+++    ]
++Index: events_list/migrations/0017_auto_20160414_0152.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0017_auto_20160414_0152.pyc
++===================================================================
++--- events_list/migrations/0017_auto_20160414_0152.pyc	(revision 0)
+++++ events_list/migrations/0017_auto_20160414_0152.pyc	(working copy)
++
++Property changes on: events_list/migrations/0017_auto_20160414_0152.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/0018_host_lastvisit.py
++===================================================================
++--- events_list/migrations/0018_host_lastvisit.py	(revision 0)
+++++ events_list/migrations/0018_host_lastvisit.py	(working copy)
++@@ -0,0 +1,20 @@
+++# -*- coding: utf-8 -*-
+++# Generated by Django 1.9.5 on 2016-04-14 02:40
+++from __future__ import unicode_literals
+++
+++from django.db import migrations, models
+++
+++
+++class Migration(migrations.Migration):
+++
+++    dependencies = [
+++        ('events_list', '0017_auto_20160414_0152'),
+++    ]
+++
+++    operations = [
+++        migrations.AddField(
+++            model_name='host',
+++            name='lastVisit',
+++            field=models.DateTimeField(blank=True, null=True),
+++        ),
+++    ]
++Index: events_list/migrations/0018_host_lastvisit.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/0018_host_lastvisit.pyc
++===================================================================
++--- events_list/migrations/0018_host_lastvisit.pyc	(revision 0)
+++++ events_list/migrations/0018_host_lastvisit.pyc	(working copy)
++
++Property changes on: events_list/migrations/0018_host_lastvisit.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/migrations/__init__.pyc
++===================================================================
++Cannot display: file marked as a binary type.
++svn:mime-type = application/octet-stream
++Index: events_list/migrations/__init__.pyc
++===================================================================
++--- events_list/migrations/__init__.pyc	(revision 0)
+++++ events_list/migrations/__init__.pyc	(working copy)
++
++Property changes on: events_list/migrations/__init__.pyc
++___________________________________________________________________
++Added: svn:mime-type
++## -0,0 +1 ##
+++application/octet-stream
++\ No newline at end of property
++Index: events_list/models.py
++===================================================================
++--- events_list/models.py	(revision 1743253)
+++++ events_list/models.py	(working copy)
++@@ -1,5 +1,6 @@
++ from datetime import datetime, timedelta
++ from django.db import models
+++from django.contrib.auth.models import AbstractBaseUser
++ 
++ class Topic(models.Model):
++     name = models.CharField(max_length=200)
++@@ -12,6 +13,43 @@
++     def __unicode__(self):
++         return unicode(self.name)
++ 
+++class HostTopic(models.Model):
+++    name = models.CharField(max_length=200)
+++    urlkey = models.CharField(max_length=50)
+++    meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+++
+++    def __str__(self):
+++        return self.name
+++
+++    def __unicode__(self):
+++        return unicode(self.name)
+++
+++
+++class Host(models.Model):
+++    name = models.CharField(max_length=200)
+++    fullName= models.CharField(max_length=200)
+++    meetupID = models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+++    eventname = models.CharField(max_length=200)
+++    largePhoto = models.URLField()
+++    photo = models.URLField()
+++    thumbnail = models.URLField()
+++    country = models.CharField(max_length = 2)
+++    state = models.CharField(max_length = 2)
+++    city = models.CharField(max_length = 30)
+++    service = models.CharField(max_length = 50, default='')
+++    topics = models.ManyToManyField(HostTopic, related_name="hosts")
+++    latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+++    longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+++    url = models.URLField(default='')
+++    event_link = models.URLField(default='')
+++    lastVisit = models.DateTimeField(null=True, blank=True)
+++
+++    def __str__(self):
+++        return self.name
+++
+++    def __unicode__(self):
+++        return unicode(self.name)
+++
++ class Group(models.Model):
++     name = models.CharField(max_length=200)
++     city = models.CharField(max_length=50)
++@@ -38,6 +76,7 @@
++ class Person(models.Model):
++     name = models.CharField(max_length = 50)
++     bio = models.TextField()
+++    service = models.CharField(max_length = 50, default='')
++     country = models.CharField(max_length = 2)
++     state = models.CharField(max_length = 2)
++     city = models.CharField(max_length = 30)
++@@ -51,6 +90,7 @@
++     groups = models.ManyToManyField(Group, related_name="members")
++     topics = models.ManyToManyField(Topic, related_name="people")
++     meetupID =  models.BigIntegerField(verbose_name = "Meetups.com ID", unique=True)
+++    is_applicable = models.BooleanField(help_text = "Indicates if a person is applicable to our audience or not", default=True)
++ 
++     def __str__(self):
++         return self.name
++@@ -60,6 +100,17 @@
++ 
++ class Event(models.Model):
++     name = models.CharField(max_length=200)
+++    #added additional fields for event specific location - Justin Bruntmyer
+++    country = models.CharField(max_length = 2, default='')
+++    def save(self, force_insert=False, force_update=False):
+++        self.country = self.country.upper()
+++        super(Event, self).save(force_insert, force_update)
+++    state = models.CharField(max_length = 2, default='')
+++    city = models.CharField(max_length = 30, default='')
+++    address_1 = models.CharField(max_length = 40, default='')
+++    latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+++    longitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
+++    # end addition - Jusitn Bruntmyer
++     event_url = models.URLField()
++     group = models.ForeignKey(Group)
++     meetupID = models.CharField(verbose_name = "Meetups.com ID", max_length=50, unique=True)
++@@ -68,6 +119,7 @@
++     local_end = models.DateTimeField()
++     utc_offset = models.BigIntegerField()
++     hashtags = models.ManyToManyField(Hashtag, related_name="events")
+++    hosts = models.ManyToManyField(Host, related_name="people")
++     is_applicable = models.BooleanField(help_text = "Indicates if an event is applicable to our audience or not.", default=True)
++     
++     @property
++Index: events_list/readme.md
++===================================================================
++--- events_list/readme.md	(revision 1743253)
+++++ events_list/readme.md	(working copy)
++@@ -14,14 +14,14 @@
++ 
++ # Python Script #
++ 
++-To run the application as a Python script simply execyte get_meetups.
+++To run the application as a Python script simply execute get_meetups.
++ This will create a number of files in the project directory:
++ 
++   * meetups.mlist - a template email for events in the next week
++-  * meetups.mdtext - a markdown file of events i nthe next 2 weeks
+++  * meetups.mdtext - a markdown file of events in the next 2 weeks
++   * meetups.tweets - suggested tweets for events in the next 2 weeks
++   * meetups.json - a json file of all meetups
++-  * groups.json - a json file containing all groups organizin meetings
+++  * groups.json - a json file containing all groups organizing meetings
++ 
++ Alternatively you can run the "menu" script which will present a
++ command line menu allowing you to work with the events list.
++Index: events_list/templates/events/eventSearch.html
++===================================================================
++--- events_list/templates/events/eventSearch.html	(revision 0)
+++++ events_list/templates/events/eventSearch.html	(working copy)
++@@ -0,0 +1,268 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>Community Development: Event Search</title>
+++  {% include "include/head.html" %}
+++</head>
+++
+++<body>
+++  {% include "include/navbar.html" %}
+++
+++  <h1>Events Via Search</h1>
+++
+++  <head>
+++    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+++    <meta charset="utf-8">
+++    <title>Places Searchbox</title>
+++    <style>
+++      html, body {
+++        height: 100%;
+++        margin: 0;
+++        padding: 0;
+++      }
+++      #map {
+++        height: 80%;
+++        width: 35%;
+++        float: right;
+++        min-height: 250px;
+++        border: 1px solid black;
+++      }
+++      #eventList: {
+++        float: left;
+++        border: 1px solid red;
+++      }
+++      .controls {
+++        margin-top: 10px;
+++        border: 1px solid transparent;
+++        border-radius: 2px 0 0 2px;
+++        box-sizing: border-box;
+++        -moz-box-sizing: border-box;
+++        height: 32px;
+++        outline: none;
+++        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+++      }
+++
+++      #pac-input {
+++        background-color: #fff;
+++        font-family: Roboto;
+++        font-size: 15px;
+++        font-weight: 300;
+++        margin-left: 12px;
+++        padding: 0 11px 0 13px;
+++        text-overflow: ellipsis;
+++        width: 300px;
+++      }
+++
+++      #pac-input:focus {
+++        border-color: #4d90fe;
+++      }
+++
+++      .pac-container {
+++        font-family: Roboto;
+++      }
+++
+++      #type-selector {
+++        color: #fff;
+++        background-color: #4d90fe;
+++        padding: 5px 11px 0px 11px;
+++      }
+++
+++      #type-selector label {
+++        font-family: Roboto;
+++        font-size: 13px;
+++        font-weight: 300;
+++      }
+++      #target {
+++        width: 345px;
+++      }
+++    </style>
+++  </head>
+++    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+++    <div id="map"></div>
+++    <script>
+++      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+++
+++      function initMap() {
+++        var map = new google.maps.Map(document.getElementById('map'), {
+++          center: {lat: 44.5645659, lng: -123.2620435},
+++          zoom: 13,
+++          mapTypeId: google.maps.MapTypeId.ROADMAP
+++        });
+++
+++        var infoWindow = new google.maps.InfoWindow({map: map});
+++       
+++        if (navigator.geolocation) {
+++           navigator.geolocation.getCurrentPosition(function(position) {
+++              var pos = {
+++                 lat: position.coords.latitude,
+++                 lng: position.coords.longitude
+++              };
+++              
+++              infoWindow.setPosition(pos);
+++              infoWindow.setContent('You are here!');
+++              map.setCenter(pos);
+++              }, function() {
+++                handleLocationError(true, infoWindow, map.getCenter());
+++              });
+++         } else {
+++           //if ish doesnt work
+++           handleLocationError(false, infoWindow, map.getCenter());
+++         }
+++
+++        // Create the search box and link it to the UI element.
+++        var input = document.getElementById('pac-input');
+++        var searchBox = new google.maps.places.SearchBox(input);
+++        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+++
+++        // Bias the SearchBox results towards current map's viewport.
+++        map.addListener('bounds_changed', function() {
+++          searchBox.setBounds(map.getBounds());
+++        });
+++
+++        var markers = [];
+++        var cirlces = [];
+++        // Listen for the event fired when the user selects a prediction and retrieve
+++        // more details for that place.
+++
+++        {% for even in upcoming_events_list %}
+++              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
+++
+++              var marker = new google.maps.Marker({
+++                  position: myLatLng,
+++                  map: map,
+++                  title: '{{ even.name }}'
+++              });
+++        {% endfor %}
+++        searchBox.addListener('places_changed', function() {
+++        var places = searchBox.getPlaces();
+++
+++        if (places.length == 0) {
+++          return;
+++        }
+++        
+++        //Clear out the old markers.
+++        markers.forEach(function(marker) {
+++          circles.forEach(function(circle) {
+++            circle.setMap(null);
+++          });
+++          marker.setMap(null);
+++        });
+++
+++        // circles.forEach(function(circle) {
+++        //   circle.setMap(null);
+++        // });
+++
+++        markers = [];
+++        circles = [];
+++
+++        // For each place, get the icon, name and location.
+++        var bounds = new google.maps.LatLngBounds();
+++        places.forEach(function(place) {
+++        var icon = {
+++          url: place.icon,
+++          size: new google.maps.Size(71, 71),
+++          origin: new google.maps.Point(0, 0),
+++          anchor: new google.maps.Point(17, 34),
+++          scaledSize: new google.maps.Size(25, 25)
+++        };
+++
+++        // Create a marker for each place.
+++        markers.push(new google.maps.Marker({
+++          map: map,
+++          icon: icon,
+++          title: place.name,
+++          position: place.geometry.location
+++        }));
+++
+++        circles.push(new google.maps.Circle({
+++          map: map,
+++          radius: 16093, //10 mi radius
+++          strokeWeight: 1,
+++          fillColor: '#AA0000',
+++          fillOpacity: 0.20,
+++          center: place.geometry.location
+++        }));
+++
+++        //circles[0].bindTo('center', markers[0], 'position');
+++
+++        if (place.geometry.viewport) {
+++          // Only geocodes have viewport.
+++          bounds.union(place.geometry.viewport);
+++          } else {
+++            bounds.extend(place.geometry.location);
+++          }
+++        });
+++        map.fitBounds(bounds);
+++      });
+++     }
+++
+++     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+++        infoWindow.setPosition(pos);
+++        infoWindow.setContent(browserHasGeolocation ?
+++                              'Error: The Geolocation service is unavailable.' :
+++                              'Error: Your browser doesn\'t support geolocation.');
+++     }
+++
+++    </script>
+++    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&sensor=true&callback=initMap"
+++         async defer></script> 
+++
+++{% if upcoming_events_list %}
+++<script>
+++  $(document).ready(function(){
+++    $('#eventList').dataTable({
+++       "order": [[ 4, "asc" ]],
+++       "stateSave": true
+++    });
+++  });
+++</script>
+++<style type="text/css">
+++        #eventList {
+++          height: 80%;
+++          width: 65%;
+++          float: left;
+++          border: 1px solid black;
+++          overflow: auto;
+++        }
+++        .table {
+++            display: table;
+++        }
+++
+++        .row {
+++            display: table-row;
+++        }
+++
+++        .column {
+++            display: table-cell;
+++            vertical-align: top;
+++        }
+++</style>    
+++  <div id="eventList">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Name</th>
+++            <th>City</th>
+++            <th>Country</th>
+++            <th>Local Start Time</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          {% for event in upcoming_events_list %}
+++          <tr>
+++            <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
+++            <td>{{ event.city }}, {{ event.state }}</td> 
+++            <td>{{ event.country }}</td>
+++            <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
+++          </tr>
+++          {% endfor %}
+++        </tbody>
+++  </div>
+++{% else %}
+++<p>No events are available.</p>
+++{% endif %}
+++
+++
+++
+++</body>
+++</html>
++Index: events_list/templates/events/index.html
++===================================================================
++--- events_list/templates/events/index.html	(revision 1743253)
+++++ events_list/templates/events/index.html	(working copy)
++@@ -10,6 +10,15 @@
++ <h1>Events</h1>
++ 
++ {% if upcoming_events_list %}
+++<script>
+++  $(document).ready(function(){
+++    $('#eventList').dataTable({
+++       "order": [[ 4, "asc" ]],
+++       "stateSave": true
+++    });
+++  });
+++</script>	
+++
++ <table id="eventList" class="table table-striped">
++   <thead>
++     <tr>
++@@ -26,8 +35,8 @@
++     {% for event in upcoming_events_list %}
++     <tr>
++       <td><a href="{% url 'viewEvent' event.id %}" target="_blank">{{ event.name }}</a></td>
++-      <td>{{ event.group.city }}, {{ event.group.state }}</td>
++-      <td>{{ event.group.country }}</td>
+++      <td>{{ event.city }} {{ event.state }}</td> <!-- now getting event locaiton (JB)-->
+++      <td>{{ event.country }}</td>
++       <td>
++ 	{% for hashtag in event.hashtags.all %}
++ 	  {{ hashtag.name }}<br/>
++@@ -36,22 +45,16 @@
++       <td data-order='{{ event.date_sort }}'>{{ event.local_start }}</td>
++       <td>{{ event.group }}</td>
++       <td>
++-        <a href="{% url 'toggleEventNA' event.id %}">Mark Event N/A</a>
++-	<br/>
++-	<a href="{% url 'toggleGroupNA' event.group.id %}">Mark Group N/A</a>
+++        {% if user.is_authenticated %}
+++          <a href="{% url 'toggleEventNA' event.id %}">Mark Event N/A</a>
+++          <br/>
+++          <a href="{% url 'toggleGroupNA' event.group.id %}">Mark Group N/A</a>
+++        {% endif %}
++       </td>
++     </tr>
++     {% endfor %}
++   </tbody>
++ </table>
++-<script>
++-  $(document).ready(function(){
++-    $('#eventList').dataTable({
++-       "order": [[ 4, "asc" ]],
++-       "stateSave": true
++-    });
++-  });
++-</script>	
++ {% else %}
++ <p>No events are available.</p>
++ {% endif %}
++Index: events_list/templates/events/view.html
++===================================================================
++--- events_list/templates/events/view.html	(revision 1743253)
+++++ events_list/templates/events/view.html	(working copy)
++@@ -6,12 +6,7 @@
++ </head>
++ <body>
++   <h1>{{ event.name }}</h1>
++-  <p>{{ event.group.city }}, {{ event.group.state }}, {{event.group.country }}</p>
++ 
++-  {{ event.description | safe }}
++-
++-  <p>Start Time: {{ event.local_start }} (UTC start: {{ event.utc_start }})</p>
++-
++   <p>
++   <a href="{{ event.event_url }}" title="{{ event.tweet }}" class="_hs_socialshare">Share</a>
++   <script>
++@@ -28,15 +23,31 @@
++   </p>  
++ 
++   <p>Hashtags: 
++-	{% for hashtag in event.hashtags.all %}
++-	  {{ hashtag.name }},
++-	{% endfor %}
+++  {% for hashtag in event.hashtags.all %}
+++    {{ hashtag.name }},
+++  {% endfor %}
++   </p>
++-
++   <p>Organized by: {{ event.group.name }}</p>
++-
++   <p><a href="{{ event.event_url }}" target="_blank">Source</a></p>
++-
+++  <div style="max-width:100%; max-height:600px; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Location</th>
+++            <th>Description</th>
+++            <th>Start Time</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          <tr>
+++            <td>{{ event.city }}, {{ event.state }} {{ event.country }}</td>
+++            <td> {{ event.description | safe }}</td>
+++            <td><p>{{ event.local_start }} (UTC start: {{ event.utc_start }})</p></td>
+++          </tr>
+++        </tbody>
+++      </table>
+++  </div>
+++  <!-- {{ event.description | safe }} -->
++   <p>Applicable: {{ event.is_applicable }} <a href="{% url 'toggleEventNA' event.id %}">Toggle N/A</a></p>
++ </body>
++ </html>
++Index: events_list/templates/groups/index.html
++===================================================================
++--- events_list/templates/groups/index.html	(revision 1743253)
+++++ events_list/templates/groups/index.html	(working copy)
++@@ -10,6 +10,15 @@
++   <h1>Groups</h1>
++ 
++   {% if groups_list %}
+++    <script>
+++      $(document).ready(function(){
+++      $('#groupList').dataTable({
+++          "order": [[ 0, "asc" ]],
+++          "stateSave": true
+++        });
+++      });
+++    </script>	
+++
++     <table id="groupList" class="table table-striped">
++       <thead>
++ 	<tr>
++@@ -31,22 +40,18 @@
++ 	  <td>{{ group.country }}</td>
++ 	  <td>
++ 	    {% if can_import %}
++-  	      <a href="{% url 'importMembers' group.id %}">Import Members</a>
+++              {% if user.is_authenticated %}
+++                <a href="{% url 'importMembers' group.id %}">Import Members</a>
+++              {% endif %}
++             {% endif %} |
++-            <a href="{% url 'toggleGroupNA' group.id %}">Mark N/A</a>
+++            {% if user.is_authenticated %}
+++              <a href="{% url 'toggleGroupNA' group.id %}">Mark N/A</a>
+++            {% endif %}
++           </td>
++ 	</tr>
++ 	{% endfor %}
++       </tbody>
++     </table>
++-    <script>
++-      $(document).ready(function(){
++-      $('#groupList').dataTable({
++-          "order": [[ 0, "asc" ]],
++-          "stateSave": true
++-        });
++-      });
++-    </script>	
++   {% else %}
++     <p>No groups are available.</p>
++   {% endif %}
++Index: events_list/templates/include/navbar.html
++===================================================================
++--- events_list/templates/include/navbar.html	(revision 1743253)
+++++ events_list/templates/include/navbar.html	(working copy)
++@@ -1,40 +1,81 @@
++-{% load navigationTags %}
++-
++-<nav class="navbar navbar-default">
++-  <div class="container-fluid">
++-    <!-- Brand and toggle get grouped for better mobile display -->
++-    <div class="navbar-header">
++-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
++-        <span class="sr-only">Toggle navigation</span>
++-        <span class="icon-bar"></span>
++-        <span class="icon-bar"></span>
++-        <span class="icon-bar"></span>
++-      </button>
++-      <a class="navbar-brand" href="/events">ComDev Events</a>
++-    </div>
++-
++-    <!-- Collect the nav links, forms, and other content for toggling -->
++-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
++-      <ul class="nav navbar-nav">
++-        <li><a class="{% is_active_page request 'eventIndex' %}" href="{% url 'eventIndex' %}">Events</a></li>
++-        <li><a class="{% is_active_page request 'groupIndex' %}" href="{% url 'groupIndex' %}">Groups</a></li>
++-        <li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">People</a></li>
++-      </ul>
++-
++-      <ul class="nav navbar-nav navbar-right">
++-	<li class="dropdown">
++-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
++-          <ul class="dropdown-menu">
++-            <li><a href="{% url 'eventListMD' %}">Upcoming (Markdown)</a></li>
++-            <li role="separator" class="divider"></li>
++-  	    {% if can_import %}
++-	      <li><a href="{% url 'importMeetups' %}">Import Meetups</a></li>
++-	    {% endif %}
++-
++-          </ul>
++-        </li>
++-      </ul>
++-
++-    </div><!-- /.navbar-collapse -->
++-  </div><!-- /.container-fluid -->
++-</nav>
+++{% load navigationTags %}
+++
+++<nav class="navbar navbar-default">
+++  <div class="container-fluid">
+++    <!-- Brand and toggle get grouped for better mobile display -->
+++    <div class="navbar-header">
+++      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+++        <span class="sr-only">Toggle navigation</span>
+++        <span class="icon-bar"></span>
+++        <span class="icon-bar"></span>
+++        <span class="icon-bar"></span>
+++      </button>
+++      <a class="navbar-brand" href="/index/">ComDev Events</a>
+++    </div>
+++
+++    <!-- Collect the nav links, forms, and other content for toggling -->
+++    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+++      <ul class="nav navbar-nav">
+++	  <!-- Events Dropdown box -->
+++	  <li class="dropdown">
+++		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
+++            <ul class="dropdown-menu">
+++			<li><a class="{% is_active_page request 'eventSearch' %}" href="{% url 'eventSearch' %}">Search Events by Area</a></li>
+++			<!--<li><a class="{% is_active_page request 'eventSearch' %}" href="{% url 'eventSearch' %}">Pick Place</a></li>-->
+++			<li><a class="{% is_active_page request 'eventIndex' %}" href="{% url 'eventIndex' %}">Show All Events</a></li>
+++			</ul>
+++		</li>
+++          <ul class="dropdown-menu">
+++            <li><a class="{% is_active_page request 'eventSearch' %}" href="{% url 'eventSearch' %}">Search Events by Area</a></li>
+++            <li><a class="{% is_active_page request 'eventIndex' %}" href="{% url 'eventIndex' %}">Show All Events</a></li>
+++          </ul>
+++        </li>
+++
+++        <li><a class="{% is_active_page request 'groupIndex' %}" href="{% url 'groupIndex' %}">Groups</a></li>
+++        <!--<li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">People</a></li>-->
+++
+++        <li class="dropdown">
+++          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" tria-expanded="false">People<span class="caret"></span></a>
+++          <ul class="dropdown-menu">
+++            <li><a class="{% is_active_page request 'personIndex' %}" href="{% url 'personIndex' %}">View Imported Group Members</a></li>
+++            <li><a class="{% is_active_page request 'eventHosts' %}" href="{% url 'eventHosts' %}">View People Hosting Events</a></li>
+++          </ul>
+++        </li>
+++
+++
+++	<li class="dropdown">
+++          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tweets<span class="caret"></span></a>
+++          <ul class="dropdown-menu">
+++            <li><a class="{% is_active_page request 'tweetsApp' %}" href="{% url 'tweetsApp' %}">View tweets from this website</a></li>
+++            <li><a class="{% is_active_page request 'tweetsNotApp' %}" href="{% url 'tweetsNotApp' %}">View tweets not from this website</a></li>
+++          </ul>
+++        </li>
+++
+++      </ul>
+++
+++      <ul class="nav navbar-nav navbar-right">
+++        {% if user.is_authenticated %}
+++          <a class="btn navbar-btn" href="{% url 'logout' %}">Logout</a>
+++        {% else %}
+++          <a class="btn navbar-btn" href="{% url 'login' %}">Login</a>
+++        {% endif %}
+++	<li class="dropdown">
+++          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+++          <ul class="dropdown-menu">
+++            <li><a href="{% url 'eventListMD' %}">Upcoming (Markdown)</a></li>
+++            <li role="separator" class="divider"></li>
+++  	    {% if can_import %}
+++              {% if user.is_authenticated %}
+++                <li><a href="{% url 'importMeetups' %}">Import Meetups</a></li>
+++                <li><a href="{% url 'importAllHosts' %}">Import Hosts</a></li>
+++              {% endif %}
+++	    {% endif %}
+++
+++          </ul>
+++        </li>
+++      </ul>
+++
+++    </div><!-- /.navbar-collapse -->
+++  </div><!-- /.container-fluid -->
+++</nav>
+++
++Index: events_list/templates/login/construction.html
++===================================================================
++--- events_list/templates/login/construction.html	(revision 0)
+++++ events_list/templates/login/construction.html	(working copy)
++@@ -0,0 +1,13 @@
+++<!DOCTYPE html>
+++<html>
+++
+++<head>
+++  <title>Under Construction</title>
+++  {% include "include/head.html" %}
+++</head>
+++
+++<body>
+++  {% include "include/navbar.html" %}
+++  <h4>The feature you are attempting to access is under construction</h4>
+++</body>
+++</html>
++Index: events_list/templates/login/createAccount.html
++===================================================================
++--- events_list/templates/login/createAccount.html	(revision 0)
+++++ events_list/templates/login/createAccount.html	(working copy)
++@@ -0,0 +1,54 @@
+++<!DOCTYPE html>
+++<html>
+++  <head>
+++    <title>Create Account</title>
+++    {% include "include/head.html" %}
+++  </head>
+++  <body>
+++    {% include "include/navbar.html" %}
+++    <fieldset>
+++      <!DOCTYPE html>
+++      <html>
+++          <head>
+++              <style type="text/css">
+++       
+++                  body {font-family:Arial, Sans-Serif;}
+++       
+++                  #container {width:300px; margin:0 auto;}
+++       
+++                  /* Nicely lines up the labels. */
+++                  form label {display:inline-block; width:140px;}
+++       
+++                  /* You could add a class to all the input boxes instead, if you like. That would be safer, and more backwards-compatible */
+++                  form input[type="text"],
+++                  form input[type="password"],
+++                  form input[type="email"] {width:160px;}
+++       
+++                  form .line {clear:both;}
+++                  form .line.submit {text-align:right;}
+++       
+++              </style>
+++          </head>
+++          <body>
+++              <div id="container">
+++                  <form action="/createAccount/" method="post">
+++                    {% csrf_token %}
+++                      <h1>Create Account</h1>
+++                      <div class="line"><label for="first_name">First Name *: </label><input name="first_name" type="text" id="first_name" value=""/></div>
+++                      <div class="line"><label for="last_name">Last Name *: </label><input name="last_name "type="text" id="last_name" value=""/></div>
+++                      <div class="line"><label for="username">Username *: </label><input name="username" type="text" id="username" value=""/></div>
+++                      <div class="line"><label for="pwd">Password *: </label><input name="password" type="password" id="pwd" value=""/></div>
+++                      <div class="line"><label for="pwdconf">Confirm Password *:</label><input type="password" id="pwdconf" value=""/></div>
+++                      <!-- You may want to consider adding a "confirm" password box also -->
+++                      <div class="line"><label for="email">Email *: </label><input name="email" type="email" id="email" value=""/></div>
+++                      <!-- Valid input types: http://www.w3schools.com/html5/html5_form_input_types.asp -->
+++                      <div class="line submit"><input type="submit" value="Submit" /></div>
+++       
+++                      <p>Note: Please make sure your details are correct before submitting form and that all fields marked with * are completed!.</p>
+++                  </form>
+++              </div>
+++          </body>
+++      </html>
+++    </fieldset>
+++  </body>
+++</html>
++Index: events_list/templates/login/login.html
++===================================================================
++--- events_list/templates/login/login.html	(revision 0)
+++++ events_list/templates/login/login.html	(working copy)
++@@ -0,0 +1,88 @@
+++<!DOCTYPE html>
+++<html>
+++
+++<head>
+++  <title>Home</title>
+++  {% include "include/head.html" %}
+++</head>
+++
+++<body>
+++  {% include "include/navbar.html" %}
+++  <h4>Welcome!</h4>
+++  <!--
+++   <form action="creatAccount/">
+++     <fieldset>
+++     <legend>Log In:</legend>
+++     First name:<br>
+++     <input type="text" name="firstname"><br>
+++     Last name:<br>
+++     <input type="text" name="lastname"><br><br>
+++     Password:<br>
+++     <input type="password" name="psw">
+++     <input type="submit" value="Submit">
+++     </fieldset>
+++   </form>
+++  -->
+++<!--
+++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+++<head>
+++<title>Log in</title>
+++<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+++<style>
+++body{
+++	font-family:Arial,Helvetica,sans-serif;
+++	font-size: 12px;
+++}
+++</style>
+++</head>
+++<body>
+++	{{ state }}
+++	<form action="/events/" method="post">
+++    {% csrf_token %}
+++		{% if next %}
+++		<input type="hidden" name="next" value="{{ next }}" />
+++		{% endif %}
+++		username: 
+++		<input type="text" name="username" value="{{ username}}" /><br />
+++		password:
+++		<input type="password" name="password" value="" /><br />
+++
+++		<input type="submit" value="Log In" />
+++	</form>
+++    
+++    <form action= "createAccount/">
+++    {% csrf_token %}
+++        <input type ="submit" value="Create Account">
+++    </form>
+++-->
+++
+++<div class="login">
+++  <div class="heading">
+++    <h2>{{ state }}</h2>
+++    <form action="/accounts/login/" method="post">
+++    {% csrf_token %} 
+++        {% if user.is_authenticated %}
+++		<input type="hidden" name="next" value="{{ next }}" />
+++		{% endif %}
+++        <div class="input-group input-group-lg">
+++        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+++        <input type="text" class="form-control" placeholder="Username or email" name="username">
+++          </div>
+++
+++        <div class="input-group input-group-lg">
+++          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+++          <input type="password" class="form-control" placeholder="Password" name="password">
+++        </div>
+++
+++        <button type="submit" class="float">Login</button>
+++       </form>
+++ 		    </div>
+++</div>
+++
+++<form action= "/createAccount/">
+++  <input type ="submit" value="Create Account">
+++</form>  
+++
+++</body>
+++</html>
++Index: events_list/templates/people/eventHosts.html
++===================================================================
++--- events_list/templates/people/eventHosts.html	(revision 0)
+++++ events_list/templates/people/eventHosts.html	(working copy)
++@@ -0,0 +1,57 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>Community Development: Event Hosts</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++
+++  <h1>Event Hosts</h1>
+++  {% if user.is_authenticated %}
+++    <form method="POST">
+++      {% csrf_token %}
+++      <input type="submit" name="excel" value="Export Info">
+++    </form>
+++  {% endif %}
+++
+++  {% if host_list %}
+++    <script>
+++      $(document).ready(function(){
+++      $('#peopleList').dataTable({
+++          "order": [[ 0, "asc" ]],
+++          "stateSave": true
+++        });
+++      });
+++    </script>
+++    
+++
+++    <table id="peopleList" class="table table-striped">
+++      <thead>
+++	<tr>
+++	  <th>Name</th>
+++          <th>ID</th>
+++          <th>Event</th>
+++          <th>Actions</th>
+++	</tr>
+++      </thead>
+++      <tbody>
+++	{% for person in host_list %}
+++	<tr>
+++	  <td><a href="{% url 'viewHost' person.id %}">{{ person.name }}</a></td>
+++	  <td>{{ person.meetupID }}</td>
+++          <td>{{ person.eventname }}</td>
+++	  <td>{% if user.is_authenticated %}
+++          <!--<a href="{% url 'importHosts' person.id %}">Import Hosts</a>-->
+++          <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+++          {% endif %}
+++          </td>
+++	</tr>
+++	{% endfor %}
+++      </tbody>
+++    </table>
+++  {% else %}
+++    <p>No people are available.</p>
+++  {% endif %}
+++</body>
+++</html>
++Index: events_list/templates/people/index.html
++===================================================================
++--- events_list/templates/people/index.html	(revision 1743253)
+++++ events_list/templates/people/index.html	(working copy)
++@@ -1,45 +1,58 @@
++-<!DOCTYPE html>
++-<html>
++-<head>
++-  <title>Community Development: People</title>
++-  {% include "include/head.html" %}
++-</head>
++-<body>
++-  {% include "include/navbar.html" %}
++-
++-  <h1>People</h1>
++-
++-  {% if person_list %}
++-    <table id="peopleList" class="table table-striped">
++-      <thead>
++-	<tr>
++-	  <th>Name</th>
++-	  <th>City</th>
++-	  <th>State</th>
++-	  <th>Country</th>
++-	</tr>
++-      </thead>
++-      <tbody>
++-	{% for person in person_list %}
++-	<tr>
++-	  <td><a href="{% url 'viewPerson' person.id %}">{{ person.name }}</a></td>
++-	  <td>{{ person.city }}</td>
++-	  <td>{{ person.state }}</td>
++-	  <td>{{ person.country }}</td>
++-	</tr>
++-	{% endfor %}
++-      </tbody>
++-    </table>
++-    <script>
++-      $(document).ready(function(){
++-      $('#peopleList').dataTable({
++-          "order": [[ 0, "asc" ]],
++-          "stateSave": true
++-        });
++-      });
++-    </script>	
++-  {% else %}
++-    <p>No people are available.</p>
++-  {% endif %}
++-</body>
++-</html>
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>Community Development: Imported People</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++
+++  <h1>Members Imported</h1>
+++
+++  {% if user.is_authenticated %}
+++    <form method="POST">
+++      {% csrf_token %}
+++      <input type="submit" name="excel" value="Export Info">
+++    </form>
+++  {% endif %}
+++
+++  {% if person_list %}
+++    <script>
+++      $(document).ready(function(){
+++      $('#peopleList').dataTable({
+++          "order": [[ 0, "asc" ]],
+++          "stateSave": true
+++        });
+++      });
+++    </script>	
+++
+++    <table id="peopleList" class="table table-striped">
+++      <thead>
+++	<tr>
+++	  <th>Name</th>
+++	  <th>City</th>
+++	  <th>State</th>
+++	  <th>Country</th>
+++      <th>Actions</th>
+++	</tr>
+++      </thead>
+++      <tbody>
+++	{% for person in person_list %}
+++	<tr>
+++	  <td><a href="{% url 'viewPerson' person.id %}">{{ person.name }}</a></td>
+++	  <td>{{ person.city }}</td>
+++	  <td>{{ person.state }}</td>
+++	  <td>{{ person.country }}</td>
+++	  <td>{% if user.is_authenticated %}
+++           <a href="{% url 'togglePersonNA' person.id %}">Mark N/A</a>
+++          {% endif %}
+++          </td>
+++	</tr>
+++	{% endfor %}
+++      </tbody>
+++    </table>
+++  {% else %}
+++    <p>No people are available.</p>
+++  {% endif %}
+++</body>
+++</html>
++Index: events_list/templates/people/view.html
++===================================================================
++--- events_list/templates/people/view.html	(revision 1743253)
+++++ events_list/templates/people/view.html	(working copy)
++@@ -8,26 +8,86 @@
++   {% include "include/navbar.html" %}
++ 
++   <h1>{{ person.name }}</h1>
++-  <p><span class="right"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
++ 
++-  <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
+++  <p>
+++  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > </a>
+++  <script>
+++    var _hs = {
+++               size: 5,
+++               partner: "community.apache.org"
+++    };
+++    (function() {
+++                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
+++                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+++                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
+++    })();
+++  </script>
+++  </p>
++ 
++-  <p><a href="{{ person.url }}">Source</a></p>
++ 
++-  <h2>Topics</h2>
++-  <ul>
++-    {% for topic in person.topics.all %}
++-      <li>{{ topic }}</li>
++-    {% endfor %}
++-  </ul>
+++  <p><span class="right" style="border: 3px solid grey"><img src="{{ person.photo }}"></img></span> {{ person.bio }}</p>
++ 
++-  <h2>Groups</h2>
++-  <ul>
++-    {% for group in person.groups.all %}
++-      <li>{{ group }}</li>
++-    {% endfor %}
++-  </ul>
+++  <p><a href="{{ person.url }}">Member's Home Page</a></p>
++ 
++   <p>Last Active: {{ person.lastVisit }}</p>
+++  
+++  <div style="max-width:70%; max-height:600px; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Service</th>
+++            <th>City</th>
+++            <th>State</th>
+++            <th>Country</th>
+++            <th>Latitude</th>
+++            <th>Longitude</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          <tr>
+++            <td>{{ person.service }}</td>
+++            <td>{{ person.city }}</td>
+++            <td>{{ person.state }}</td>
+++            <td>{{ person.country }}</td>
+++            <td>{{ person.latitude }}</td>
+++            <td>{{ person.longitude }}</td>
+++          </tr>
+++        </tbody>
+++      </table>
+++  </div>
+++
+++  <div style="max-width:70%; max-height:400px; overflow:auto; float:left;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Topics</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          {% for topic in person.topics.all %}
+++          <tr>
+++            <td>{{ topic }}</td>
+++          </tr>
+++          {% endfor %}
+++        </tbody>
+++      </table>
+++  </div>
+++
+++  <div style="max-width:70%; max-height:400px; overflow:auto; float:left;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Groups</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          {% for group in person.groups.all %}
+++          <tr>
+++            <td>{{ group }}</td>
+++          </tr>
+++          {% endfor %}
+++        </tbody>
+++      </table>
+++  </div>
++ </body>
++ </html>
++Index: events_list/templates/people/viewHosts.html
++===================================================================
++--- events_list/templates/people/viewHosts.html	(revision 0)
+++++ events_list/templates/people/viewHosts.html	(working copy)
++@@ -0,0 +1,102 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>{{ personHost.name }}</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++
+++  <h1>{{ personHost.name }}</h1>
+++
+++  <p>
+++  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
+++  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
+++  <script>
+++    var _hs = {
+++               size: 5,
+++               partner: "community.apache.org"
+++    };
+++    (function() {
+++                 var h = document.createElement('script'); h.type = 'text/javascript'; h.async = true;
+++                 h.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
+++                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
+++    })();
+++  </script>
+++  </p>
+++
+++
+++  <p><span class="right" style="border: 3px solid grey"><img src="{{ personHost.photo }}"></img></span> {{ personHost.bio }}</p>
+++
+++  <p>Last Active: {{ personHost.lastVisit }}</p>
+++  <p><a href="{{ personHost.url }}">Host's Home Page</a></p>
+++  <p>Hosting Event: <a href="{{ personHost.event_link }}"> {{ personHost.eventname }}</a></p>
+++
+++  <div style="max-width:70%; max-height:600px; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Service</th>
+++            <th>City</th>
+++            <th>State</th>
+++            <th>Country</th>
+++            <th>Latitude</th>
+++            <th>Longitude</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          <tr>
+++            <td>{{ personHost.service }}</td>
+++            <td>{{ personHost.city }}</td>
+++            <td>{{ personHost.state }}</td>
+++            <td>{{ personHost.country }}</td>
+++            <td>{{ personHost.latitude }}</td>
+++            <td>{{ personHost.longitude }}</td>
+++          </tr>
+++        </tbody>
+++      </table>
+++  </div>
+++
+++  <div style="max-width:70%; max-height:400px; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>Topics</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          {% for topic in personHost.topics.all %}
+++          <tr>
+++            <td>{{ topic }}</td>
+++          </tr>
+++          {% endfor %}
+++        </tbody>
+++      </table>
+++  </div>  
+++
+++
+++  <input type="button" value="Testing Click Count" onclick="set_test()">
+++
+++  <script>
+++        var test = 0;    
+++
+++        function set_test() {
+++                test++;
+++                function_one(test);
+++        }
+++
+++        function function_one(test) {
+++                if (test > 1)
+++                {
+++                  function_two(); // considering the next alert, I figured you wanted to call function_two first
+++                  alert("The function called 'function_one' has been called.");
+++                }
+++        }
+++
+++        function function_two() {
+++                alert("The function called 'function_two' has been called.");
+++        }
+++  </script>
+++
+++</body>
+++</html>
++Index: events_list/templates/profile.html
++===================================================================
++--- events_list/templates/profile.html	(revision 0)
+++++ events_list/templates/profile.html	(working copy)
++@@ -0,0 +1,20 @@
+++{% extends 'home.html' %}
+++
+++{% block content %}
+++
+++    <h2>Profile</h2>
+++
+++    {% for field in form %}
+++        {{field.error}}
+++
+++    {% endfor %}
+++
+++    <form action="/events/profile/" method="post">
+++    {% csrf_token %}
+++    {{form.as_ul}}
+++
+++    <input type="submit" value="Update" />
+++
+++    </form>
+++
+++{% endblock %}
++Index: events_list/templates/tweets/app.html
++===================================================================
++--- events_list/templates/tweets/app.html	(revision 0)
+++++ events_list/templates/tweets/app.html	(working copy)
++@@ -0,0 +1,31 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>App Tweets</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++  <h4>Tweets from the app</h4>
+++  {% for hashtag, data in tweets.items %}
+++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>#{{ hashtag }}</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          <tr>
+++            <td>
+++            {% for tweet in data %}
+++              {% autoescape off %}{{ tweet }}{% endautoescape %}
+++            {% endfor %}
+++            </td>
+++          </tr>
+++        </tbody>
+++      </table>
+++    </div>
+++  {% endfor %}
+++</body>
+++</html>
++Index: events_list/templates/tweets/notApp.html
++===================================================================
++--- events_list/templates/tweets/notApp.html	(revision 0)
+++++ events_list/templates/tweets/notApp.html	(working copy)
++@@ -0,0 +1,32 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>All Tweets</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++  <h4>Tweets not from the app</h4>
+++    <!--{{ tweets }}-->
+++  {% for hashtag, data in tweets.items %}
+++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
+++      <table class="table table-striped">
+++        <thead>
+++          <tr>
+++            <th>#{{ hashtag }}</th>
+++          </tr>
+++        </thead>
+++        <tbody>
+++          <tr>
+++            <td>
+++            {% for tweet in data %}
+++              {% autoescape off %}{{ tweet }}{% endautoescape %}
+++            {% endfor %}
+++            </td>
+++          </tr>
+++        </tbody>
+++      </table>
+++    </div>
+++  {% endfor %}
+++</body>
+++</html>
++Index: events_list/templates/tweets/view.html
++===================================================================
++--- events_list/templates/tweets/view.html	(revision 0)
+++++ events_list/templates/tweets/view.html	(working copy)
++@@ -0,0 +1,11 @@
+++<!DOCTYPE html>
+++<html>
+++<head>
+++  <title>Not App Tweets</title>
+++  {% include "include/head.html" %}
+++</head>
+++<body>
+++  {% include "include/navbar.html" %}
+++  <h4>All tweets go here</h4>
+++</body>
+++</html>
++Index: events_list/urls.py
++===================================================================
++--- events_list/urls.py	(revision 1743253)
+++++ events_list/urls.py	(working copy)
++@@ -1,19 +1,34 @@
++-from django.conf.urls import url
++-
++-from . import views
++-
++-urlpatterns = [
++-    url(r'^$', views.index, name='eventIndex'),
++-    url(r'^(?P<event_id>[0-9]+)/$', views.viewEvent, name='viewEvent'),
++-    url(r'^(?P<event_id>[0-9]+)/toggleNA/$', views.toggleEventNA, name='toggleEventNA'),
++-    url(r'^importMeetups/$', views.importMeetups, name='importMeetups'),
++-
++-    url(r'^events/14-days/list.md$', views.eventList, name='eventListMD'),
++-
++-    url(r'^groups$', views.groupIndex, name='groupIndex'),
++-    url(r'^groups/(?P<id>[0-9]+)/toggleNA/$', views.toggleGroupNA, name='toggleGroupNA'),
++-    url(r'^groups/(?P<group_id>[0-9]+)/importMembers/$', views.importMembers, name='importMembers'),
++-
++-    url(r'^people$', views.personIndex, name='personIndex'),
++-    url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
++-]
+++from django.conf.urls import url
+++
+++from . import views
+++
+++urlpatterns = [
+++    url(r'^login/$', views.login, name='login'),
+++    url(r'^createAccount/$', views.createAccount, name='createAccount'),
+++    url(r'^index/$', views.index, name='eventIndex'),
+++    url(r'^events/$', views.index, name='eventIndexLoggedIn'),
+++    url(r'^(?P<event_id>[0-9]+)/$', views.viewEvent, name='viewEvent'),
+++    url(r'^(?P<event_id>[0-9]+)/toggleNA/$', views.toggleEventNA, name='toggleEventNA'),
+++    url(r'^importMeetups/$', views.importMeetups, name='importMeetups'),
+++    url(r'^importAllHosts/$', views.importAllHosts, name='importAllHosts'),
+++
+++    url(r'^eventSearch/$', views.eventSearch, name='eventSearch'),
+++    url(r'^events/14-days/list.md$', views.eventList, name='eventListMD'),
+++
+++    url(r'^groups$', views.groupIndex, name='groupIndex'),
+++    url(r'^groups/(?P<id>[0-9]+)/toggleNA/$', views.toggleGroupNA, name='toggleGroupNA'),
+++    url(r'^groups/(?P<group_id>[0-9]+)/importMembers/$', views.importMembers, name='importMembers'),
+++
+++    url(r'^people/$', views.personIndex, name='personIndex'),
+++    url(r'^eventHosts/$', views.eventHosts, name='eventHosts'),
+++    url(r'^eventHosts/(?P<personHost_id>[0-9]+)/importHosts/$', views.importHosts, name='importHosts'),
+++    url(r'^eventHosts/(?P<personHost_id>[0-9]+)/$', views.viewHost, name='viewHost'),
+++    url(r'^people/(?P<person_id>[0-9]+)/toggleNA/$', views.togglePersonNA, name='togglePersonNA'),
+++    url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
+++    url(r'^people/(?P<person_id>[0-9]+)/$', views.viewPerson, name='viewPerson'),
+++    url(r'^tweetsNotApp', views.tweetsNotApp, name='tweetsNotApp'),
+++    url(r'^tweetsApp', views.tweetsApp, name='tweetsApp'),
+++    url(r'^accounts/login/$', views.login, name='login'),
+++    url(r'^logout', views.logout_view, name='logout'),
+++]
+++
++Index: events_list/views.py
++===================================================================
++--- events_list/views.py	(revision 1743253)
+++++ events_list/views.py	(working copy)
++@@ -1,22 +1,64 @@
++ from django.conf import settings
++ from django.shortcuts import get_object_or_404, render, redirect
++ from django.http import HttpResponse
++-from django.template import RequestContext, loader
++-from events_list.models import Event, Group, Hashtag, Log, Person, Topic
+++from django.template import RequestContext, loader, Context
+++from django.shortcuts import render_to_response
+++from django.contrib.auth import authenticate, logout, login as auth_login
+++from django.contrib.auth.models import User
+++from django.contrib.auth.decorators import login_required
+++from events_list.models import Event, Group, Hashtag, Log, Person, Topic, Host, HostTopic
++ from datetime import datetime, timedelta
+++from .excel_utils import WriteToExcel, WriteToExcelHost
+++from operator import itemgetter
+++
++ import json
++ import logging
++ import urllib2
++ import sys
+++import base64
+++import requests
+++import csv
++ 
++ # Note that this API key is *my* API key (rbowen) and if we start using
++ # it more than a few dozen times an hour it's likely to get revoked.
++ # Please play nice.
+++# This is now Mara's key
++ # FIXME: make this a configuration value
++-MEETUP_API_KEY = "3a7711454d145e404e531c2ee6f391d"
+++MEETUP_API_KEY = "6e342d7c12183a6438e106a5b66217"
+++TWITTER_API_KEY = "5fqpzXtaoZmwF29KAHc0Grit3:uDgra72MDCg42CMooGGw1pIlRFdwHr9srjIRjezPZgvZkHMw8G"
++ 
++ logger = logging.getLogger(__name__)
++ 
+++#Log in function with user input for username and password
+++def login(request):
+++    state = "Please log in below..."
+++    username = password = ''
+++    if request.POST:
+++        username = request.POST.get('username')
+++        password = request.POST.get('password')
+++
+++        user = authenticate(username=username, password=password)
+++        if user is not None:
+++            if user.is_active:
+++                auth_login(request, user)
+++                state = "Welcome " + username + "!"
+++            else:
+++                state = "Your account is not active, please contact the site admin."
+++        else:
+++            state = "Your username and/or password were incorrect."
+++    template = loader.get_template('login/login.html')
+++    context = RequestContext(request, {
+++                             'state': state,
+++                             'username': username
+++    })
+++    return HttpResponse(template.render(context))
+++
+++#Logs the user out
+++def logout_view(request):
+++    logout(request)
+++    return render(request, 'login/login.html')
+++
+++#Main page of website that views events
++ def index(request):
++     now = datetime.now()
++     upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
++@@ -27,6 +69,31 @@
++     })
++     return HttpResponse(template.render(context))
++ 
+++#Searches for event by location via Google Maps API
+++def eventSearch(request):
+++    #return render(request, 'events/eventSearch.html')
+++    now = datetime.now()
+++    upcoming_events_list = Event.objects.filter(is_applicable = True).filter(local_start__gte=now).order_by('local_start')
+++    template = loader.get_template('events/eventSearch.html')
+++    context = RequestContext(request, {
+++                             'upcoming_events_list': upcoming_events_list,
+++                             'can_import': _canImport()
+++    })
+++    return HttpResponse(template.render(context))
+++	
+++#Creates an account for user
+++def createAccount(request):
+++    if request.POST:
+++        username = request.POST.get('username')
+++        password = request.POST.get('password')
+++        email = request.POST.get('email')
+++        first_name = request.POST.get('first_name')
+++        last_name = request.POST.get('last_name')
+++
+++        user = User.objects.create_user(username, email, password)
+++    return render(request, 'login/createAccount.html')
+++	
+++# Lists the events for the next 14 days
++ def eventList(request):
++     now = datetime.now()
++     td = timedelta(days = 14)
++@@ -38,6 +105,7 @@
++ 
++     return HttpResponse(markdown, content_type="text/plain")
++     
+++# Views a specific event
++ def viewEvent(request, event_id):
++     event = get_object_or_404(Event, pk = event_id)
++ 
++@@ -47,8 +115,8 @@
++     })
++     return HttpResponse(template.render(context))
++     
+++# Toggle the is_applicable field on a given record
++ def toggleEventNA(request, event_id):
++-    # toggle the is_applicable field on a given record
++     event = get_object_or_404(Event, pk = event_id)
++     event.is_applicable = not event.is_applicable
++     event.save()
++@@ -66,6 +134,7 @@
++ 
++     return redirect('events_list.views.index')
++ 
+++# Lists all the groups
++ def groupIndex(request):
++     groups_list = Group.objects.all().filter(is_applicable = True)
++     template = loader.get_template('groups/index.html')
++@@ -75,8 +144,8 @@
++     })
++     return HttpResponse(template.render(context))
++ 
+++# Toggle the is_applicable field on a given record
++ def toggleGroupNA(request, id):
++-    # toggle the is_applicable field on a given record
++     group = get_object_or_404(Group, pk = id)
++     group.is_applicable = not group.is_applicable
++     group.save()
++@@ -97,16 +166,67 @@
++         event.is_applicable = group.is_applicable
++         event.save()
++ 
+++    persons = Person.objects.filter(groups = group)
+++    for person in persons:
+++        person.is_applicable = group.is_applicable
+++        person.save()
+++
++     return redirect('events_list.views.groupIndex')
++ 
+++# Lists all the people
++ def personIndex(request):
++-    person_list = Person.objects.all()
+++    person_list = Person.objects.all().filter(is_applicable = True)
+++    #person_list = Person.objects.all()
++     template = loader.get_template('people/index.html')
++     context = RequestContext(request, {
++                              'person_list': person_list
++     })
+++    if 'excel' in request.POST:
+++        response = HttpResponse(content_type='application/vnd.ms-excel')
+++        response['Content-Disposition'] = 'attachment; filename=persons.xlsx'
+++        xlsx_data = WriteToExcel(person_list)
+++        response.write(xlsx_data)
+++        return response
+++
++     return HttpResponse(template.render(context))    
++ 
+++#List people hosting events
+++def eventHosts(request):
+++    host_list = Host.objects.all()
+++    template = loader.get_template('people/eventHosts.html')
+++    context = RequestContext(request, {
+++                             'host_list': host_list,
+++                             'can_import': _canImport()
+++    })
+++    if 'excel' in request.POST:
+++        response = HttpResponse(content_type='application/vnd.ms-excel')
+++        response['Content-Disposition'] = 'attachment; filename=hosts.xlsx'
+++        xlsx_data2 = WriteToExcelHost(host_list)
+++        response.write(xlsx_data2)
+++        return response
+++
+++    return HttpResponse(template.render(context))
+++
+++# Toggle the is_applicable field on a given person
+++def togglePersonNA(request, person_id):
+++    person = get_object_or_404(Person, pk = person_id)
+++    person.is_applicable = not person.is_applicable
+++    person.save()
+++
+++    log = Log();
+++    desc = "Person (id=" + person_id + ") marked as "
+++    if (person.is_applicable):
+++        desc = desc + "applicable "
+++    else:
+++        desc = desc + "not applicable "
+++    log.description = desc;
+++    log.object_id = person_id
+++    log.action_type = Log.GROUP_UPDATE
+++    log.save()
+++
+++    return redirect('events_list.views.personIndex')
+++
+++# Shows a specific person's information
++ def viewPerson(request, person_id):
++     person = get_object_or_404(Person, pk = person_id)
++ 
++@@ -116,6 +236,15 @@
++     })
++     return HttpResponse(template.render(context))
++ 
+++#Shows a specific host's information
+++def viewHost(request, personHost_id):
+++    personHost = get_object_or_404(Host, pk = personHost_id)
+++   
+++    template = loader.get_template('people/viewHosts.html')
+++    context = RequestContext(request, {
+++                             'personHost': personHost
+++    })
+++    return HttpResponse(template.render(context))
++ 
++ def _canImport():
++     if settings.DEBUG:
++@@ -133,6 +262,81 @@
++         pass
++     return can_import
++ 
+++def importAllHosts(request):
+++    # Import latest meetups from meetup.com, if we didn't import them within the last hour
+++    log = Log()
+++    log.description = "Events imported"
+++    log.action_type = Log.EVENT_IMPORT
+++    log.save()
+++
+++    # get all the hashtags from the DB
+++    hosts = Host.objects.all()
+++
+++    # iterate over them all makeing a call to meetups.com for each one and adding results to the database
+++    for host in hosts:
+++      importHosts(host.meetupID)
+++
+++    return redirect('eventHosts')
+++
+++
+++def importHosts(hostID):
+++    #hostID = get_object_or_404(Host, pk = hostID)
+++
+++    log = Log()
+++    log.description = "Hosts imported"
+++    log.action_type = Log.EVENT_IMPORT
+++    log.save()
+++
+++    url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+++    response = urllib2.urlopen(url)
+++    result = response.read()
+++
+++    data = json.loads(result)
+++    hostsInfo = data
+++
+++    #for hostsInfo in data:
+++    try:
+++        host = Host.objects.get(meetupID = hostsInfo['id'])
+++    except Host.DoesNotExist:
+++        host = Host()
+++    try:
+++        host.country = hostsInfo['country']
+++        host.fullName = hostsInfo['name']
+++        host.city = hostsInfo['city']
+++        host.state = hostsInfo['state']
+++        visited = float(str(hostsInfo['visited'])[0:-3])
+++        host.lastVisit = datetime.utcfromtimestamp(visited)
+++        if 'lon' in hostsInfo.keys():
+++            host.longitude = hostsInfo['lon']
+++        if 'lat' in hostsInfo.keys():
+++            host.latitude = hostsInfo['lat']
+++        host.url = hostsInfo['link']
+++        if 'other_services' in hostsInfo.keys():
+++            if 'twitter' in hostsInfo['other_services'].keys():
+++                if 'identifier' in hostsInfo['other_services']['twitter'].keys():
+++                    host.service = hostsInfo['other_services']['twitter']['identifier']
+++        host.save()
+++
+++        if 'topics' in hostsInfo.keys():
+++            for topic in hostsInfo['topics']:
+++                try:
+++                    record = HostTopic.objects.get(meetupID = topic['id'])
+++                except HostTopic.DoesNotExist:
+++                    record = HostTopic()
+++                record.urlkey = topic['urlkey']
+++                record.name = topic['name']
+++                record.meetupID = topic['id']
+++                record.save()
+++                host.topics.add(record)
+++
+++
+++        person.save()
+++    except:
+++        print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
+++
+++    #return redirect('eventHosts') 
+++                
+++
++ def importMembers(request, group_id):
++     group = get_object_or_404(Group, pk = group_id)
++ 
++@@ -158,7 +362,12 @@
++         try:
++             person.meetupID = member['id']
++             person.name = member['name']
+++	    #person.service = member['other_services']['twitter']['identifier']
++             person.country = member['country']
+++ 	    if 'other_services' in member.keys():
+++	        if 'twitter' in member['other_services'].keys():
+++		    if 'identifier' in member['other_services']['twitter'].keys():
+++		        person.service = member['other_services']['twitter']['identifier']
++             if 'state' in member.keys():
++                 person.state = member['state']
++             person.city = member['city']
++@@ -221,7 +430,7 @@
++ 
++     # Radius is defined around Lexington, KY, but it's infinite radius, so
++     # should work everywhere.
++-    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&text=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
+++    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
++ 
++     print "Fetching meetups ..."
++ 
++@@ -238,7 +447,7 @@
++ 
++     for meetup in meetups:
++         groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
++-    
+++        
++     keys = groups.keys()
++     keyarg = ",".join( keys )
++     
++@@ -266,7 +475,7 @@
++                             meetups.remove(m)
++                             
++     for meetup in meetups:
++-        # Group information ...
+++        # Group information
++         grp = grp_deets[ meetup['group']['id'] ]
++ 
++         try:
++@@ -293,6 +502,22 @@
++         try:
++             event.name = unicode(meetup['name'])
++             event.event_url = meetup['event_url']
+++            #getting location of the events instead of groups show below - Justin Bruntmyer
+++            if 'venue' in meetup.keys():
+++                if 'city' in meetup['venue'].keys():
+++                    event.city = meetup['venue']['city']
+++                if 'country' in meetup['venue'].keys():
+++                    event.country = meetup['venue']['country']
+++                if 'state' in meetup['venue'].keys():
+++                    event.state = meetup['venue']['state']
+++                if 'address_1' in meetup['venue'].keys():
+++                    event.address_1 = meetup['venue']['address_1']
+++                if 'lat' in meetup['venue'].keys():
+++                    event.latitude = meetup['venue']['lat']
+++                if 'lon' in meetup['venue'].keys():
+++                    event.longitude = meetup['venue']['lon']
+++            #end getting locaiton info - Justin Bruntmyer
+++
++             event.meetupID = meetup['id']
++             event.group = group
++             event.description = unicode(meetup['description'])
++@@ -308,9 +533,102 @@
++             event.is_applicable = group.is_applicable                
++             event.save()
++ 
+++            if 'event_hosts' in meetup.keys():
+++                for host in meetup['event_hosts']:
+++                    try:
+++                        record = Host.objects.get(meetupID = host['member_id'])
+++                    except Host.DoesNotExist:
+++                        record = Host()
+++                    record.name = host['member_name']
+++                    record.meetupID = host['member_id']
+++                    record.eventname = event.name
+++                    record.event_link = event.event_url
+++                    if 'photo' in host.keys():
+++                        if 'highres_link' in host['photo'].keys():
+++                            record.largePhoto = host['photo']['highres_link']
+++                        if 'photo_link' in host['photo'].keys():
+++                            record.photo = host['photo']['photo_link']
+++                        if 'thumb_link' in host['photo'].keys():
+++                            record.thumbnail = host['photo']['thumb_link']
+++                    record.save()
+++                    event.hosts.add(record)
+++
++             event.hashtags.add(hashtag)
++             event.save()
++         except:
++             print('Unable to save Event object: '), sys.exc_info()[0], sys.exc_info()[1]
+++
+++def _twitterAuth():
+++    # Encode the keys
+++    key = base64.b64encode(TWITTER_API_KEY)
+++
+++    # Set needed values
+++    authURL = "https://api.twitter.com/oauth2/token"
+++    content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+++    body = "grant_type=client_credentials"
+++
+++    # Create the header
+++    authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+++    # Get auth
+++    auth = requests.post(authURL, headers=authHeaders, data=body)
+++    # Get the response in a useable format
+++    authJSON = auth.json()
++     
+++    return authJSON['access_token']
++ 
+++def _oembedTweets(tweets):
+++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+++    oembed = dict()
+++    for hashtag in hashtags:
+++        oembed[hashtag.name] = []
+++        for i in range(0, len(tweets[hashtag.name]) - 1):
+++            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
+++            embededResponse = requests.get(url)
+++            embeded = embededResponse.json()
+++            oembed[hashtag.name].append(embeded['html'])
+++
+++    return oembed
+++
+++def tweetsNotApp(request):
+++    # Auth with twitter
+++    accessToken = _twitterAuth()
+++
+++    # Get the hashtags
+++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+++
+++    allTweets = dict()
+++    for hashtag in hashtags:
+++        allTweets[hashtag.name] = []
+++        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+++        headers = {'Authorization': "Bearer " + accessToken}
+++        response = requests.get(url, headers=headers)
+++        tweetsJSON = response.json()
+++        for tweet in tweetsJSON['statuses']:
+++            allTweets[hashtag.name].append(tweet['id'])
+++
+++    oembed = _oembedTweets(allTweets)
+++
+++    return render(request, 'tweets/notApp.html', {'tweets': oembed})
+++
+++
+++def tweetsApp(request):
+++    # Auth with Twitter
+++    accessToken = _twitterAuth()
+++
+++    # Get hashtags
+++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+++
+++    oembed = []
+++    allTweets = dict()
+++    for hashtag in hashtags:
+++        allTweets[hashtag.name] = []
+++        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
+++        headers = {'Authorization': "Bearer " + accessToken}
+++        response = requests.get(url, headers=headers)
+++        tweetsJSON = response.json()
+++        for tweet in tweetsJSON['statuses']:
+++            allTweets[hashtag.name].append(tweet['id'])
+++
+++    oembed = _oembedTweets(allTweets)
+++
+++    return render(request, 'tweets/app.html', {'tweets': oembed})
 Index: readme.md
 ===================================================================
---- readme.md	(revision 1714713)
+--- readme.md	(revision 1743253)
 +++ readme.md	(working copy)
 @@ -29,15 +29,15 @@
    
@@ -1785,7 +6106,7 @@ Index: readme.md
  the images and corresponding layers need to be downloaded. This can
 Index: requirements.txt
 ===================================================================
---- requirements.txt	(revision 1714713)
+--- requirements.txt	(revision 1743253)
 +++ requirements.txt	(working copy)
 @@ -1,3 +1,5 @@
 -Django
@@ -1798,7 +6119,7 @@ Index: requirements.txt
 +xlsxwriter
 Index: scripts/deploy.sh
 ===================================================================
---- scripts/deploy.sh	(revision 1714713)
+--- scripts/deploy.sh	(revision 1743253)
 +++ scripts/deploy.sh	(working copy)
 @@ -28,7 +28,7 @@
  echo "DOCKER_HOST is set to $DOCKER_HOST"
