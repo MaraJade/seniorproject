@@ -579,15 +579,20 @@ def _twitterAuth():
     
     return authJSON['access_token']
 
+# Gets html from Twitter to embed the tweets nicely
 def _oembedTweets(tweets):
+    # Get the hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
     oembed = dict()
     for hashtag in hashtags:
         oembed[hashtag.name] = []
         for i in range(0, len(tweets[hashtag.name]) - 1):
             url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
             embededResponse = requests.get(url)
+            # Get the json so that the data can actually be accessed
             embeded = embededResponse.json()
+            # Only need the html for the template
             oembed[hashtag.name].append(embeded['html'])
 
     return oembed
@@ -599,20 +604,23 @@ def tweetsNotApp(request):
     # Get the hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
+    # Gets all the tweets containing the hashtags
+    # Keeps them seperated by hashtag for viewing
     allTweets = dict()
     for hashtag in hashtags:
         allTweets[hashtag.name] = []
         url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
         headers = {'Authorization': "Bearer " + accessToken}
         response = requests.get(url, headers=headers)
+        # Gets the json version so that the data can actually be accessed
         tweetsJSON = response.json()
         for tweet in tweetsJSON['statuses']:
+            # Only need the id to get the oembed data
             allTweets[hashtag.name].append(tweet['id'])
 
     oembed = _oembedTweets(allTweets)
 
     return render(request, 'tweets/notApp.html', {'tweets': oembed})
-
 
 def tweetsApp(request):
     # Auth with Twitter
@@ -621,15 +629,18 @@ def tweetsApp(request):
     # Get hashtags
     hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 
-    oembed = []
+    # Gets all the tweets containing the hashtags
+    # Keeps them seperated by hashtag for viewing
     allTweets = dict()
     for hashtag in hashtags:
         allTweets[hashtag.name] = []
         url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
         headers = {'Authorization': "Bearer " + accessToken}
         response = requests.get(url, headers=headers)
+        # Gets the json version so that the data can actually be accessed
         tweetsJSON = response.json()
         for tweet in tweetsJSON['statuses']:
+            # Only need the id to get the oembed data
             allTweets[hashtag.name].append(tweet['id'])
 
     oembed = _oembedTweets(allTweets)

@@ -7,6 +7,7 @@
 <body>
   {% include "include/navbar.html" %}
   <h4>Tweets from the app</h4>
+  <!--Displays each set of tweets in a scrollable row-->
   {% for hashtag, data in tweets.items %}
     <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
       <table class="table table-striped">
@@ -19,6 +20,8 @@
           <tr>
             <td>
             {% for tweet in data %}
+              <!--Displays the OEmbed html data-->
+              <!--If the autoescape is left on, it shows the html directly-->
               {% autoescape off %}{{ tweet }}{% endautoescape %}
             {% endfor %}
             </td>
