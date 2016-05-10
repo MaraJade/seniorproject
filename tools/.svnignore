@@ -1,6 +1,7 @@
 *.cer
 *.pem
 *.pfx
+*.pyc
 
 # Generated files
 groups.json
