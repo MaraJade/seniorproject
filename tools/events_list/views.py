@@ -311,6 +311,7 @@ def importHosts(hostID):
         if 'lat' in hostsInfo.keys():
             host.latitude = hostsInfo['lat']
         host.url = hostsInfo['link']
+        #Gathering the other service information for the hosts, looking for Twitter
         if 'other_services' in hostsInfo.keys():
             if 'twitter' in hostsInfo['other_services'].keys():
                 if 'identifier' in hostsInfo['other_services']['twitter'].keys():
@@ -362,8 +363,9 @@ def importMembers(request, group_id):
         try:
             person.meetupID = member['id']
             person.name = member['name']
-	    #person.service = member['other_services']['twitter']['identifier']
             person.country = member['country']
+            #Gathering other services information on imported member
+	    #Specifically looking for the Twitter handle if available
  	    if 'other_services' in member.keys():
 	        if 'twitter' in member['other_services'].keys():
 		    if 'identifier' in member['other_services']['twitter'].keys():
@@ -430,6 +432,7 @@ def _callMeetupsCom(hashtag):
 
     # Radius is defined around Lexington, KY, but it's infinite radius, so
     # should work everywhere.
+    # Added event_hosts option in API to pull the hosts of the event as well.
     url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 
     print "Fetching meetups ..."
