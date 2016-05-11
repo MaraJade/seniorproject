@@ -1263,7 +1263,7 @@ Index: events_list/templates/events/eventSearch.html
 ===================================================================
 --- events_list/templates/events/eventSearch.html	(revision 0)
 +++ events_list/templates/events/eventSearch.html	(working copy)
-@@ -0,0 +1,268 @@
+@@ -0,0 +1,265 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -1346,8 +1346,8 @@ Index: events_list/templates/events/eventSearch.html
 +    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 +    <div id="map"></div>
 +    <script>
-+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 +
++      // Initiating the map here.
 +      function initMap() {
 +        var map = new google.maps.Map(document.getElementById('map'), {
 +          center: {lat: 44.5645659, lng: -123.2620435},
@@ -1371,7 +1371,7 @@ Index: events_list/templates/events/eventSearch.html
 +                handleLocationError(true, infoWindow, map.getCenter());
 +              });
 +         } else {
-+           //if ish doesnt work
++           //if stuff doesnt work
 +           handleLocationError(false, infoWindow, map.getCenter());
 +         }
 +
@@ -1390,6 +1390,8 @@ Index: events_list/templates/events/eventSearch.html
 +        // Listen for the event fired when the user selects a prediction and retrieve
 +        // more details for that place.
 +
++	// Loop through the upcoming_events_lists and gather each events lat and lon to create
++        // the markers associated with it.
 +        {% for even in upcoming_events_list %}
 +              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
 +
@@ -1414,10 +1416,6 @@ Index: events_list/templates/events/eventSearch.html
 +          marker.setMap(null);
 +        });
 +
-+        // circles.forEach(function(circle) {
-+        //   circle.setMap(null);
-+        // });
-+
 +        markers = [];
 +        circles = [];
 +
@@ -1440,6 +1438,7 @@ Index: events_list/templates/events/eventSearch.html
 +          position: place.geometry.location
 +        }));
 +
++	// Create a circle for each place searched.
 +        circles.push(new google.maps.Circle({
 +          map: map,
 +          radius: 16093, //10 mi radius
@@ -1448,8 +1447,6 @@ Index: events_list/templates/events/eventSearch.html
 +          fillOpacity: 0.20,
 +          center: place.geometry.location
 +        }));
-+
-+        //circles[0].bindTo('center', markers[0], 'position');
 +
 +        if (place.geometry.viewport) {
 +          // Only geocodes have viewport.
@@ -1902,7 +1899,7 @@ Index: events_list/templates/login/login.html
 ===================================================================
 --- events_list/templates/login/login.html	(revision 0)
 +++ events_list/templates/login/login.html	(working copy)
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,41 @@
 +<!DOCTYPE html>
 +<html>
 +
@@ -1914,53 +1911,6 @@ Index: events_list/templates/login/login.html
 +<body>
 +  {% include "include/navbar.html" %}
 +  <h4>Welcome!</h4>
-+  <!--
-+   <form action="creatAccount/">
-+     <fieldset>
-+     <legend>Log In:</legend>
-+     First name:<br>
-+     <input type="text" name="firstname"><br>
-+     Last name:<br>
-+     <input type="text" name="lastname"><br><br>
-+     Password:<br>
-+     <input type="password" name="psw">
-+     <input type="submit" value="Submit">
-+     </fieldset>
-+   </form>
-+  -->
-+<!--
-+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-+<head>
-+<title>Log in</title>
-+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-+<style>
-+body{
-+	font-family:Arial,Helvetica,sans-serif;
-+	font-size: 12px;
-+}
-+</style>
-+</head>
-+<body>
-+	{{ state }}
-+	<form action="/events/" method="post">
-+    {% csrf_token %}
-+		{% if next %}
-+		<input type="hidden" name="next" value="{{ next }}" />
-+		{% endif %}
-+		username: 
-+		<input type="text" name="username" value="{{ username}}" /><br />
-+		password:
-+		<input type="password" name="password" value="" /><br />
-+
-+		<input type="submit" value="Log In" />
-+	</form>
-+    
-+    <form action= "createAccount/">
-+    {% csrf_token %}
-+        <input type ="submit" value="Create Account">
-+    </form>
-+-->
 +
 +<div class="login">
 +  <div class="heading">
@@ -2057,7 +2007,7 @@ Index: events_list/templates/people/index.html
 ===================================================================
 --- events_list/templates/people/index.html	(revision 1743253)
 +++ events_list/templates/people/index.html	(working copy)
-@@ -1,45 +1,58 @@
+@@ -1,45 +1,59 @@
 -<!DOCTYPE html>
 -<html>
 -<head>
@@ -2122,6 +2072,7 @@ Index: events_list/templates/people/index.html
 +  {% endif %}
 +
 +  {% if person_list %}
++    <!--Creates the table and paginates it-->
 +    <script>
 +      $(document).ready(function(){
 +      $('#peopleList').dataTable({
@@ -2165,7 +2116,7 @@ Index: events_list/templates/people/view.html
 ===================================================================
 --- events_list/templates/people/view.html	(revision 1743253)
 +++ events_list/templates/people/view.html	(working copy)
-@@ -8,26 +8,86 @@
+@@ -8,26 +8,87 @@
    {% include "include/navbar.html" %}
  
    <h1>{{ person.name }}</h1>
@@ -2173,6 +2124,7 @@ Index: events_list/templates/people/view.html
  
 -  <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
 +  <p>
++  <!--Added person.service to the reference for the social share button in order to tweet using the persons twitter handle-->
 +  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > </a>
 +  <script>
 +    var _hs = {
@@ -2271,7 +2223,7 @@ Index: events_list/templates/people/viewHosts.html
 ===================================================================
 --- events_list/templates/people/viewHosts.html	(revision 0)
 +++ events_list/templates/people/viewHosts.html	(working copy)
-@@ -0,0 +1,102 @@
+@@ -0,0 +1,79 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -2284,7 +2236,8 @@ Index: events_list/templates/people/viewHosts.html
 +  <h1>{{ personHost.name }}</h1>
 +
 +  <p>
-+  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
++  <!--Added person.service to the reference for the social share button in order to tweet using
++the persons twitter handle-->
 +  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
 +  <script>
 +    var _hs = {
@@ -2348,30 +2301,6 @@ Index: events_list/templates/people/viewHosts.html
 +      </table>
 +  </div>  
 +
-+
-+  <input type="button" value="Testing Click Count" onclick="set_test()">
-+
-+  <script>
-+        var test = 0;    
-+
-+        function set_test() {
-+                test++;
-+                function_one(test);
-+        }
-+
-+        function function_one(test) {
-+                if (test > 1)
-+                {
-+                  function_two(); // considering the next alert, I figured you wanted to call function_two first
-+                  alert("The function called 'function_one' has been called.");
-+                }
-+        }
-+
-+        function function_two() {
-+                alert("The function called 'function_two' has been called.");
-+        }
-+  </script>
-+
 +</body>
 +</html>
 Index: events_list/templates/profile.html
@@ -2403,7 +2332,7 @@ Index: events_list/templates/tweets/app.html
 ===================================================================
 --- events_list/templates/tweets/app.html	(revision 0)
 +++ events_list/templates/tweets/app.html	(working copy)
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,34 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -2413,6 +2342,7 @@ Index: events_list/templates/tweets/app.html
 +<body>
 +  {% include "include/navbar.html" %}
 +  <h4>Tweets from the app</h4>
++  <!--Displays each set of tweets in a scrollable row-->
 +  {% for hashtag, data in tweets.items %}
 +    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
 +      <table class="table table-striped">
@@ -2425,6 +2355,8 @@ Index: events_list/templates/tweets/app.html
 +          <tr>
 +            <td>
 +            {% for tweet in data %}
++              <!--Displays the OEmbed html data-->
++              <!--If the autoescape is left on, it shows the html directly-->
 +              {% autoescape off %}{{ tweet }}{% endautoescape %}
 +            {% endfor %}
 +            </td>
@@ -2439,7 +2371,7 @@ Index: events_list/templates/tweets/notApp.html
 ===================================================================
 --- events_list/templates/tweets/notApp.html	(revision 0)
 +++ events_list/templates/tweets/notApp.html	(working copy)
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,34 @@
 +<!DOCTYPE html>
 +<html>
 +<head>
@@ -2449,7 +2381,7 @@ Index: events_list/templates/tweets/notApp.html
 +<body>
 +  {% include "include/navbar.html" %}
 +  <h4>Tweets not from the app</h4>
-+    <!--{{ tweets }}-->
++  <!--Displays each set of tweets in a scrollable row-->
 +  {% for hashtag, data in tweets.items %}
 +    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
 +      <table class="table table-striped">
@@ -2462,6 +2394,8 @@ Index: events_list/templates/tweets/notApp.html
 +          <tr>
 +            <td>
 +            {% for tweet in data %}
++              <!--Displays the OEmbed html data-->
++              <!--If the autoescape is left on, it shows the html directly-->
 +              {% autoescape off %}{{ tweet }}{% endautoescape %}
 +            {% endfor %}
 +            </td>
@@ -2470,22 +2404,6 @@ Index: events_list/templates/tweets/notApp.html
 +      </table>
 +    </div>
 +  {% endfor %}
-+</body>
-+</html>
-Index: events_list/templates/tweets/view.html
-===================================================================
---- events_list/templates/tweets/view.html	(revision 0)
-+++ events_list/templates/tweets/view.html	(working copy)
-@@ -0,0 +1,11 @@
-+<!DOCTYPE html>
-+<html>
-+<head>
-+  <title>Not App Tweets</title>
-+  {% include "include/head.html" %}
-+</head>
-+<body>
-+  {% include "include/navbar.html" %}
-+  <h4>All tweets go here</h4>
 +</body>
 +</html>
 Index: events_list/urls.py
@@ -2771,7 +2689,7 @@ Index: events_list/views.py
  
  def _canImport():
      if settings.DEBUG:
-@@ -133,6 +262,81 @@
+@@ -133,6 +262,82 @@
          pass
      return can_import
  
@@ -2793,13 +2711,13 @@ Index: events_list/views.py
 +
 +
 +def importHosts(hostID):
-+    #hostID = get_object_or_404(Host, pk = hostID)
 +
 +    log = Log()
 +    log.description = "Hosts imported"
 +    log.action_type = Log.EVENT_IMPORT
 +    log.save()
 +
++    # New API call to get a specific persons information based on the Host ID
 +    url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
 +    response = urllib2.urlopen(url)
 +    result = response.read()
@@ -2824,6 +2742,7 @@ Index: events_list/views.py
 +        if 'lat' in hostsInfo.keys():
 +            host.latitude = hostsInfo['lat']
 +        host.url = hostsInfo['link']
++        #Gathering the other service information for the hosts, looking for Twitter
 +        if 'other_services' in hostsInfo.keys():
 +            if 'twitter' in hostsInfo['other_services'].keys():
 +                if 'identifier' in hostsInfo['other_services']['twitter'].keys():
@@ -2853,12 +2772,12 @@ Index: events_list/views.py
  def importMembers(request, group_id):
      group = get_object_or_404(Group, pk = group_id)
  
-@@ -158,7 +362,12 @@
-         try:
+@@ -159,6 +364,12 @@
              person.meetupID = member['id']
              person.name = member['name']
-+	    #person.service = member['other_services']['twitter']['identifier']
              person.country = member['country']
++            #Gathering other services information on imported member
++	    #Specifically looking for the Twitter handle if available
 + 	    if 'other_services' in member.keys():
 +	        if 'twitter' in member['other_services'].keys():
 +		    if 'identifier' in member['other_services']['twitter'].keys():
@@ -2866,16 +2785,17 @@ Index: events_list/views.py
              if 'state' in member.keys():
                  person.state = member['state']
              person.city = member['city']
-@@ -221,7 +430,7 @@
+@@ -221,7 +432,8 @@
  
      # Radius is defined around Lexington, KY, but it's infinite radius, so
      # should work everywhere.
 -    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&text=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
++    # Added event_hosts option in API to pull the hosts of the event as well.
 +    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
  
      print "Fetching meetups ..."
  
-@@ -238,7 +447,7 @@
+@@ -238,7 +450,7 @@
  
      for meetup in meetups:
          groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
@@ -2884,7 +2804,7 @@ Index: events_list/views.py
      keys = groups.keys()
      keyarg = ",".join( keys )
      
-@@ -266,7 +475,7 @@
+@@ -266,7 +478,7 @@
                              meetups.remove(m)
                              
      for meetup in meetups:
@@ -2893,7 +2813,7 @@ Index: events_list/views.py
          grp = grp_deets[ meetup['group']['id'] ]
  
          try:
-@@ -293,6 +502,22 @@
+@@ -293,6 +505,22 @@
          try:
              event.name = unicode(meetup['name'])
              event.event_url = meetup['event_url']
@@ -2916,7 +2836,7 @@ Index: events_list/views.py
              event.meetupID = meetup['id']
              event.group = group
              event.description = unicode(meetup['description'])
-@@ -308,9 +533,102 @@
+@@ -308,9 +536,113 @@
              event.is_applicable = group.is_applicable                
              event.save()
  
@@ -2963,15 +2883,20 @@ Index: events_list/views.py
      
 +    return authJSON['access_token']
  
++# Gets html from Twitter to embed the tweets nicely
 +def _oembedTweets(tweets):
++    # Get the hashtags
 +    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
++
 +    oembed = dict()
 +    for hashtag in hashtags:
 +        oembed[hashtag.name] = []
 +        for i in range(0, len(tweets[hashtag.name]) - 1):
 +            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
 +            embededResponse = requests.get(url)
++            # Get the json so that the data can actually be accessed
 +            embeded = embededResponse.json()
++            # Only need the html for the template
 +            oembed[hashtag.name].append(embeded['html'])
 +
 +    return oembed
@@ -2983,20 +2908,23 @@ Index: events_list/views.py
 +    # Get the hashtags
 +    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 +
++    # Gets all the tweets containing the hashtags
++    # Keeps them seperated by hashtag for viewing
 +    allTweets = dict()
 +    for hashtag in hashtags:
 +        allTweets[hashtag.name] = []
 +        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
 +        headers = {'Authorization': "Bearer " + accessToken}
 +        response = requests.get(url, headers=headers)
++        # Gets the json version so that the data can actually be accessed
 +        tweetsJSON = response.json()
 +        for tweet in tweetsJSON['statuses']:
++            # Only need the id to get the oembed data
 +            allTweets[hashtag.name].append(tweet['id'])
 +
 +    oembed = _oembedTweets(allTweets)
 +
 +    return render(request, 'tweets/notApp.html', {'tweets': oembed})
-+
 +
 +def tweetsApp(request):
 +    # Auth with Twitter
@@ -3005,15 +2933,18 @@ Index: events_list/views.py
 +    # Get hashtags
 +    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 +
-+    oembed = []
++    # Gets all the tweets containing the hashtags
++    # Keeps them seperated by hashtag for viewing
 +    allTweets = dict()
 +    for hashtag in hashtags:
 +        allTweets[hashtag.name] = []
 +        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
 +        headers = {'Authorization': "Bearer " + accessToken}
 +        response = requests.get(url, headers=headers)
++        # Gets the json version so that the data can actually be accessed
 +        tweetsJSON = response.json()
 +        for tweet in tweetsJSON['statuses']:
++            # Only need the id to get the oembed data
 +            allTweets[hashtag.name].append(tweet['id'])
 +
 +    oembed = _oembedTweets(allTweets)
@@ -3023,7 +2954,7 @@ Index: patch.diff
 ===================================================================
 --- patch.diff	(revision 0)
 +++ patch.diff	(working copy)
-@@ -0,0 +1,3021 @@
+@@ -0,0 +1,2952 @@
 +Index: .svnignore
 +===================================================================
 +--- .svnignore	(revision 1743253)
@@ -4289,7 +4220,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/events/eventSearch.html	(revision 0)
 ++++ events_list/templates/events/eventSearch.html	(working copy)
-+@@ -0,0 +1,268 @@
++@@ -0,0 +1,265 @@
 ++<!DOCTYPE html>
 ++<html>
 ++<head>
@@ -4372,8 +4303,8 @@ Index: patch.diff
 ++    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 ++    <div id="map"></div>
 ++    <script>
-++      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 ++
+++      // Initiating the map here.
 ++      function initMap() {
 ++        var map = new google.maps.Map(document.getElementById('map'), {
 ++          center: {lat: 44.5645659, lng: -123.2620435},
@@ -4397,7 +4328,7 @@ Index: patch.diff
 ++                handleLocationError(true, infoWindow, map.getCenter());
 ++              });
 ++         } else {
-++           //if ish doesnt work
+++           //if stuff doesnt work
 ++           handleLocationError(false, infoWindow, map.getCenter());
 ++         }
 ++
@@ -4416,6 +4347,8 @@ Index: patch.diff
 ++        // Listen for the event fired when the user selects a prediction and retrieve
 ++        // more details for that place.
 ++
+++	// Loop through the upcoming_events_lists and gather each events lat and lon to create
+++        // the markers associated with it.
 ++        {% for even in upcoming_events_list %}
 ++              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
 ++
@@ -4440,10 +4373,6 @@ Index: patch.diff
 ++          marker.setMap(null);
 ++        });
 ++
-++        // circles.forEach(function(circle) {
-++        //   circle.setMap(null);
-++        // });
-++
 ++        markers = [];
 ++        circles = [];
 ++
@@ -4466,6 +4395,7 @@ Index: patch.diff
 ++          position: place.geometry.location
 ++        }));
 ++
+++	// Create a circle for each place searched.
 ++        circles.push(new google.maps.Circle({
 ++          map: map,
 ++          radius: 16093, //10 mi radius
@@ -4474,8 +4404,6 @@ Index: patch.diff
 ++          fillOpacity: 0.20,
 ++          center: place.geometry.location
 ++        }));
-++
-++        //circles[0].bindTo('center', markers[0], 'position');
 ++
 ++        if (place.geometry.viewport) {
 ++          // Only geocodes have viewport.
@@ -4928,7 +4856,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/login/login.html	(revision 0)
 ++++ events_list/templates/login/login.html	(working copy)
-+@@ -0,0 +1,88 @@
++@@ -0,0 +1,41 @@
 ++<!DOCTYPE html>
 ++<html>
 ++
@@ -4940,53 +4868,6 @@ Index: patch.diff
 ++<body>
 ++  {% include "include/navbar.html" %}
 ++  <h4>Welcome!</h4>
-++  <!--
-++   <form action="creatAccount/">
-++     <fieldset>
-++     <legend>Log In:</legend>
-++     First name:<br>
-++     <input type="text" name="firstname"><br>
-++     Last name:<br>
-++     <input type="text" name="lastname"><br><br>
-++     Password:<br>
-++     <input type="password" name="psw">
-++     <input type="submit" value="Submit">
-++     </fieldset>
-++   </form>
-++  -->
-++<!--
-++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-++<head>
-++<title>Log in</title>
-++<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-++<style>
-++body{
-++	font-family:Arial,Helvetica,sans-serif;
-++	font-size: 12px;
-++}
-++</style>
-++</head>
-++<body>
-++	{{ state }}
-++	<form action="/events/" method="post">
-++    {% csrf_token %}
-++		{% if next %}
-++		<input type="hidden" name="next" value="{{ next }}" />
-++		{% endif %}
-++		username: 
-++		<input type="text" name="username" value="{{ username}}" /><br />
-++		password:
-++		<input type="password" name="password" value="" /><br />
-++
-++		<input type="submit" value="Log In" />
-++	</form>
-++    
-++    <form action= "createAccount/">
-++    {% csrf_token %}
-++        <input type ="submit" value="Create Account">
-++    </form>
-++-->
 ++
 ++<div class="login">
 ++  <div class="heading">
@@ -5083,7 +4964,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/people/index.html	(revision 1743253)
 ++++ events_list/templates/people/index.html	(working copy)
-+@@ -1,45 +1,58 @@
++@@ -1,45 +1,59 @@
 +-<!DOCTYPE html>
 +-<html>
 +-<head>
@@ -5148,6 +5029,7 @@ Index: patch.diff
 ++  {% endif %}
 ++
 ++  {% if person_list %}
+++    <!--Creates the table and paginates it-->
 ++    <script>
 ++      $(document).ready(function(){
 ++      $('#peopleList').dataTable({
@@ -5191,7 +5073,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/people/view.html	(revision 1743253)
 ++++ events_list/templates/people/view.html	(working copy)
-+@@ -8,26 +8,86 @@
++@@ -8,26 +8,87 @@
 +   {% include "include/navbar.html" %}
 + 
 +   <h1>{{ person.name }}</h1>
@@ -5199,6 +5081,7 @@ Index: patch.diff
 + 
 +-  <p>{{ person.city }}, {{ person.state }}, {{ person.country }} ({{ person.latitude }}, {{ person.longitude }})</p>
 ++  <p>
+++  <!--Added person.service to the reference for the social share button in order to tweet using the persons twitter handle-->
 ++  <a href="{{ person.service }}" title="{{ person.service }}" class="_hs_socialshare" > </a>
 ++  <script>
 ++    var _hs = {
@@ -5297,7 +5180,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/people/viewHosts.html	(revision 0)
 ++++ events_list/templates/people/viewHosts.html	(working copy)
-+@@ -0,0 +1,102 @@
++@@ -0,0 +1,79 @@
 ++<!DOCTYPE html>
 ++<html>
 ++<head>
@@ -5310,7 +5193,8 @@ Index: patch.diff
 ++  <h1>{{ personHost.name }}</h1>
 ++
 ++  <p>
-++  <!--<a href="{{ person.person_url }}" title="{{ person.tweet }}" class="_hs_socialshare">Share</a>-->
+++  <!--Added person.service to the reference for the social share button in order to tweet using
+++the persons twitter handle-->
 ++  <a href="{{ personHost.service }}" title="{{ personHost.service }}" class="_hs_socialshare"> </a>
 ++  <script>
 ++    var _hs = {
@@ -5374,30 +5258,6 @@ Index: patch.diff
 ++      </table>
 ++  </div>  
 ++
-++
-++  <input type="button" value="Testing Click Count" onclick="set_test()">
-++
-++  <script>
-++        var test = 0;    
-++
-++        function set_test() {
-++                test++;
-++                function_one(test);
-++        }
-++
-++        function function_one(test) {
-++                if (test > 1)
-++                {
-++                  function_two(); // considering the next alert, I figured you wanted to call function_two first
-++                  alert("The function called 'function_one' has been called.");
-++                }
-++        }
-++
-++        function function_two() {
-++                alert("The function called 'function_two' has been called.");
-++        }
-++  </script>
-++
 ++</body>
 ++</html>
 +Index: events_list/templates/profile.html
@@ -5429,7 +5289,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/tweets/app.html	(revision 0)
 ++++ events_list/templates/tweets/app.html	(working copy)
-+@@ -0,0 +1,31 @@
++@@ -0,0 +1,34 @@
 ++<!DOCTYPE html>
 ++<html>
 ++<head>
@@ -5439,6 +5299,7 @@ Index: patch.diff
 ++<body>
 ++  {% include "include/navbar.html" %}
 ++  <h4>Tweets from the app</h4>
+++  <!--Displays each set of tweets in a scrollable row-->
 ++  {% for hashtag, data in tweets.items %}
 ++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
 ++      <table class="table table-striped">
@@ -5451,6 +5312,8 @@ Index: patch.diff
 ++          <tr>
 ++            <td>
 ++            {% for tweet in data %}
+++              <!--Displays the OEmbed html data-->
+++              <!--If the autoescape is left on, it shows the html directly-->
 ++              {% autoescape off %}{{ tweet }}{% endautoescape %}
 ++            {% endfor %}
 ++            </td>
@@ -5465,7 +5328,7 @@ Index: patch.diff
 +===================================================================
 +--- events_list/templates/tweets/notApp.html	(revision 0)
 ++++ events_list/templates/tweets/notApp.html	(working copy)
-+@@ -0,0 +1,32 @@
++@@ -0,0 +1,34 @@
 ++<!DOCTYPE html>
 ++<html>
 ++<head>
@@ -5475,7 +5338,7 @@ Index: patch.diff
 ++<body>
 ++  {% include "include/navbar.html" %}
 ++  <h4>Tweets not from the app</h4>
-++    <!--{{ tweets }}-->
+++  <!--Displays each set of tweets in a scrollable row-->
 ++  {% for hashtag, data in tweets.items %}
 ++    <div style="max-width:33%; max-height:600px; float:left; overflow:auto;">
 ++      <table class="table table-striped">
@@ -5488,6 +5351,8 @@ Index: patch.diff
 ++          <tr>
 ++            <td>
 ++            {% for tweet in data %}
+++              <!--Displays the OEmbed html data-->
+++              <!--If the autoescape is left on, it shows the html directly-->
 ++              {% autoescape off %}{{ tweet }}{% endautoescape %}
 ++            {% endfor %}
 ++            </td>
@@ -5496,22 +5361,6 @@ Index: patch.diff
 ++      </table>
 ++    </div>
 ++  {% endfor %}
-++</body>
-++</html>
-+Index: events_list/templates/tweets/view.html
-+===================================================================
-+--- events_list/templates/tweets/view.html	(revision 0)
-++++ events_list/templates/tweets/view.html	(working copy)
-+@@ -0,0 +1,11 @@
-++<!DOCTYPE html>
-++<html>
-++<head>
-++  <title>Not App Tweets</title>
-++  {% include "include/head.html" %}
-++</head>
-++<body>
-++  {% include "include/navbar.html" %}
-++  <h4>All tweets go here</h4>
 ++</body>
 ++</html>
 +Index: events_list/urls.py
@@ -5797,7 +5646,7 @@ Index: patch.diff
 + 
 + def _canImport():
 +     if settings.DEBUG:
-+@@ -133,6 +262,81 @@
++@@ -133,6 +262,82 @@
 +         pass
 +     return can_import
 + 
@@ -5819,13 +5668,13 @@ Index: patch.diff
 ++
 ++
 ++def importHosts(hostID):
-++    #hostID = get_object_or_404(Host, pk = hostID)
 ++
 ++    log = Log()
 ++    log.description = "Hosts imported"
 ++    log.action_type = Log.EVENT_IMPORT
 ++    log.save()
 ++
+++    # New API call to get a specific persons information based on the Host ID
 ++    url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
 ++    response = urllib2.urlopen(url)
 ++    result = response.read()
@@ -5850,6 +5699,7 @@ Index: patch.diff
 ++        if 'lat' in hostsInfo.keys():
 ++            host.latitude = hostsInfo['lat']
 ++        host.url = hostsInfo['link']
+++        #Gathering the other service information for the hosts, looking for Twitter
 ++        if 'other_services' in hostsInfo.keys():
 ++            if 'twitter' in hostsInfo['other_services'].keys():
 ++                if 'identifier' in hostsInfo['other_services']['twitter'].keys():
@@ -5879,12 +5729,12 @@ Index: patch.diff
 + def importMembers(request, group_id):
 +     group = get_object_or_404(Group, pk = group_id)
 + 
-+@@ -158,7 +362,12 @@
-+         try:
++@@ -159,6 +364,12 @@
 +             person.meetupID = member['id']
 +             person.name = member['name']
-++	    #person.service = member['other_services']['twitter']['identifier']
 +             person.country = member['country']
+++            #Gathering other services information on imported member
+++	    #Specifically looking for the Twitter handle if available
 ++ 	    if 'other_services' in member.keys():
 ++	        if 'twitter' in member['other_services'].keys():
 ++		    if 'identifier' in member['other_services']['twitter'].keys():
@@ -5892,16 +5742,17 @@ Index: patch.diff
 +             if 'state' in member.keys():
 +                 person.state = member['state']
 +             person.city = member['city']
-+@@ -221,7 +430,7 @@
++@@ -221,7 +432,8 @@
 + 
 +     # Radius is defined around Lexington, KY, but it's infinite radius, so
 +     # should work everywhere.
 +-    url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&text=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
+++    # Added event_hosts option in API to pull the hosts of the event as well.
 ++    url = "https://api.meetup.com/2/open_events?&sign=true&fields=event_hosts&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
 + 
 +     print "Fetching meetups ..."
 + 
-+@@ -238,7 +447,7 @@
++@@ -238,7 +450,7 @@
 + 
 +     for meetup in meetups:
 +         groups[ str( meetup['group']['id'] ) ] = meetup['group']['name']
@@ -5910,7 +5761,7 @@ Index: patch.diff
 +     keys = groups.keys()
 +     keyarg = ",".join( keys )
 +     
-+@@ -266,7 +475,7 @@
++@@ -266,7 +478,7 @@
 +                             meetups.remove(m)
 +                             
 +     for meetup in meetups:
@@ -5919,7 +5770,7 @@ Index: patch.diff
 +         grp = grp_deets[ meetup['group']['id'] ]
 + 
 +         try:
-+@@ -293,6 +502,22 @@
++@@ -293,6 +505,22 @@
 +         try:
 +             event.name = unicode(meetup['name'])
 +             event.event_url = meetup['event_url']
@@ -5942,7 +5793,7 @@ Index: patch.diff
 +             event.meetupID = meetup['id']
 +             event.group = group
 +             event.description = unicode(meetup['description'])
-+@@ -308,9 +533,102 @@
++@@ -308,9 +536,113 @@
 +             event.is_applicable = group.is_applicable                
 +             event.save()
 + 
@@ -5989,15 +5840,20 @@ Index: patch.diff
 +     
 ++    return authJSON['access_token']
 + 
+++# Gets html from Twitter to embed the tweets nicely
 ++def _oembedTweets(tweets):
+++    # Get the hashtags
 ++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+++
 ++    oembed = dict()
 ++    for hashtag in hashtags:
 ++        oembed[hashtag.name] = []
 ++        for i in range(0, len(tweets[hashtag.name]) - 1):
 ++            url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
 ++            embededResponse = requests.get(url)
+++            # Get the json so that the data can actually be accessed
 ++            embeded = embededResponse.json()
+++            # Only need the html for the template
 ++            oembed[hashtag.name].append(embeded['html'])
 ++
 ++    return oembed
@@ -6009,20 +5865,23 @@ Index: patch.diff
 ++    # Get the hashtags
 ++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 ++
+++    # Gets all the tweets containing the hashtags
+++    # Keeps them seperated by hashtag for viewing
 ++    allTweets = dict()
 ++    for hashtag in hashtags:
 ++        allTweets[hashtag.name] = []
 ++        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
 ++        headers = {'Authorization': "Bearer " + accessToken}
 ++        response = requests.get(url, headers=headers)
+++        # Gets the json version so that the data can actually be accessed
 ++        tweetsJSON = response.json()
 ++        for tweet in tweetsJSON['statuses']:
+++            # Only need the id to get the oembed data
 ++            allTweets[hashtag.name].append(tweet['id'])
 ++
 ++    oembed = _oembedTweets(allTweets)
 ++
 ++    return render(request, 'tweets/notApp.html', {'tweets': oembed})
-++
 ++
 ++def tweetsApp(request):
 ++    # Auth with Twitter
@@ -6031,15 +5890,18 @@ Index: patch.diff
 ++    # Get hashtags
 ++    hashtags = Hashtag.objects.all().exclude(name = "Meetup")
 ++
-++    oembed = []
+++    # Gets all the tweets containing the hashtags
+++    # Keeps them seperated by hashtag for viewing
 ++    allTweets = dict()
 ++    for hashtag in hashtags:
 ++        allTweets[hashtag.name] = []
 ++        url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
 ++        headers = {'Authorization': "Bearer " + accessToken}
 ++        response = requests.get(url, headers=headers)
+++        # Gets the json version so that the data can actually be accessed
 ++        tweetsJSON = response.json()
 ++        for tweet in tweetsJSON['statuses']:
+++            # Only need the id to get the oembed data
 ++            allTweets[hashtag.name].append(tweet['id'])
 ++
 ++    oembed = _oembedTweets(allTweets)
