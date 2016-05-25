@@ -7,6 +7,8 @@
 \usepackage[export]{adjustbox} 
 \usepackage{epstopdf}
 
+\usepackage{pdfpages}
+
 \usepackage{caption}
 
 \usepackage{amssymb}                                         
@@ -90,7 +92,7 @@
 \pagenumbering{gobble}
 
 %\title{Using the Style File IEEEtran.sty} 
-\title{Tools for Supporting Community Growth in Open Source \\ {\large CS463: Midterm Report Spring 2016}}
+\title{Tools for Supporting Community Growth in Open Source \\ {\large CS463: Final Report Spring 2016}}
 
 \author{Bruntmyer J. Author, OSU, Goossens M. Author, OSU, Nguyen H. Author, OSU}
 
@@ -122,7 +124,15 @@ reached our version 1.0 release.
 
 \pagenumbering{arabic}
 
-\section{PROJECT PURPOSES AND GOALS}
+\section{INTRODUCTION TO THE PROJECT}
+
+Put all the info here for the introduction of the project blah blah blah.
+
+\includepdf[pages={-}, pagecommand={}]{Requirements_Document1.pdf}
+
+\includepdf[pages={8, 9, 10}, pagecommand={}]{Requirements_Document2.pdf}
+
+\section{Changes to the Requirements}
 After continuous work on this project, the perspective on what
 this community development tool wants to accomplish became clear. After taking
 more time to read and understand the code that was previously written for the
@@ -136,23 +146,28 @@ have an easy way to access an environment where they can hope to participate in 
 events. The ultimate goal of this project is to create a set of tools that eager developers
 can use to find events, view community leader profiles, and get involved.
 
-\section{SYSTEMS OUTLINE}
-This project is developed through Django, a free, open source, high-level Python web 
-application framework which follows the model-view-controller architectural pattern. 
-It provides an option dynamic admin interface, which is controlled in a similar way as 
-other portions of the framework, by models. Django is used for both front-end and 
-back-end of the application.
-For a database management system, the application uses MySQL, which is the most popular
-and commonly used relational database management system. MySQL handles the data and works 
-efficiently while "cutting corners" for runtime efficiency.
-For the front-end templates, HTML and JavaScript are mainly used. the HTML user interface 
-is more secure than most sites and allows images and objects to be embedded and used to 
-create interactive forms. JavaScript is used to extend functionality of the website, 
-specifically with the Google Maps feature. Execution on the client side means that the 
-code is executed on the user's processor instead of the web server which saves bandwidth 
-and strain on the web server overall.
+%The design document is inserted here.
+\includepdf[pages={1}, pagecommand={\section{DESIGN DOCUMENT}}]{Design_Document.pdf}
+\includepdf[pages={2-}, pagecommand={}]{Design_Document.pdf}
 
-\section{CURRENT PROGRESSION THROUGH REQUIREMENTS}
+\subsection{Discussion on Design Document}
+Blah blah blah discussion will go here.
+
+%Tech review is inserted here.
+\includepdf[pages={1}, pagecommand={\section{TECHNOLOGY REVIEW}}]{technology_review.pdf}
+\includepdf[pages={2-}, pagecommand={}]{technology_review.pdf}
+
+\subsection{Discussion on Tech Review}
+Blah blah blah discussion will go here.
+
+
+\includepdf[pages={1}, pagecommand={\section{BLOG POSTS}}]{Blog_Posts.pdf}
+\includepdf[pages={2-}, pagecommand={}]{Blog_Posts.pdf}
+
+
+\includepdf[pages={-}, pagecommand={}]{poster.pdf}
+
+\section{PROJECT DOCUMENTATION}
 
 \subsection{Fix the People page where the list of community leaders are shown}
 \begin{enumerate}
@@ -207,77 +222,8 @@ and strain on the web server overall.
     retrieval of the twitter handle form the database with 'person.service'. Not all users have a
     Twitter handle registered with Meetups thus the tweet button does not have any use. To handle this case
     the tweet at button only appears on profiles of imported people that have a registered Twitter handle.
-    
-    \newpage
-      
+          
 %\end{enumerate}
-
-%Below is views.py for showing how the twitter handle is obtained and stored
-\begin{center}
-  \captionsetup{width=.5\linewidth}
-  \begin{lstlisting}[caption=Views.py file where twitter handle is identified and stored, language=Python]
-            url = "https://api.meetup.com/2/members?offset=0&format=json&group_id=" + 
-            str(group.meetupID) + "&photo-host=public&page=500&sig_id=148657742&key=" + 
-            MEETUP_API_KEY
-           
-            for member in members:
-                try:
-                    person = Person.objects.get(meetupID = member['id'])
-                except Person.DoesNotExist:
-                    person = Person()
-
-                try:        
-                    if 'other_services' in member.keys():
-                        if 'twitter' in member['other_services'].keys():
-                            if 'identifier' in member['other_services']['twitter'].keys():
-                                person.service = member['other_services'}
-                                                       ['twitter']['identifier']
-  \end{lstlisting}
-\end{center}
-    
-%Below is view.html for showing the twitter handle and the button for tweeting
-  \begin{center}
-  \captionsetup{width=.5\linewidth}
-   \begin{lstlisting}[caption=View.py where the button for tweeting at a person is created and twitter handle is displayed., language=HTML]
-        <a href="{{ person.service }}" title="{{ person.service }}" 
-        		class="_hs_socialshare" > Tweet at this Person </a>
-          <script>
-            
-            (function() {
-                         var h = document.createElement('script'); h.type = 
-                         'text/javascript'; h.async = true;
-                         h.src = ('https:' == document.location.protocol ? 'https://' : 
-                         'http://') + 'dtirydke3kdq7.cloudfront.net/hootlet.js?v=1';
-                         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(h, s);
-            })();
-          </script>
-   \end{lstlisting}
-\end{center}
-
-\newpage
-
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[width=3in, frame]{tweet_person1}
-  	\captionsetup{width=.4\linewidth}
-  \centering
-  \caption{The button that is displayed when a user has a twitter handle that is publicly available on Meetups that allows a user to tweet at the person.}
-
-  \end{center}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=3in, frame]{tweet_person2}
-  	\captionsetup{width=.4\linewidth}
-  \centering
-  \caption{The HootSuite service is used to send the tweet at the person as we supply the twitter handle and it is up to the user to use their Twitter account to tweet.}
-
-  \end{center}
-\end{figure}
-
-\end{enumerate}
 
 \subsection{Add user accounts to application and track when a user has tweeted an event}
 \begin{enumerate}
@@ -297,84 +243,6 @@ and strain on the web server overall.
 
 \end{enumerate}
 
-\newpage
-
-\begin{center}
-\captionsetup{width=.5\linewidth}
-  \begin{lstlisting}[caption=Views.py file that handles the creation of accounts and the login page view, language=Python]
-        def login(request):
-            state = "Please log in below..."
-            username = password = ''
-            if request.POST:
-                username = request.POST.get('username')
-                password = request.POST.get('password')
-
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    if user.is_active:
-                        auth_login(request, user)
-                        state = "Welcome " + username + "!"
-                    else:
-                        state = "Your account is not active, please contact the site admin."
-                else:
-                    state = "Your username and/or password were incorrect."
-            template = loader.get_template('login/login.html')
-            context = RequestContext(request, {
-                                     'state': state,
-                                     'username': username
-            })
-            return HttpResponse(template.render(context))
-
-        def logout_view(request):
-            logout(request)
-            return render(request, 'login/login.html')
-
-        def createAccount(request):
-            if request.POST:
-                username = request.POST.get('username')
-                password = request.POST.get('password')
-                email = request.POST.get('email')
-                first_name = request.POST.get('first_name')
-                last_name = request.POST.get('last_name')
-
-                user = User.objects.create_user(username, email, password)
-            return render(request, 'login/createAccount.html')
-      \end{lstlisting}
-    \end{center}
-
-    \begin{center}
-    \captionsetup{width=.5\linewidth}
-        \begin{lstlisting}[caption=urls.py file where the destinations are stored for login and logout, language=Python]
-          url(r'^accounts/login/$', views.login, name='login'),
-          url(r'^logout', views.logout_view, name='logout'),
-          url(r'^login/$', views.login, name='login'),
-          url(r'^createAccount/$', views.createAccount,  name='createAccount'),
-          url(r'^index/$', views.index, name='eventIndex'),
-      \end{lstlisting}
-    \end{center}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=3in, frame]{createAccountForm}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Example usage of the create account form. }
-
-  \end{center}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=3in, frame]{loginSuccess}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing created user actually signing into the website. }
-
-  \end{center}
-\end{figure}
-
 \subsection{List tweets about events and/or people via the application}
 \begin{enumerate}
   \item Completed Implementation: We were unable to track the precise tweets
@@ -390,64 +258,6 @@ and strain on the web server overall.
     project.
 \end{enumerate}
 
-\newpage
-
-\begin{center}
-\captionsetup{width=.5\linewidth}
-  \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
-  search for tweets from the application., language=Python]
-    def _twitterAuth():
-        # Encode the keys
-        key = base64.b64encode(TWITTER_API_KEY)
-
-        # Set needed values
-        authURL = "https://api.twitter.com/oauth2/token"
-        content_type = "application/x-www-form-urlencoded;charset=UTF-8"
-        body = "grant_type=client_credentials"
-
-        # Create the header
-        authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
-        # Get auth
-        auth = requests.post(authURL, headers=authHeaders, data=body)
-        # Get the response in a useable format
-        authJSON = auth.json()
-        
-        return authJSON['access_token']
-
-    def _oembedTweets(tweets):
-        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-        oembed = dict()
-        for hashtag in hashtags:
-            oembed[hashtag.name] = []
-            for i in range(0, len(tweets[hashtag.name]) - 1):
-                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
-                embededResponse = requests.get(url)
-                embeded = embededResponse.json()
-                oembed[hashtag.name].append(embeded['html'])
-
-        return oembed
-
-    def tweetsApp(request):
-        accessToken = _twitterAuth() # Auth with Twitter
-
-        hashtags = Hashtag.objects.all().exclude(name = "Meetup") # Get hashtags
-
-        oembed = []
-        allTweets = dict()
-        for hashtag in hashtags:
-            allTweets[hashtag.name] = []
-            url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "+%23Meetup&src=typd"
-            headers = {'Authorization': "Bearer " + accessToken}
-            response = requests.get(url, headers=headers)
-            tweetsJSON = response.json()
-            for tweet in tweetsJSON['statuses']:
-                allTweets[hashtag.name].append(tweet['id'])
-
-        oembed = _oembedTweets(allTweets)
-
-        return render(request, 'tweets/app.html', {'tweets': oembed})
-  \end{lstlisting}
-\end{center}
 
 \subsection{List tweets about events and/or people not via the application}
 \begin{enumerate}
@@ -463,58 +273,6 @@ and strain on the web server overall.
     the scope of the project
 \end{enumerate}
 
-\begin{center}
-\captionsetup{width=.5\linewidth}
-  \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
-  searching for tweets for the tweets not from the application, language=Python]
-   
-    def _oembedTweets(tweets):
-        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-        oembed = dict()
-        for hashtag in hashtags:
-            oembed[hashtag.name] = []
-            for i in range(0, len(tweets[hashtag.name]) - 1):
-                url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
-                embededResponse = requests.get(url)
-                embeded = embededResponse.json()
-                oembed[hashtag.name].append(embeded['html'])
-
-        return oembed
-
-    def tweetsNotApp(request):
-        # Auth with twitter
-        accessToken = _twitterAuth()
-
-        # Get the hashtags
-        hashtags = Hashtag.objects.all().exclude(name = "Meetup")
-
-        allTweets = dict()
-        for hashtag in hashtags:
-            allTweets[hashtag.name] = []
-            url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
-            headers = {'Authorization': "Bearer " + accessToken}
-            response = requests.get(url, headers=headers)
-            tweetsJSON = response.json()
-            for tweet in tweetsJSON['statuses']:
-                allTweets[hashtag.name].append(tweet['id'])
-
-        oembed = _oembedTweets(allTweets)
-
-        return render(request, 'tweets/notApp.html', {'tweets': oembed})
-  \end{lstlisting}
-\end{center}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=6in, frame]{listingTweets}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing our application listing the tweets that are located on twitter. }
-
-  \end{center}
-\end{figure}
-
 \subsection{Export a list of people with Information}
 \begin{enumerate}
   \item Completed Implementation: When taking on this requirement we quickly realized that
@@ -526,77 +284,7 @@ and strain on the web server overall.
     button located in the top left of the people page and creates a file in a XLSX
     format which can be directly opened or saved.
     
-    \newpage
-    
-    \begin{center}
-    \captionsetup{width=.5\linewidth}
-      \begin{lstlisting}[caption=excelutils.py file where the worksheet is generated and exported as an xlsx file, language=Python]
-        def WriteToExcel(person_list):
-            output = StringIO.StringIO()
-            workbook = xlsxwriter.Workbook(output)
-            worksheet_s = workbook.add_worksheet("People")
-
-            #write title
-            person_text = ugettext("everyone")
-            title_text = u"{0} {1}".format(ugettext("Information for"), person_text)
-            #merge cells
-            worksheet_s.merge_range('B2:I2', title_text, title)
-
-            #write header
-            worksheet_s.write(4, 0, ugettext("No"), header)
-            worksheet_s.write(4, 1, ugettext("Name"), header)
-            worksheet_s.write(4, 2, ugettext("Service"), header)
-            worksheet_s.write(4, 3, ugettext("Bio"), header)
-            worksheet_s.write(4, 4, ugettext("Country"), header)
-            worksheet_s.write(4, 5, ugettext("State"), header)
-            worksheet_s.write(4, 6, ugettext("City"), header)
-            worksheet_s.write(4, 7, ugettext("MeetupID"), header)
-            worksheet_s.write(4, 8, ugettext("URL"), header)
-
-            #column widths
-            bio_col_width = 25
-
-            #add data to the table
-            for idx, data in enumerate(person_list):
-                row = 5 + idx
-                worksheet_s.write_number(row, 0, idx + 1, cell_center)
-                worksheet_s.write_string(row, 1, data.name, cell)
-                worksheet_s.write_string(row, 2, data.service, cell)
-                worksheet_s.write_string(row, 3, data.bio, cell)
-                worksheet_s.write_string(row, 4, data.country, cell)
-                worksheet_s.write_string(row, 5, data.state, cell)
-                worksheet_s.write_string(row, 6, data.city, cell)
-                worksheet_s.write_number(row, 7, data.meetupID, cell)
-                worksheet_s.write_string(row, 8, data.url, cell)
-
-            workbook.close()
-            xlsx_data = output.getvalue()           #xlsx_data contains the Excel file
-            return xlsx_data
-      \end{lstlisting}
-    \end{center}
 \end{enumerate}
-
-
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[width=5in, frame]{exporting1}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing export button executing. }
-
-  \end{center}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=6in, frame]{exporting2}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing the list of exported information about people that were imported. }
-
-  \end{center}
-\end{figure}
 
 \subsection{Improve hashtag searching of application to improve finding more relevant events}
 \begin{enumerate}
@@ -636,29 +324,6 @@ and strain on the web server overall.
   	view where the venue of event would be. Now in this update, that portion is clearly labeled
   	which allows the user to spend less time reading and to quickly see the information
   	that they want to. \\
-    
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=5in, frame]{peopleProfileAfter}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing updated generated profile for person with 
-  organized attributes and scrollable text }
-  \end{center}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=5in, frame]{eventPageAfter}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Updated event page with description labels and reorganized arrangements
-  with details}
-  \end{center}
-\end{figure}
-
 
 \end{enumerate}
 
@@ -687,70 +352,7 @@ and strain on the web server overall.
 
 \end{enumerate}
 
-\newpage
 
-\begin{center}
-\captionsetup{width=.5\linewidth}
-	\begin{lstlisting}[caption=Views.py shows the eventSearch funciton that allows the view in the template for the events page to pull information from the database. This also shows the URL used to get the info about events along with how it is stored., language=Python]
-       
-        url = "https://api.meetup.com/2/open_events?&sign=true&photo-host=public&state=ky&city=lexington&country=usa&topic=" + hashtag.name + "&radius=10000&sign=true&key=" + MEETUP_API_KEY
-
-         try:
-             #getting location of the events instead of groups show below
-             if 'venue' in meetup.keys():
-                 if 'lat' in meetup['venue'].keys():
-                     event.latitude = meetup['venue']['lat']
-                 if 'lon' in meetup['venue'].keys():
-                     event.longitude = meetup['venue']['lon']
-	\end{lstlisting}
-\end{center}
-
-\begin{center}
-\captionsetup{width=.5\linewidth}
-	\begin{lstlisting}[caption=The eventSearch.html has a mixture of JavaScript and HTML that create the Google Map and search bar along with creating markers for events., language=JavaScript]
-           
-            // Create the search box and link it to the UI element. 
-            // Along with creating markers.
-
-            {% for even in upcoming_events_list %}
-               var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
-               var marker = new google.maps.Marker({
-                  position: myLatLng,
-                  map: map,
-                  title: '{{ even.name }}'
-               });
-            {% endfor %}
-            // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function(place) {
-                var icon = {
-                   url: place.icon,
-                   size: new google.maps.Size(71, 71),
-                   origin: new google.maps.Point(0, 0),
-                   anchor: new google.maps.Point(17, 34),
-                   scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                   map: map,
-                   icon: icon,
-                   title: place.name,
-                   position: place.geometry.location
-                   
-	\end{lstlisting}
-\end{center}
-
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=5in, frame]{mapSearching}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing the map of where you can search a location to see nearby events, also listing events locations. }
-
-  \end{center}
-\end{figure}
 
 \subsection{Add feature to generate a profile for people and have it display a way to contact the person if a method is available}
 \begin{enumerate}
@@ -772,20 +374,8 @@ and strain on the web server overall.
 
 \end{enumerate}
 
-\begin{figure}[H]
-  \begin{center}
-  
-  \includegraphics[width=6in, frame]{peopleProfile}
-  \captionsetup{width=.4\linewidth}
-  \centering
-  \caption{Showing profile generated for person along with a twitter handle for a method of contacting. }
 
-  \end{center}
-\end{figure}
-
-\newpage
-
-\section{Feature Requests}
+\section{How did you learn the new technology?}
 Throughout the presentation of our tools to our client Ross Gardler we were happy to hear that he was really excited about the progress we have made thus far.
 In his excitement in seeing how far we have come with the tools and the progress he has seen
 Ross began asking for feature requests to be added to the tools we have developed thus far.
@@ -794,40 +384,12 @@ These requests are for future ideas for the tools as our client also would like 
 that we have made thus far as he approves of the work we have done. We will be completing these patches and getting them to Ross.
 The requirements that have had feature requests proposed are shown below.
 
-\subsection{Add user accounts to the application}
-\begin{enumerate}
-	\item Have a field for the user to enter their Twitter ID if they have one
-\end{enumerate}
+\section{What did you learn from all of this? (Justin Bruntmyer)}
 
-\subsection{List tweets about events via the app and not via the app}
-\begin{enumerate}
-	\item Improve quality of what you see currently by caching.
-    \item Possibly improve the quality of tweets returned by using Hootsuite.
-    \item Search tweets with multiple tags to be displayed.
-    \item List all of the users tweets and the ones containing hashtags, separate pages.
-    \item Mark users who are in groups that are not relevant just like you can do with the events themselves.
-\end{enumerate}
+\section{What did you learn from all of this? (Megan Goossens)}
 
-\subsection{Export a list of people with information}
-\begin{enumerate}
-	\item Add some more fields to the exported list such as what group they are associated with and a list of topics they are interested in.
-\end{enumerate}
+\section{What did you learn from all of this? (Hai Nguyen)}
 
-\subsection{Improve hashtag searching of application for better results on relevant events}
-\begin{enumerate}
-	\item Find any opportunity to improve the searching by hashtags method. This requirement can always use some tweaking but it is good that the searching has improved.
-\end{enumerate}
-
-\subsection{Add feature to generate a profile of people for community developers to have contacting information easily viewable}
-\begin{enumerate}
-	\item Create profiles for the people that are imported that are hosting the events as these people might be more interesting to contact for community developers.
-\end{enumerate}
-
-\subsection{Implement system of improve sorting of finding events by nearby location within radius of the user}
-\begin{enumerate}
-  \item Have map and list of events and start times be side by side on the page.
-  \item Calculate distance from where the user has searched to where the location is and display how far away each location is and sort by distance.
-\end{enumerate}
 
 \section{PROBLEMS ENCOUNTERED}
 
@@ -898,47 +460,5 @@ approved by our client, professor, and TA. This halted our progress by being an
 unnecessary step in the implementation process as it should have been completed
 last term.
 
-\section{TIMELINE UPDATE}
-When we began the development side of the project we realized that it was best
-to strive for achieving alpha level functionality with all of our features that
-we would like to have. This required us to take a different approach then what
-our timeline originally suggested. With that change we were able to have the
-structure ready for us when we began beta level implementation. \\
-
-The timeline below show all of our requirements with their completed status. All version 1.0 additions and changes
-have been made and all requirements are in completion status. Over the project we have seen
-this timeline change multiple times as the team learned quickly that things weren't falling
-into plan exactly the first time. With the changes for the alpha implementation and the
-requirements document problems encountered we changed the timeline three times. However, it all
-worked out in the end as each requirement has been completed and is ready for version 1.0 release. \\
-
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-\begin{center}
-\begin{tabular}{ | C{1cm} | C{7cm}| C{6cm} | } 
-\hline
-REQ\# & Requirement & Expected Completion (V 1.0) \\ 
-\hline
-1 & Fix the "People" page where the list of people are shown from groups & Completed \\ 
-\hline
-2 & Tweet at a person listed in database & Completed \\ 
-\hline
-3 & Add user accounts to the application and track when a user has tweeted an event & Completed \\ 
-\hline
-4 & List tweets about events and/or people via the app & Completed \\ 
-\hline
-5 & List tweets about events and/or people from twitter, but not via the app & Completed \\ 
-\hline
-6 & Export a list of people with information & Completed \\ 
-\hline
-7 & Improve hashtag searching of application for better results on relevant events & Completed \\ 
-\hline
-8 & Implement a system of finding events nearby a location entered or within radius of the user & Completed \\ 
-\hline
-9 & Add feature to generate a profile for community developers to have contacting information easily visable & Completed \\ 
-\hline
-10 & Improve the visuals of the tool and how it looks as a whole. & Completed \\ 
-\hline
-\end{tabular}
-\end{center}
+\end{enumerate}
 \end{document}
