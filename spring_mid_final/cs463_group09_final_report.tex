@@ -129,7 +129,201 @@ reached our version 1.0 release.
 
 The Community Driven Development project is sponsored by the Apache Software Foundation under Ross Gardler, Director and President of the company. The project was designed and prototyped by Gardler before being proposed to the senior software project class for Oregon State University. Development for the project hopes to achieve more involvement in terms of helping building upon the Open Source Community and helping it grow and gain more traffic. The prototype was regularly used by Gardler and many of the faculty from Apache and is continued to gain interest to the public. The importance of development of the project will promote more growth and allow more tools for users in the community to find and locate more events and get more involved in open source community groups and projects. The students assigned to work on this project were Justin Bruntmyer, Megan Goossens, and Hai Nguyen. Each member took upon equal and separate roles for the project. No specific roles were assigned as each member took part in doing part of the work for every task. Ross Gardler provided the initial prototype while the project was improved and implemented with the requested features as the term progressed.
 
-\includepdf[pages={-}, pagecommand={}]{Requirements_Document1.pdf}
+\newpage
+
+\section{REQUIREMENTS DOCUMENT}
+\subsection{Introduction to the Problem}
+Open source projects are known for the code that is developed from them however that is not what causes these projects to either live or die. Though it is true that an open source group can survive without a viable community in most cases there is a class of open source projects that lives or dies on the strength of its community such as the Apache Software Foundation projects. Existing tools are in place for tracking activity within online communities however these tools focus on identifying customers to the open source projects. The problem that is being focused on is that new tools need to be made to identify community leaders so that community builders know who to engage with.
+
+\subsection{Project Description}
+
+The goal of this project is to build connections, collaborations, and identifications between community members and leaders in open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools that identify and support community leaders and members. Better tools will help identify potential community leaders which will then allow community builders to engage with and support those leaders. Over the course of the project, consistent updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools implemented is done in order to measure its significance and effectiveness.
+
+The solution to this problem should be able to identify community leaders to people with a desire to improve the strength of a community around a specific project. This solution includes being able to observe Apache Software Foundation community activity on publicly available information such as meetups.com in order to identify those potential community leaders. The solution is to provide enough information to community builders to contact and engage with the leaders so that they can begin their own contributions to the projects.
+
+\subsection{Requirement}
+
+The end goal of our project is to create a tool for identifying community leaders for others to see and given the chance to get involved with by having a web page that will let users go through and view all of this data in one location. This data will be gathered from an algorithm that reaches out to meetups.com and use key terms to find community leaders. As a stretch goal we would like to have this algorithm gain data from other social media sites such as Facebook and Twitter.
+
+We will be starting with a prototype that has been implemented which means we will need to start by fixing what doesn't work and then adding key features that we believe the project needs. In a final delivery there will be a patched version of the prototype with tool fixes along with new features to improve usability. 
+
+\newpage
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{center}
+\begin{longtable}{ | C{1cm} | C{7cm}| C{6cm} | C{2cm} |} 
+\hline
+REQ\# & Requirement & Priority & Expected Completion \\ 
+\hline
+1 & Gain access to source code of the Community Developments page & HIGH & 11/30/2015\\
+\hline
+2 & Fix the "People" page where the list of community leaders are shown & HIGH & 01/11/2016
+\\
+\hline
+3 & Tweet at a person listed i the database & LOW & 03/14/2016
+\\
+\hline
+4 & Add user accounts to the application and track when a user has tweeted an event & MEDIUM & 02/15/2016
+\\
+\hline
+5 & List tweets about events and/or people via the app & MEDIUM & 02/22/2016
+\\
+\hline
+6 & List tweets about events and/or people from twitter, but not via the app & MEDIUM & 02/29/2016
+\\
+\hline
+7 & Export a list of people with information & LOW & 03/07/2016
+\\
+\hline
+8 & Improve hashtag searching of application for better results on relevant events & HIGH & 02/08/2016*
+\\
+\hline
+9 & Alpha Release &  & 02/08/2016
+\\
+\hline
+10 & Improve the visuals of the tool looks as a whole & HIGH & 02/01/2016
+\\
+\hline
+11 & Beta Release &  & 03/14/2016
+\\ 
+\hline
+12 & Implement a system of finding events nearby a location entered or within radius of the user & HIGH & 02/08/2016*
+\\
+\hline
+13 & Add feature to generate a profile for community developers to have contacting information easily view-able & HIGH & 01/25/2016
+\\
+\hline
+14 & 1.0 Release &  & 05/20/2016
+\\
+\hline
+\end{longtable}
+*We expect this task to be more difficult, so we will work on the task in parallel to other tasks during that time.
+\end{center}
+
+\subsection{Alpha/Beta/1.0 Releases}
+We plan to release the Alpha version of the project during week 6 of winter term where we will have multiple fixes complete for the tools that are already implemented in to the project that we are starting with. This will mean that the Alpha version will be a major patch on what is created already in order to improve the functionality of the current implementation. We plan to release the Beta version of the project during finals week of winter term where we will implement new tools for community leaders to manage their posts along with some other useful tools. Here we plan to have almost all of the functionality ready. Lastly version 1.0 will be released on May 16, 2016 which is the Monday prior to the engineering expo. This version will be our final release and should be bug free in the implementation of our project.
+
+\subsection{Specifications of Requirements}
+\begin{enumerate}
+\item Gain access to source code of the Community Developments page
+
+\begin{enumerate}
+\item Gain access to the source code for the prototype to begin working.
+\item This will be given by client as we will be collaborating with him on testing the functionality of the prototype.
+\end{enumerate}
+
+\item Fix the “People” page where the list of community leaders are shown
+\begin{enumerate}
+\item Currently takes a large amount of time in order for the "people" page to load as it shows the current people who are identified as community leaders.
+\item Figure out why the page takes such a long time to load. Could be too much data and the algorithm for pulling up this page needs to be changed.
+\item Need to debug the causes of crashes by some browsers.
+\end{enumerate}
+
+\item Tweet at a person listed in the database.
+\begin{enumerate}
+\item There will be a button that a user can select to send a tweet to a person directly.
+\item This will be sending the user to the twitter API in order for them to construct and send a tweet.
+\end{enumerate}
+
+\item Add user accounts to the application and track when a user has tweeted an event
+\begin{enumerate}
+\item This is so they don't inadvertently do it twice
+\item Track date of tweet, tweet text and tweet ID
+\item This enables the prototype to branch out further than meetups.com
+\item Allows user to see what tweets they have tweeted about
+\end{enumerate}
+
+\item List tweets about events and/or people via the application
+\begin{enumerate}
+\item This should work for the current user and others
+\item Allows retweet or sending as new tweet based on existing one
+\item Have a button that will list the tweets that were tweeted via the application.
+\end{enumerate}
+
+\item Export a list of people and email addresses
+\begin{enumerate}
+\item The emails corresponding with the people will be exported as well
+\item Will be in JSON, CSV and test format for easy consumption in other applications
+\end{enumerate}
+
+\item Improve hashtag searching of application to improve finding relevant events
+\begin{enumerate}
+\item The searching algorithm is currently returning data from meetups.com with searching for tag "apache" however this is not working correctly as it is pulling information that has nothing to do with open source projects and is very random.
+\item The searching algorithm will need to be fixed so that it find the correct tags from meetups.com and pull the accurate data.
+\item The stretch goal here is the be able to use this algorithm on multiple social media networks.
+\end{enumerate}
+
+\item Alpha Release
+\begin{enumerate}
+\item Alpha to be released the 6th week of winter term.
+\item This version will have some fixes for the improvement on algorithm, mark event action, mark group action, import members action, import meetups action, and the people action.
+\item If not completely fixed/implanted the project will at least handle them by throwing a message to the user saying this tool is under construction.
+\end{enumerate}
+
+\item Improve the visuals of the tool looks as a whole
+\begin{enumerate}
+\item Make the user interface look sharper and more appealing
+\item Have the events and people information that is displayed when a user decides to look into more details about a person or even be more appealing as well.
+\end{enumerate}
+
+\item Beta Release
+\begin{enumerate}
+\item The Beta of the project will be released on finals week of winter term.
+\item In the Beta the fixes from the fist Alpha should all be fixed correctly, and all of the tools that we wanted to add should be implemented but not necessary working correctly, at least has some functionality.
+\end{enumerate}
+
+\item Implement system of improved sorting of finding events by nearby location within radius of the user
+\begin{enumerate}
+\item The program will be able to get the location from the user and based on this location the nearest community leader events will be shown to the user.
+\end{enumerate}
+
+\item Add feature to generate a profile for community developers to have contacting information easily viewable
+\begin{enumerate}
+\item Based on the data collected from meetups.com to identify the community leader not only will the events be posted but the community leader will have a section where the user can easily view the contact information pulled from meetups.com. A link with their name.
+\item This is not a collaboration communication tool but just a way to view the contact information.
+\end{enumerate}
+
+\item 1.0 Release.
+\begin{enumerate}
+\item This will be the final release where all of our implementations should be working correctly with no bugs.
+\item This will be released on May 16, 2016 which is the Monday prior to the Expo.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Risk Assessment}
+\begin{enumerate}
+\item Miscommunication on can happen in between the Community Development team currently working on the project.
+\item Security issues, unwanted changes to source code from unauthorized individuals
+\item Algorithms created cause even slower computation time for certain aspects of the website
+\item If certain implementation is added and is miscommunicated to a function that was not originally discussed
+\item Pulling data from meetups could be corrupted
+\item Code does not match with already implemented coding standards on the project
+\end{enumerate}
+
+\subsection{Stretch Goals}
+\begin{enumerate}
+\item Create a notification system to alert users of important events that the user may be interested in.
+\item Create profile system for users and community developers
+\item Create a notification system to alert users of important events that the user may be interested in
+\item The project will have a tool that will allow a user to enter their email and they will be notified when a project event is added that they may be interested in.
+\begin{enumerate}
+\item This could also be implemented to send emails to users that sign up for them to a certain community leader for a certain project rather than trying to figure out what they might be interested in.
+\end{enumerate}
+
+\item Fix "Import Members” to allow importing of members
+\item Allow community developers to edit their own events for specific messages
+\item Create profile system for users and community developers
+\end{enumerate}
+\subsection{Time Table Gant Chart}
+The gantt chart below shows the timeline we have set for our group to meet the requirements proposed in this document. We will be trying to fulfill this timeline as much as possible in a timely manner as it gives us a great path towards completing this project.
+
+See gantt chart on next page.
+
+\newpage
+
+%\includepdf[pages={-}, pagecommand={}]{Requirements_Document1.pdf}
+
 
 \includepdf[pages={8, 9, 10}, pagecommand={}]{Requirements_Document2.pdf}
 
