@@ -325,7 +325,7 @@ See gantt chart on next page.
 %\includepdf[pages={-}, pagecommand={}]{Requirements_Document1.pdf}
 
 
-\includepdf[pages={8, 9, 10}, pagecommand={}]{Requirements_Document2.pdf}
+\includepdf[pages={8, 9}, pagecommand={}]{Requirements_Document2.pdf}
 
 \section{Changes to the Requirements}
 After continuous work on this project, the perspective on what
@@ -520,15 +520,18 @@ REQ\# & Requirement & What Happened To It & Comments \\
 
 
 %The design document is inserted here.
-\includepdf[pages={1}, pagecommand={\section{DESIGN DOCUMENT}}]{Design_Document.pdf}
-\includepdf[pages={2-}, pagecommand={}]{Design_Document.pdf}
+\section{Design Document}
+
+\begin{enumerate}
+\item FRONTSPIECE
+
+\end{enumerate}
 
 \subsection{Discussion on Design Document}
 Blah blah blah discussion will go here.
 
 %Tech review is inserted here.
-\includepdf[pages={1}, pagecommand={\section{TECHNOLOGY REVIEW}}]{technology_review.pdf}
-\includepdf[pages={2-}, pagecommand={}]{technology_review.pdf}
+
 
 \subsection{Discussion on Tech Review}
 Blah blah blah discussion will go here.
@@ -538,222 +541,9 @@ Blah blah blah discussion will go here.
 \includepdf[pages={2-}, pagecommand={}]{Blog_Posts.pdf}
 
 
-\includepdf[pages={-}, pagecommand={}]{poster.pdf}
+\includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \section{PROJECT DOCUMENTATION}
-
-\iffalse
-\subsection{Fix the People page where the list of community leaders are shown}
-\begin{enumerate}
-  \item Completed Implementation: The “People” page currently takes all of the
-    people in the database and lists them onto the page. Normally, if the
-    prototype is hosted on a local machine and the database is relatively small,
-    then the page loads fine in a minimal amount of time. The issue is nested in
-    the actual hosted site by Apache where hundreds of thousands people are
-    imported into the database daily and dramatically slowing down the loading
-    time of the page.  With our current progression of the project, we have not
-    made significant progress into improving the loading time of the page. We
-    use our own local host to import a small amount of members at a time and
-    that requirement is set to be worked on shortly for Beta implementation. The
-    guideline for working towards accomplishing this requirement is to limit the
-    amount of people loaded at a time onto the page. For Beta, we have
-    rearranged where the table is generated for the people page in the function
-    within views.py. This change specifically was introduced because a bug was
-    found where when the table is generated, then if the amount of people were
-    too many, then the table would crash and not build. With the rearrangement,
-    now the table does not break through a large build and now tends to load
-    faster. Unfortunately, the implementation of the fix for the People page is
-    local. We have yet to test it on the host that Apache is using to run the
-    prototype currently. We predict that the fix will work but it will need to
-    be approved and patched into the live site for clarification.
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{Tweet at a person listed in the database}
-\begin{enumerate}
-  \item Completed Implementation: Each person who is imported into the application
-    is generated their own profile page based off of their Meetups ID. Information from 
-    Meetups about the person’s profile is also parsed in the community development tool. Those profiles
-    include displaying the twitter handle of the person. This was done by changing
-    the Meetup API request so that we could get the correct information and
-    then store that information in our database. This can be seen in code snippet 1 located below 
-    with the URL shown along with the 'if' statements to locate the twitter handle. This allows the user to get 
-    in contact with the person in a profile. Above the
-    twitter handle is a button that has the Twitter symbol which allows the user
-    to click and send a tweet at the person via Hoot-suite. The hoot-suite app is
-    given the twitter handle of the person the user wants to tweet at and the URL
-    of the persons page on our application for reference. The user signs in to
-    compose the tweet and sends it under their Twitter account. The code snippet 2 located below 
-    shows the HTML encoding of the button used to create the Hootsuite connection and shows the 
-    retrieval of the twitter handle form the database with 'person.service'. Not all users have a
-    Twitter handle registered with Meetups thus the tweet button does not have any use. To handle this case
-    the tweet at button only appears on profiles of imported people that have a registered Twitter handle.
-\end{enumerate}
-\fi  
-
-\iffalse
-\subsection{Add user accounts to application and track when a user has tweeted an event}
-\begin{enumerate}
-  \item Completed Implementation: The purpose of adding user accounts to the applications
-    is to be able to track when users tweeting about events or people. With the completion
-    of this requirement, the account creation is working along with being able to sign in 
-    successfully with a confirmation of signing in by displaying a welcome message along with
-    the user's username. There is also a login and logout button located in the
-    top right section of the website on all pages allowing the user to login or
-    logout at anytime. Everything is also backended with features of the website only existing
-    if the user has an authorized account. This means that action functions within the application
-    which include importing meetups, importing members, marking events as not
-    applicable, and marking groups as not applicable to be behind being signed in.
-    This means if you are not logged in with the authorized account, you can't perform these 
-    actions. Note that the accounts created are allowed access to these features, but do not
-    have access to the administrative page that deals with the Django database.
-
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{List tweets about events and/or people via the application}
-\begin{enumerate}
-  \item Completed Implementation: We were unable to track the precise tweets
-    made from our application, but we have found an alternative that mostly
-    works. As shown in the code snippet, the website makes a call to Twitter's
-    search API, requesting all tweets that contain a certain hashtag as well as
-    the hashtag \#Meetup. The hashtags are the same as the ones used to get
-    events from meetup.com. Once it has the tweets, it uses the id from each one
-    to make another call to Twitter's OEmbed API, which sends back HTML that is
-    used in the page's template to present embedded tweets to users. This still
-    pulls a few tweets that are unrelated, but bit of filtering would work.
-    Unfortunately this would be difficult, and is outside the scope of our
-    project.
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{List tweets about events and/or people not via the application}
-\begin{enumerate}
-  \item Completed Implementation: The website now has a tweet parser. As shown
-    in the code snippet, it sends a call to Twitter's search API, requesting all
-    tweets with a certain hashtag. The hashtags are the same as the ones used to
-    get events from meetup.com. Once it has the tweets, it uses the id from each
-    one to make another call to Twitter's OEmbed API, which sends back HTML that
-    is used in the page's template to present embedded tweets to users.  The
-    search results currently contain all instances of the hashtag requested,
-    even when they are not relevant to any event, or even open source. The
-    search needs refinement, however, this will be difficult, and is not within
-    the scope of the project
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{Export a list of people with Information}
-\begin{enumerate}
-  \item Completed Implementation: When taking on this requirement we quickly realized that
-    the Meetup API would not provide email address for its users which was
-    understandable. We then looked at what other information would be useful to
-    extract about the people that were loaded into the database. This lead us to
-    export information such as name, twitter handle, bio, Meetup ID, URL, country,
-    state, and city. The export can be executed by clicking on the 'Export Info'
-    button located in the top left of the people page and creates a file in a XLSX
-    format which can be directly opened or saved.
-    
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{Improve hashtag searching of application to improve finding more relevant events}
-\begin{enumerate}
-  \item Completed Implementation: The solution to this issue was to change one word in
-    the call to the meetup.com API. In the API there are many different
-    restrictions you can use to request events. Two of them come into play here:
-    "text" and "topic." The text query searches through the content of the
-    events, while the topic query looks at the topics related to the group. The
-    original query was looking at text, which resulted in a lot of unrelated
-    events. The query was fixed to use "topic," which has reduced unwanted events
-    significantly. A thourough examination of events imported resulted in no
-    unrelated events pulled in.
-\end{enumerate}
-\fi
-
-\newpage
-
-\iffalse
-\subsection{Improve the visuals of the tool's look as a whole}
-\begin{enumerate}
-  \item Completed Implementation: The application itself began as a fairly organized
-  	piece. The navigation bar implementation really helps the user keep track navigating
-  	between each page. When viewing the list of events, the events are listed in
-  	chronological order starting with the most recent. There is a search bar
-  	available for the user to type in for a certain event that they wish to view. There
-  	are other sorting mechanisms to view those events in another sorting order.
-  	Our focus in this requirement were to mainly to improve how data is displayed. This
-  	specifically applies to to the event page and people profiles. Along with the addition
-  	of the Host objects, the generated host profiles would have a visual update as well.
-  	As displayed in Figure 9, the improvement of the profile page is shown with categories
-  	specifically labelled and displayed in concrete areas of the page. If the certain variable
-  	does not exist, then the user can clearly see where that detail would go on the page.
-  	Topics are more clearly organized have are configured under a scrollable table as well.
-  	Overall, this addition makes the people profile page much more organized and legible.
-  	In addition to the updated people profile page, the event page is also upgraded in Figure
-  	10. Similar to the profile upgrade, the event page now has categories that specifically
-  	detail where objects belong. This is much more particularly important where the description
-  	is displayed for the event. Previously, it was much more difficult for the user's eye to
-  	view where the venue of event would be. Now in this update, that portion is clearly labelled
-  	which allows the user to spend less time reading and to quickly see the information
-  	that they want to. \\
-
-\end{enumerate}
-\fi
-
-\iffalse
-\subsection{Implement system of improved sorting of finding events by nearby location within radius of the user}
-\begin{enumerate}
-  \item Completed Information: This tool creates a list of all events parsed through 
-    the application and displays a marker for each even onto the Google Map displayed
-    to the right of the lists of events. A user can search for a specific event by looking
-    through the list and then seeing where this is on the map. This feature also asks the 
-    web browser of the user for the geo-location of the user in order to place a special
-    marker on the map showing where the user is in reference to the rest of the markers. The
-    user can decide weather or not to accept giving the their location to the application. The map
-    is generated through Google Maps by using the Google Map API calls. This map was implemented 
-    with a search bar allowing the user to search for a location and see what events are in 
-    that location. With each search the map jumps to the searched location and is given a 200 mile radius
-    circle to show what events are within 200 miles of the user. In order to get the markers of
-    each event to show up on the map the latitude and longitude of each event needed to be stored and
-    accessed by the map. This was done by a Meetups API call as shown in code snippet 3. Once the API call
-    is made the json object is returned and parsed to obtain information on the event including name,
-    longitude, and latitude. Once the information is stored it is accessed in the JavaScript for the 
-    Google Map which can be seen in code snippet 4 below. This is done by looping though a list of 
-    events and gather the name, longitude, and
-    latitudes in order for the markers to display. When a user hovers over a marker on the map the name of
-    the event is shown.  When there are no events imported a message stating 
-    "No Events Available" is displayed.
-
-\end{enumerate}
-\fi
-
-
-\iffalse
-\subsection{Add feature to generate a profile for people and have it display a way to contact the person if a method is available}
-\begin{enumerate}
-
-  \item Completed Information: The main goal of the tool is to promote community
-    development in the open source scene. What this feature tackles is a way to display
-    important information about people that are already involved with projects to those
-    who would like to get involved. This feature generates profiles for event hosts along
-    with members of groups that have been imported by the user. These profiles consist of 
-    the of selected person, Twitter handle, location, link to Meetups profile, last activity date, 
-    group associated with, topics they are interested in, a biography, and a picture of themselves.
-    In order to gather the information for these we had to make another API call to Meetups. First,
-    we had to adjust the current API call for importing events to also gather the ID of the event hosts.
-    Once this ID was obtained the next step is another API call gathering information on each event hosts
-    while searching with the ID's gathered. Once this information was obtained the profiles for event
-    hosts and imported group members could be displayed in their own sections of the application.
-    With users having the options to see group members and event hosts there are more opportunities
-    for these users to get involved.
-
-\end{enumerate}
-\fi
 
 
 \section{How did you learn the new technology?}
@@ -768,8 +558,6 @@ The requirements that have had feature requests proposed are shown below.
 \section{What did you learn from all of this? (Justin Bruntmyer)}
 
 \subsection{What Technical Information Did I Learn}
-
-
 
 \section{What did you learn from all of this? (Megan Goossens)}
 I learned quite a bit from this project. On the technical side, I learned a lot
