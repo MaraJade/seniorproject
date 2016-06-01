@@ -825,7 +825,11 @@ Meetup & Meetup.com
 \end{enumerate}
 
 \subsection{Discussion on Design Document}
-Blah blah blah discussion will go here.
+Throughout the course of the year we have had to change many things for the design of our systems to due to either limitations we encountered or figuring out that our original design plan was not going to work. In this discussion we are going to look at each original design that we had to change and talk about what we had to change in order to be successful in this project.\\
+
+When looking at the "Fix the "People" page where profiles are not implemented" we learned that its not that the profiles are not implemented but there was actually a bug in the prototype we were given. The bug was found when looking how the table of information was displayed on the people page in which every single person was trying to be loaded at once to the same page which would eventually cause the browser to crash. Rather than worrying about how the data was stored that we talked about in our original design, we only had to deal with how the information was being displayed. The issue was then solved with a simpler design implementation of showing only a couple of tables at a time.
+
+The 'tweet at a person listed in the database' design was fairly accurate with our actual implementation. The actual design has an HTML button with a Twitter symbol that is linked to the twitter handle that has been tracked down by the API calls the system has made already. The change that was made to this design was adding Hoot Suite which is a collaboration of social networks that are managed under one account. The user will need to login to their Hoot Suite account and then the twitter handle is put into a tweet for that user and ready to be sent via Twitter. This change was a better way to handle the Twitter handle and get the user to an appropriate action page. 
 
 %Tech review is inserted here.
 \section{Technology Review}
