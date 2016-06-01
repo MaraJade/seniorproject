@@ -32,6 +32,9 @@
 \newcommand{\ignore}[2]{\hspace{0in}#2} %Used for inline comments
 \newcommand{\tab}{\hspace*{2em}} %For tabbing
 
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
 \usepackage{pstricks, pst-node}
 
 \usepackage{geometry}
@@ -524,7 +527,85 @@ REQ\# & Requirement & What Happened To It & Comments \\
 
 \begin{enumerate}
 \item FRONTSPIECE
+	\begin{enumerate}
+		\item Date of Issue and Status
+		\item Issuing Organization
+		\item Authorship
+		\item Change History
+	\end{enumerate}
+	
+\item INTRODUCTION
+	\begin{enumerate}
+		\item Purpose
+		\item Scope
+		\item Context
+		\item Summary
+	\end{enumerate}
 
+\item REFERENCES
+	\begin{enumerate}
+		\item IEEE Standard for Information Technology--Systems Design--Software Design Descriptions, 1st ed. IEEE, 2009.
+		\item Comdev1-us-west.apache.org, 'Community Development: Events', 2015. [Online]. Available: http://comdev1-us-
+west.apache.org/events/. [Accessed: 03- Dec- 2015].
+		\item Djangoproject.com, 'The Web framework for perfectionists with deadlines | Django', 2015. [Online]. Available:
+https://www.djangoproject.com/. [Accessed: 03- Dec- 2015].
+		\item W3.org, 'HTML5', 2015. [Online]. Available: http://www.w3.org/TR/html/. [Accessed: 03- Dec- 2015].
+		\item Postgresql.org, 'PostgreSQL: The world's most advanced open source database', 2015. [Online]. Available:
+http://www.postgresql.org/. [Accessed: 03- Dec- 2015].
+	\end{enumerate}
+
+\item GLOSSARY
+	\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+	\begin{center}
+	\begin{longtable}{ | C{1cm} | C{7cm}| C{6cm} | C{2cm} |} 
+	\hline
+	REQ\# & Requirement & Priority & Expected Completion \\ 
+	\hline
+	1 & Gain access to source code of the Community Developments page & HIGH & 11/30/2015\\
+	\hline
+	2 & Fix the "People" page where the list of community leaders are shown & HIGH & 01/11/2016
+	\\
+	\hline
+	3 & Tweet at a person listed i the database & LOW & 03/14/2016
+	\\
+	\hline
+	4 & Add user accounts to the application and track when a user has tweeted an event & MEDIUM & 02/15/2016
+	\\
+	\hline
+	5 & List tweets about events and/or people via the app & MEDIUM & 02/22/2016
+	\\
+	\hline
+	6 & List tweets about events and/or people from twitter, but not via the app & MEDIUM & 02/29/2016
+	\\
+	\hline
+	7 & Export a list of people with information & LOW & 03/07/2016
+	\\
+	\hline
+	8 & Improve hashtag searching of application for better results on relevant events & HIGH & 02/08/2016*
+	\\
+	\hline
+	9 & Alpha Release &  & 02/08/2016
+	\\
+	\hline
+	10 & Improve the visuals of the tool looks as a whole & HIGH & 02/01/2016
+	\\
+	\hline
+	11 & Beta Release &  & 03/14/2016
+	\\ 
+	\hline
+	12 & Implement a system of finding events nearby a location entered or within radius of the user & HIGH & 02/08/2016*
+	\\
+	\hline
+	13 & Add feature to generate a profile for community developers to have contacting information easily view-able & HIGH & 01/25/2016
+	\\
+	\hline
+	14 & 1.0 Release &  & 05/20/2016
+	\\
+	\hline
+	\end{longtable}
+	\end{center}
+	
 \end{enumerate}
 
 \subsection{Discussion on Design Document}
