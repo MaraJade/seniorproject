@@ -526,93 +526,525 @@ REQ\# & Requirement & What Happened To It & Comments \\
 \section{Design Document}
 
 \begin{enumerate}
-\item FRONTSPIECE
+\item FRONTSPIECE \\
 	\begin{enumerate}
-		\item Date of Issue and Status
-		\item Issuing Organization
-		\item Authorship
-		\item Change History
+	
+		\item Date of Issue and Status \\
+		The design of the project was issued on October 4 th , 2015. The status of the project was already in production with a
+		prototype.\\
+		
+		\item Issuing Organization \\
+		The Apache Software Foundation originally began development of the project and issued the proposal to Oregon
+		State University for continued development. This entails to contributing to Apache Software Foundation’s existing
+		software platform to create tools that identify and support community leaders and members.\\
+		
+		\item Authorship \\
+		Current developers contributing to the community tool include Ross Gardler, Justin Bruntmyer, Hai Nguyen, and
+		Megan Goossens. Ross Gardler, president of Apache, is the original developer for the project.\\
+		
+		\item Change History \\
+		
 	\end{enumerate}
 	
-\item INTRODUCTION
+\item INTRODUCTION \\
 	\begin{enumerate}
-		\item Purpose
-		\item Scope
-		\item Context
-		\item Summary
+	
+		\item Purpose \\
+		The primary purpose of this document is to present a detailed description of the design elements of the Getting
+		Connected: Tools for the Open Source Community project. This will guide the group in the design of the
+		application.\\
+		
+		\item Scope \\
+		This document will provide details on the design of the various technologies of the web application, in particular the
+		Django framework, PostgreSQL, HTML user interface, and the user and group authentication system provided by Django.\\
+
+		The user will have the ability to view the community leaders that are posting events on social media sites based on
+		tags fetched by the tools. This will allow the user to see the activity and contact information of the community leader
+		to potentially contact if the user is interested in contributing. The user will be able to view a summary of the event as
+		well as have a link to the source of the event hosted by the community leader.\\
+		
+		\item Context \\
+		This project will be free to access for everyone. Development and maintenance will have not cost as this project is
+		open source. Future development plans will be based on the features that do not make it in the 1.0 release of the
+		application. There are several stretch goals that will potentially be incorporated. These features are not covered in
+		this document.\\
+		
+		\item Summary \\
+		This document will go over the design for the aspects of the project including web framework, database design, user
+		interface, and authentication system. \\
 	\end{enumerate}
 
-\item REFERENCES
+\item REFERENCES \\
 	\begin{enumerate}
-		\item IEEE Standard for Information Technology--Systems Design--Software Design Descriptions, 1st ed. IEEE, 2009.
+	
+		\item IEEE Standard for Information Technology--Systems Design--Software Design Descriptions, 1st ed. IEEE, 2009. \\
+		
 		\item Comdev1-us-west.apache.org, 'Community Development: Events', 2015. [Online]. Available: http://comdev1-us-
-west.apache.org/events/. [Accessed: 03- Dec- 2015].
+		west.apache.org/events/. [Accessed: 03- Dec- 2015]. \\
+		
 		\item Djangoproject.com, 'The Web framework for perfectionists with deadlines | Django', 2015. [Online]. Available:
-https://www.djangoproject.com/. [Accessed: 03- Dec- 2015].
-		\item W3.org, 'HTML5', 2015. [Online]. Available: http://www.w3.org/TR/html/. [Accessed: 03- Dec- 2015].
+		https://www.djangoproject.com/. [Accessed: 03- Dec- 2015]. \\
+		
+		\item W3.org, 'HTML5', 2015. [Online]. Available: http://www.w3.org/TR/html/. [Accessed: 03- Dec- 2015]. \\
+		
 		\item Postgresql.org, 'PostgreSQL: The world's most advanced open source database', 2015. [Online]. Available:
-http://www.postgresql.org/. [Accessed: 03- Dec- 2015].
+		http://www.postgresql.org/. [Accessed: 03- Dec- 2015]. \\
+		
 	\end{enumerate}
 
 \item GLOSSARY
-	\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
-	\begin{center}
-	\begin{longtable}{ | C{1cm} | C{7cm}| C{6cm} | C{2cm} |} 
-	\hline
-	REQ\# & Requirement & Priority & Expected Completion \\ 
-	\hline
-	1 & Gain access to source code of the Community Developments page & HIGH & 11/30/2015\\
-	\hline
-	2 & Fix the "People" page where the list of community leaders are shown & HIGH & 01/11/2016
-	\\
-	\hline
-	3 & Tweet at a person listed i the database & LOW & 03/14/2016
-	\\
-	\hline
-	4 & Add user accounts to the application and track when a user has tweeted an event & MEDIUM & 02/15/2016
-	\\
-	\hline
-	5 & List tweets about events and/or people via the app & MEDIUM & 02/22/2016
-	\\
-	\hline
-	6 & List tweets about events and/or people from twitter, but not via the app & MEDIUM & 02/29/2016
-	\\
-	\hline
-	7 & Export a list of people with information & LOW & 03/07/2016
-	\\
-	\hline
-	8 & Improve hashtag searching of application for better results on relevant events & HIGH & 02/08/2016*
-	\\
-	\hline
-	9 & Alpha Release &  & 02/08/2016
-	\\
-	\hline
-	10 & Improve the visuals of the tool looks as a whole & HIGH & 02/01/2016
-	\\
-	\hline
-	11 & Beta Release &  & 03/14/2016
-	\\ 
-	\hline
-	12 & Implement a system of finding events nearby a location entered or within radius of the user & HIGH & 02/08/2016*
-	\\
-	\hline
-	13 & Add feature to generate a profile for community developers to have contacting information easily view-able & HIGH & 01/25/2016
-	\\
-	\hline
-	14 & 1.0 Release &  & 05/20/2016
-	\\
-	\hline
-	\end{longtable}
-	\end{center}
-	
+\begin{longtable}[1]{ | C{7cm} | C{7cm} |} 
+\hline
+Term & Definition \\ 
+\hline
+API & Application Programming Interface\\
+\hline
+Query & Request sent to a database
+\\
+\hline
+Query Parameter & Argument sent to a database to refine a search
+\\
+\hline
+Community Leader & Someone who is in charge of a project or organization
+\\
+\hline
+Tags &  Keywords - e.g. "apache," "open source," etc.
+\\
+\hline
+HTML & HyperText Markup Language
+\\
+\hline
+Django & Web framework
+\\
+\hline
+PostgreSQL & Database management system
+\\
+\hline
+Meetup & Meetup.com
+\\
+\hline
+\end{longtable}
+
+\item BODY \\
+	\begin{enumerate}
+		\item Identified Stakeholders and Design Concerns \\
+		For the stakeholders, the tools support and help the Apache Software Foundation. Specifically, Ross Gardler is the
+		main stakeholder that is part of the design.\\
+		
+		Concerns regarding the design of the project include completions of certain implementations with the requirements
+		listed. Troubleshooting problems or possible encounters that may appear during implementation are listed as such.\\
+		
+		\item Algorithm Viewpoint \\
+			\begin{enumerate}
+				\item Fix the "People" page where profiles are not implemented \\
+				As a high priority, fixing any type of design bug that was already implemented in the prototype is
+				important. The page listed currently takes a very long time as a link from extracting all data from the
+				PostgreSQL database causes difficulty in the time frame. Possible ways to approach in this solution
+				include:
+				\begin{itemize}
+					\item Taking a look at how the data is sorted
+					\item Looking at the users list and what is included in "People"
+					\item Changing the algorithm in the time frame to extract the data.\\
+				\end{itemize}
+				
+				\item Design View %pictuee goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+				Our fixing the people page viewpoint shows how the application will be interacting with the Django
+				framework along with the database. We know that the button on the webpage will be an HTML button that
+				will be selected by the user. Once selected the Django framework will be activated to query the database
+				for the current list of community leaders. Once the database finishes the query it will send the list back to
+				the HTML page to be displayed for the user.\\
+				
+				\item Design Rationale \\
+				A look at how the various steps for loading the people page is necessary due to the fact that it is not
+				obvious as to why the page is not loading properly. As there are several possible sources for the slowness,
+				all of them must be examined to be able to determine the cause or causes. Once the problem has been
+				pinpointed, the next step is to work on optimizing it, whether that involves changing how the data is stored,
+				changing the query that fetches the data, or changing the algorithm that processes and presents the fetched
+				data.\\
+				
+				\item Improve searching algorithm of tool for more relevant events\\
+				The way the events are listed and how relevant they are to the user is important. With the prototype, events
+				currently being extracted have the ability to not even be related to open source or programming itself.
+				Implementing a new searching algorithm will be difficult and could cause a lot of troubleshooting listed
+				below:
+				\begin{itemize}
+					\item Improving methods of recognizing relevant tags and keywords
+					\item Removing any event that has no relation to open source projects
+					\item Negative search words
+					\item Analyse existing non-applicable groups \\
+				\end{itemize}
+				
+				\item Design View \\ %picture goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our improvement with the searching algorithm viewpoint is shown below and mainly shows how the
+			    application will work with an efficient algorithm for searching the events. With the correct algorithm the
+				Django framework will periodically query the meetups public posts searching for tags that have to do with
+				the open source projects community. Once it returns those events they will be sent to the database and be
+				stored for the HTML request will be sent to the
+				Django framework where the query will be sent to the database to show the list of events on the application
+				via HTML.\\
+						
+				\item Design Rationale \\
+				There are two parts to this viewpoint: The fetching of events from Meetup, and showing the events to the
+				user. Getting the events from Meetup will be a regular, scheduled event that will happen at appropriate
+				intervals. Constant fetching from Meetup, or fetching every time the events page is loaded, is impractical
+				and would slow the website down considerably. Once the most recent set of events has been stored in the
+				database, it is a relatively simple matter to fetch them from the database when the events page is loaded. \\
+				
+			\end{enumerate}
+			
+		\item Context Viewpoint \\
+			\begin{enumerate}
+				\item Tweet at a person listed in the database \\
+				Implementing another social media aspect other than just meetups.com is important for the project. This
+				tool looks to connect every various source of data and also be able to give the user a tool to communicate
+				with either a community leader, or a current user working on the project. Currently the requirement priority
+				is listed as low, but possible issues for this requirement include:
+				\begin{itemize}
+					\item The time frame of learning how to implement different social media
+					\item Implementing the feature itself integrating with already registered twitter accounts \\
+				\end{itemize}
+				
+				\item Design Viewpoint %picture goes here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our viewpoint for the ability to tweet at a community leader is shown below and has details regarding
+				communication between the application, Django framework and the database. There will be an HTML
+				button that can be pressed by the user and when this is pressed the Django framework will query the
+				database for that community leaders twitter user name which will then be sent back to the Django
+				framework. From here the Django framework will create the necessary query parameters that will be sent to
+				the Twitter API. Once this is done the user should see a new page with the Twitter API already having the
+				username ready and they can just enter the tweet they would like to send. \\
+				
+				\item Design Rationale \\
+				Twitter has a way to create tweets for you with the information you wish to be contained in them. Using
+				their API, a pre-constructed tweet can be constructed. Every person and group's Twitter handles will bestored in the 						database, so a query will need to be made to retrieve that so that it can be added to the tweet,
+				along with whatever default message is decided upon. \\
+			\end{enumerate}
+			
+		\item Information Viewpoint \\
+			\begin{enumerate}
+				\item Add user accounts and track when a user has tweeted an event \\
+				In hopes to increase social media feed, the tool looks to integrate movement with community leaders and
+				help users consistently track their activity. As a medium priority, the most concerning implementation is to
+				correctly link the account with the correct user and to distinguish their own Twitter accounts with the
+				correct user account on the website. (Hoot Suite). \\
+				
+				\item Design View \\ %picture goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our viewpoint for creating user accounts is shown below with the communication between the application,
+				Django framework, and the database. Here the user will select the create account HTML button which will
+				begin the actions of the Django authentication system for creating accounts. This will bring a form to the
+				application and present using HTML to the user who will enter in the required fields. Once submitted the
+				Django authentication system will check the fields and then send it to the database for account creation.
+				Once this is successful the application will display a message stating the account has been created
+				successfully. \\
+				
+				\item Design Rationale \\
+				As the application is build in Django, we will be using Django's authentication system for user accounts. It
+				is the best choice for this project because it is simple and already implemented within the Django platform. \\
+			\end{enumerate}
+			
+		\item Interface Viewpoint \\
+			\begin{enumerate}
+				\item Improve viewing method to examine the event itself \\
+				Improving the way users view the website is important to make it look more pristine and clean. All
+				information should be clearly sectioned and any relevant information that the user would like to know
+				should be put in a convenient viewing form.
+				\begin{itemize}
+					\item Categorizing certain data could turn to an issue in organizing the data
+					\item Some data will be missing and handling that missing information in the event should still give the
+					user enough information to look for it \\
+				\end{itemize}
+				
+				\item Design View \\ %picture goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our viewpoint for the improve viewing method requirement that we will be implementing is shown below.
+				This shows the layout of how the information should be spread out through the website. This is a basic look
+				at how each location will store data for the user to easily navigate through in order to find what they are
+				searching for. There are also a couple of links that are described for the tweet at someone or tweet at an
+				event. \\
+				
+				\item Design Rationale \\
+				The goal of this viewpoint is to make it as easy and intuitive as possible to view and interact with people
+				and events. It is important that the relevant data be shown in such a way that makes it easy to find what the
+				user needs, as well as easy access to the original information. \\
+			\end{enumerate}
+			
+		\item Resource Viewpoint \\
+			\begin{enumerate}
+				\item Implement system of improved sorting of finding events by nearby location \\
+				Listed as one the more difficult requirements to complete, the task is given a large amount of time to
+				complete in order to get it fully functional. It is important and more relevant for the user to view events that
+				can easily be travelled to by their location. Developing a way for the application to view and sort those
+				locations could cause some concerns.
+				\begin{itemize}
+					\item Creating different approaches in sorting locations of the events currently listed and detecting the
+					location of the user
+					\item Creating a database of all locations and their immediate distance from each other \\
+				\end{itemize}
+				
+				\item Design View \\ %picture goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our viewpoint for the location nearest the user functionality is shown below. We plan to make use of how
+				most internet browsers have a location setting which can tell where a user is accessing the website from.
+				From this information we will query the database and look for upcoming events that are close to the given
+				location and return those events to the application to be displayed. This is our most difficult challenge and
+				one that will take a lot of testing. \\
+					
+				\item Design Rationale \\
+				This viewpoint will require manipulating location data. Once the user's location has been determined, either
+				through location services or through manual entry, we will have to perform a search through the database to
+				find all events within a certain distance of that location. This will be the most difficult part of the entire
+				task. Once the events have been found it will be relatively simple to show them to the user, sorted by
+				distance, so that the user can view those closest to them easily. \\
+			\end{enumerate}
+			
+		\item Composition Viewpoint \\
+			\begin{enumerate}
+				\item List tweets about events and/or people via the app and without \\
+				Currently the prototype lists only official events found on meetups.com. It is important to also view events
+				not listed on that website and that are posted via Twitter. Design concerns include:
+				\begin{itemize}
+					\item Designing a way to distinguish between a regular tweet, and a tweet with an event
+					\item Linking twitter accounts with the right user and the matching account
+					\item People who tweet about events, but are not a part of the application
+					\item Search via API all about the meetup page and linked towards events
+					\item Create entry in database about a certain person tweeting at a certain time
+					\item Want to be able to see who tweeted, and able to re-tweet that tweet \\
+				\end{itemize}
+				
+				\item Design View \\ %picture goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Our viewpoint for the tweeted events requirement is shown below with the communication between the
+				application, Django framework, Twitter API, and the database. We plan to have the application
+				communicate with the Twitter
+				API such that the items that we find with the associated tags we will use will be displayed on the
+				application and stored in the database. \\
+				
+				\item Design Rationale \\
+				Once again the Twitter API will be useful in accomplishing a task. The API will be used to find tweets that
+				have hashtags that are related to open source events. Once those have been acquired, they will be presented
+				to users on the website as well as stored in the database for future reference. \\
+			\end{enumerate}
+	\end{enumerate}
 \end{enumerate}
 
 \subsection{Discussion on Design Document}
 Blah blah blah discussion will go here.
 
 %Tech review is inserted here.
+\section{Technology Review}
 
+\subsection{Goal of Project} 
+The goal of this project is to build connections, collaborations, and identifications between community members and leaders
+in open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools
+that identify and support community leaders and members. Better tools will help identify potential community leaders which
+will then allow community builders to engage with and support those leaders. Over the course of the project, consistent
+updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools
+implemented is done in order to measure its significance and effectiveness. \\
+
+\subsection{Components and Technologies}
+For this project we have broken down the technologies we could use into three different pieces which come together as part
+of the entire system: Web Application Framework, Backend Data Storage, User Interface, and User and Group Management
+System. Below you will find research done for the individual technologies available for these pieces along with a selection
+our team is using for the main system. \\
+
+\subsection{Web Application Framework}
+
+\subsubsection{Introduction}
+As our project involves a website, we will need a web application framework to build it on. A web application framework is
+software that is designed to help with the development of websites, web applications, and more. A framework aims to help
+alleviate the overhead that comes with web development, with libraries that help with tasks such as database access and
+templating web pages. Possible frameworks are as follows:
+
+	\begin{itemize}
+		\item Django
+		\item AngularJS
+		\item Ruby on Rails \\
+	\end{itemize}
+	
+\subsubsection{Django}
+Django is a free, open source, high-level Python web application framework which follows the model-view-controller
+(MVC) architectural pattern. Django aims to do most of the basic development for you. It emphasizes reusability and
+pluggability of components, rapid developments, and the “don’t repeat yourself” principle. It provides an optional dynamic
+admin interface, which is controlled in a similar way as other portions of the framework, by models. Django also has a
+database migration system to make migrations easier, as well as a testing framework to make testing your web app easier. It
+can be used for both front-end and back-end applications.\\
+
+\subsubsection{AngularJS}
+AngularJS is a free, open source, JavaScript web application framework designed to help with developing single-page
+applications. It aims to simplify both the development and the testing of such applications by providing a framework for
+client-side MVC and model-view-viewmodel (MVVM) architectures, along with components commonly used in rich Internet
+applications. The AngularJS library works by first reading the HTML page, which has embedded into it additional custom tag
+attributes. Angular interprets those attributes as directives to bind input or output parts of the page to a model that is
+represented by standard JavaScript variables. The values of those JavaScript variables can be manually set within the code, or
+retrieved from static or dynamic JSON resources.\\
+
+\subsubsection{Ruby On Rails}
+Ruby on Rails is a web application framework written in Ruby. Rails is an MVC framework, providing default structures for
+a database, a web service, and web pages. It encourages and facilitates the use of web standards such as JSON or XML for
+data transfer, and HTML, CSS and JavaScript for display and user interfacing. In addition to MVC, Rails emphasizes the use
+of other well-known software engineering patterns and paradigms, including convention over configuration (CoC), don't
+repeat yourself (DRY), and the active record pattern. \\
+
+\subsubsection{Selection}
+Our project already has a prototype, which uses Django. We will continue to use Django, because it is both already
+implemented, and a good, solid, easy to use framework that suits our needs. With the models, views, templates,
+administration, and database management, it will make our task much easier. Our other options require quite a bit more workto do the same things in another framework, and even more work for us re-implementing all the features that are currently
+there. \\
+
+\subsection{Back-end - Data Storage Piece}
+
+\subsubsection{Introduction}
+For the back-end section of our design project, we will need to store large sets of data for things such as profiles, people,
+groups, community leaders, events, and information of those events. These items require a data storage component that is
+already implemented into the prototype of the website. These data need to be accessed and stored quickly in order for data to
+be periodically transferred fast enough to handle consistent updates of events. Depending on the priority of the objective,
+relatively pertaining to process speeds and data storage types, requires different types of possible technologies that could be
+used. For our priority, we assume that we will be concerned most about storage capacity in managing events and new
+community leaders that start a new project. Individual project groups are also projected to contain a large amount of space.
+Possible technologies for our data storage component are listed below. \\
+
+	\begin{itemize}
+		\item Apache Derby
+		\item MySQL
+		\item PostgreSQL \\
+	\end{itemize}
+	
+\subsubsection{Apache Derby}
+Apache Derby is a database management system developed by Apache. The engine is a full-functioned relational embedded
+database-engine that supports JDBC and SQL for programming APIs, with IBM DB2 SQL syntax. Experience with Derby
+indicates small liabilities in areas other than test environment. One issue has to deal with interrupted I/Os cause Derby to fail
+outright on Solaris. Building a shim becomes necessary to protect it from those failures. Apache Derby tens to have low
+performance for complicated queries and low performance on large datasets. Apache Derby as a result becomes more of a
+testing tool for testing environments and performance testing. \\
+
+\subsubsection{MySQL}
+MySQL is the most popular and commonly used relational database management system. MySQL can handle a lot of data
+and can work efficiently and “cuts corners” for runtime efficiency. A majority of websites can work with MySQL. There are
+tools scalable that are easy of use and easy to manage Depending on the database-engine, MySQL can lack certain features
+such as the full-text search. \\
+
+\subsubsection{PostreSQL}
+PostgreSQL is the advanced, open-source object relational database management system that has become standard and is the
+DBMS that is used for our prototype. PostgreSQL is different from other RDBMSs because of its highly object-oriented
+functionality. It becomes very efficient in handling many tasks very efficiently. PostgreSQL is open-source and free and
+supported by a large and experienced community. Some possible disadvantages to PostgreSQL includes any simple use
+database to be overly complicated and would be better used with MySQL. \\
+
+\subsubsection{Selection}
+As mentioned, the prototype currently uses PostgreSQL and will continued for the entirety of the project. Viewing in the
+advantages and disadvantages of other technologies, PostgreSQL shows the most stability and provides the most efficiency
+that our project has as an objective. It provides substantial data integrity and may be useful for integration of some potential
+complex designs with the websites. Any type of custom feature designed would have the least amount of trouble being
+implemented with PostgreSQL. \\
+
+\subsection{Front-end - User Interface}
+
+\subsubsection{Introduction}
+The majority of the website built will be dependent on its UI and how the user interacts and navigates through the site and its
+various options. This process requires and utilizes many different technologies including PHP, HTML, or JavaScript. The
+prototype utilizes the UI with the web framework of Django and its designing capabilities. With our front end piece, we will
+not have a specific technology that we will use entirely. Instead, we are utilizing part of each technologies to handle our data
+management, website navigation process, and the website’s graphical layout. Possible technologies comprised for handling
+the front end user interface are listed below. \\
+
+	\begin{itemize}
+		\item PHP
+		\item HTML
+		\item JavaScript \\
+	\end{itemize}
+	
+\subsubsection{PHP}
+PHP is a server-side language designed for general purpose as well as web development. With the ability to access and
+connect to external databases, it would be utilized for accessing web servers and connecting to our PostgreSQL database and
+access all of the users and groups in it. PHP can be mixed easily with HTML code and vice versa. Any PHP code is
+interpreted and executed by the web server that sends its output to the client. PHP is integrated and utilized into a large
+majority of the websites on the internet. \\
+
+\subsubsection{HTML}
+HTML is the most basic building block of all websites. The technology allows images and objects to be embedded and used
+to create interactive forms. Our web framework technology uses HTML to build its websites through its own interface and
+becomes the front end of our piece. HTML user interface is more secure than most sites as there is less of a change that you
+will get hacked. Another advantage is that you have a lot of control over the UI. Another advantage is that other coding
+languages can be easily integrated into the websites user interface. Some disadvantages of HTML include the length of time
+it takes to construct a UI with HTML. Another disadvantage of HTML is that if one character is out of place it can mean the
+entire UI doesn't load properly and it is a much more tedious process. The final disadvantage is that simple changes to the UI
+can take much longer to implement than you are willing to spend since you may have to make those changes one page at a
+time. \\
+
+\subsubsection{JavaScript}
+JavaScript is one of the most simple, versatile and effective languages used to extend functionality in websites. advantages of
+JavaScript include execution on the client side which means that the code is executed on the user's processor instead of the
+web server thus saving bandwidth and strain on the web server. JavaScript is also easy to learn and comprises syntax that is
+close to English. It uses the DOM model that provides plenty of prewritten functionality to the various objects on pages
+making it easier to develop a script to solve a custom purpose. Some disadvantages would include security issues. JavaScript
+snippets, once appended onto web pages execute on client servers immediately and therefore can also be used to exploit the
+user's system. While a certain restriction is set by modern web standards on browsers, malicious code can still be executed
+complying with the restrictions set. Another disadvantage would be JavaScript rendering varies for the user interface.
+Different layout engines may render JavaScript differently resulting in inconsistency in terms of the user interface. \\
+
+\subsubsection{Selection}
+Based on the prototype that has been implemented already we have decided to select HTML as our user interface technology
+as it works great with Django. With the advantage of easily integrating other coding languages into the website means that
+we can add other language features as well. HTML also has a lot of UI features working with Django and with the security of
+HTML being very good we think this is the best technology for our webpage user interface. JavaScript and PHP both have
+their benefits but we feel that HTML is the best fit for our project. \\
+
+\subsection{User and Group Management System}
+
+\subsubsection{Introduction}
+The user and group management technology in relation to this project is very important as one of the requirements is to
+enable user and group management. As we continue building the web page we will be implementing a user and group
+management system that will allow users to create accounts. This is also key in the admin section as admin accounts will be
+needed for the admin users of the webpage. The technologies looked into are listed below.
+
+	\begin{itemize}
+		\item LDAP
+		\item AD
+		\item Django Authentication System \\
+	\end{itemize}
+	
+\subsubsection{LDAP}
+LDAP is abbreviation for lightweight directory access protocol which is a software protocol for enabling anyone to locate
+organization, individuals, and other resources such as files and devices in a network, whether on the public internet or on a
+corporate intranet. The main benefit of using LDAP is the consolidation of certain types of information within a system. An
+example that supports this is all of the different lists of users within the system can be merged into one LDAP directory. Thisdirectory can be queried by any LDAP-enabled applications that need this information. The directory can also be sued by
+users who need directory information. Other LDAP benefits include its ease of implementation, and it well defined
+Application Programming Interface (API). On the con side of LDAP is that if you want to use this user and group
+management technology you will need LDAP enabled applications or you will need to use LDAP gateways. There currently
+aren’t a plethora of LDAP enabled applications available for Linux. While LDAP does support some access control, it does
+not support as many security features. \\
+
+\subsubsection{AD}
+For quite some time the standard in the user directory space has been Microsoft’s Active Directory (AD), which is embedded
+in organizations large and small. Some of the pros of using AD is active directory is generally considered to be a significant
+improvement over Windows NT Server 4.0 and AD provides a centralized administration mechanism over the entire
+network. It also provides for redundancy and fault tolerance when two or more domain controllers are deployed with a
+domain. Active directory automatically manages the communications between domain controllers to ensure the network
+remains viable. Users can access all resources on the network for which they are authorized through a single sign-on. All
+resources in the network are protected by a robust security mechanism that verifies the identity of users and the
+authorizations of resources on each access. The cons of AD are that it is difficult to integrate into pre-existing network
+systems. AD offers no means to manage non-Windows clients (such as Macintosh or UNIX) or servers and supports very
+little management control over pre-Windows 2000 systems. Another con is that AD relies upon DNS to function, but not all
+DNS servers are capable of supporting AD. Existing DNS systems may need to be upgraded or replaced before they can
+support AD. \\
+
+\subsubsection{Django Authentication System}
+When looking into the Django authentication system I have found a lot of documentation that helps in implementing the
+system so that a web template can be created where users and groups can be created. This is also easily managed as it uses a
+database to store the user’s information such as MySQL. Another pro to using the Django authentication system is that we
+are using Django as our framework for the web page that our tools will be utilized on. This will allow us to already have the
+tools necessary to implement the management of users and groups. Another pro to this system is that it is easy to set up the
+admin accounts so that accounts can be handled if needed. Another pro for using this system is that it lets you plug in other
+authentication sources as you can override Django’s default database-based scheme, or you can use the default system in
+tandem with other systems which makes it more portable. Looking through the documentation I was able to find some
+disadvantages of using Django authentication system as there are some documentation gaps that need to be addressed.
+Another disadvantage is that it can get difficult to implement as there are small but time consuming hurdles as we are on a
+tight time frame for the next couple of terms. \\
+
+\subsubsection{Selection}
+We have decided to select the Django authentication system as our technology for user and group management as the benefits
+from doing so give our team greater advantages then choosing the AD or LDAP methods. Since we are already using the
+Django web framework it will be much easier to implement the authentication system as the tools necessary are already at
+our disposal. AD and LDAP are good systems however the complexity of their implementations and how they seem to have
+limitations on interacting with other systems means it is less portable. Django as our framework is the main reason for
+selection but the system also offers portability, good documentation, and simplicity. \\
 
 \subsection{Discussion on Tech Review}
 Blah blah blah discussion will go here.
@@ -674,6 +1106,25 @@ to understand what our client wanted from each requirement, time that would have
 been better spent fulfilling them.
 
 \section{What did you learn from all of this? (Hai Nguyen)}
+
+\subsection{What technical information did you learn?}
+While working on the project, there were many technical concepts that challenged me that I was mostly unfamiliar with. Since the beginning, I was only semi-familiar with the concepts of databases, while only working with Python and MySQL a limited amount of times. For the rest of the technologies from the project, I learned everything else from scratch. Those technologies include learning Django, Docker, and API calls. 
+
+With Django, the learning curve for me was gradual. Originally I attempted to hardcode everything in Python without using the useful tools that Django provides and adding objects and fields were very difficult. Our client was very helpful in providing useful documentation that aided us in making our changes and commits and eventually, Django became second-hand whenever we pushed changes. 
+
+Docker was mostly hard to handle in the beginning of the project when Justin and I had difficulty setting up the project on our Windows operating system. After several days of difficulty without successfully setting up the Docker, we eventually switched from our Windows system, to developing on a Virtual Machine with Linux. This made development overall a lot easier with the tools that Linux provided and all three of the group members on the same operating system.
+
+Lastly, during the development process, the most prominent issue throughout the three terms were API calls and getting used to all different API’s that we handled from meetups.com, Twitter, and Google Maps. Since we were handling different APIs at the same time, keeping track of all and getting used to all three were particularly difficult when trying to pull the data into our database.
+
+\subsection{What non-technical information did you learn?}
+There are many non-technical aspects that fall under an engineering project. In terms of the developing process for the project, it was very clear of all of the documentation that we had to write, that we were accountable for all requirements that we proposed to do. The project as a whole was scaled to the perception that we would be working on it throughout the school year for a couple of hours a week, so we knew in terms of organization, that we needed to project the amount of work that was reachable for us. 
+
+Specifically for some requirements, we have a development and debug process where we would develop for a certain feature, but would have to review its functionality and importance in terms of how much priority that we had to spend in order to complete the feature and how much time and effort should be spent on a specific task compared to the entire project as a whole. In terms of a non-technical aspect, managing our priorities and the process of handling new feature requests were the most important aspects that we learned.
+
+\subsection{What have you learned about project work?}
+Client interaction was prominent where we would get feature requests after some completed requirements that would satisfy our sponsor. There would be a cycle in our development process where once we’ve completed a requirements, then our client would offer feedback and suggestions on the next step or how to take the feature even further. Most of the time during our development schedule, we did not account for any stretch goals, but we were able to complete some along the way.
+
+I learned that preplanning for a project almost rarely goes according to plan or the schedule. This is especially relevant when we did not understand completely some requirements that we were given or suggested. It made things very hard to interpret when some of the requests were over email and we were not able to talk with our client on a weekly basis; therefore, there was a lot of extrapolation and interpretation for some of the requests which resulted in some features that were not in the same intention but ended up satisfying the same needs.
 
 
 \section{PROBLEMS ENCOUNTERED}
