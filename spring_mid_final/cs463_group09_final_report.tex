@@ -625,16 +625,37 @@ Blah blah blah discussion will go here.
 \includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \section{PROJECT DOCUMENTATION}
+Our project is a website build in Django. It uses Docker to maintain a
+consistent environment. The code is structured as a typical Django project. The
+most important parts are the views and the templates, and the models. Each view
+is either a page on the site, such as the events page, or an action, such as
+importing meetups. The models define the database. Each model has associated
+fields with it, e.g. the group model has name, city, state, and country fields.
 
+TOO:
+Each page on the site has a unique url. Each url is linked to a view. When the
+url is called by a web browser, the view is called. What happens next mostly
+depends on the view. Content is created or gathered, and then sent to a
+template. The templates then use HTML to display the content, with some
+JavaScript to help if needed.
+
+There are also views that are not linked to a url. These views are actions, such
+as importing events from Meetup.com. They do not use templates, either, as they
+are not displaying the information, merely collecting it. These views do send
+that information to the database, where it is used and displayed by other views.
 
 \section{How did you learn the new technology?}
-Throughout the presentation of our tools to our client Ross Gardler we were happy to hear that he was really excited about the progress we have made thus far.
-In his excitement in seeing how far we have come with the tools and the progress he has seen
-Ross began asking for feature requests to be added to the tools we have developed thus far.
-We decided to add this section to our report so that we could reference Ross's confidence in our team to make these requests possible if we have time.
-These requests are for future ideas for the tools as our client also would like us to submit patches for the tools
-that we have made thus far as he approves of the work we have done. We will be completing these patches and getting them to Ross.
-The requirements that have had feature requests proposed are shown below.
+Throughout the presentation of our tools to our client Ross Gardler we were
+happy to hear that he was really excited about the progress we have made thus
+far.  In his excitement in seeing how far we have come with the tools and the
+progress he has seen Ross began asking for feature requests to be added to the
+tools we have developed thus far.  We decided to add this section to our report
+so that we could reference Ross's confidence in our team to make these requests
+possible if we have time.  These requests are for future ideas for the tools as
+our client also would like us to submit patches for the tools that we have made
+thus far as he approves of the work we have done. We will be completing these
+patches and getting them to Ross.  The requirements that have had feature
+requests proposed are shown below.
 
 \section{What did you learn from all of this? (Justin Bruntmyer)}
 
