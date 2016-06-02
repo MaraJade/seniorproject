@@ -136,19 +136,38 @@ The Community Driven Development project is sponsored by the Apache Software Fou
 
 \section{REQUIREMENTS DOCUMENT}
 \subsection{Introduction to the Problem}
-Open source projects are known for the code that is developed from them however that is not what causes these projects to either live or die. Though it is true that an open source group can survive without a viable community in most cases there is a class of open source projects that lives or dies on the strength of its community such as the Apache Software Foundation projects. Existing tools are in place for tracking activity within online communities however these tools focus on identifying customers to the open source projects. The problem that is being focused on is that new tools need to be made to identify community leaders so that community builders know who to engage with.
+Open source projects are known for the code that is developed from them however that is not what causes these projects to either 
+live or die. Though it is true that an open source group can survive without a viable community in most cases there is a class of 
+open source projects that lives or dies on the strength of its community such as the Apache Software Foundation projects. 
+Existing tools are in place for tracking activity within online communities however these tools focus on identifying customers to 
+the open source projects. The problem that is being focused on is that new tools need to be made to identify community leaders so 
+that community builders know who to engage with.
 
 \subsection{Project Description}
 
-The goal of this project is to build connections, collaborations, and identifications between community members and leaders in open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools that identify and support community leaders and members. Better tools will help identify potential community leaders which will then allow community builders to engage with and support those leaders. Over the course of the project, consistent updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools implemented is done in order to measure its significance and effectiveness.
+The goal of this project is to build connections, collaborations, and identifications between community members and leaders in 
+open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools 
+that identify and support community leaders and members. Better tools will help identify potential community leaders which will 
+then allow community builders to engage with and support those leaders. Over the course of the project, consistent updates check 
+what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools implemented is done in
+order to measure its significance and effectiveness.
 
-The solution to this problem should be able to identify community leaders to people with a desire to improve the strength of a community around a specific project. This solution includes being able to observe Apache Software Foundation community activity on publicly available information such as meetups.com in order to identify those potential community leaders. The solution is to provide enough information to community builders to contact and engage with the leaders so that they can begin their own contributions to the projects.
+The solution to this problem should be able to identify community leaders to people with a desire to improve the strength of 
+a community around a specific project. This solution includes being able to observe Apache Software Foundation community activity 
+on publicly available information such as meetups.com in order to identify those potential community leaders. The solution is 
+to provide enough information to community builders to contact and engage with the leaders so that they can begin their 
+own contributions to the projects.
 
 \subsection{Requirement}
 
-The end goal of our project is to create a tool for identifying community leaders for others to see and given the chance to get involved with by having a web page that will let users go through and view all of this data in one location. This data will be gathered from an algorithm that reaches out to meetups.com and use key terms to find community leaders. As a stretch goal we would like to have this algorithm gain data from other social media sites such as Facebook and Twitter.
+The end goal of our project is to create a tool for identifying community leaders for others to see and given the chance to 
+get involved with by having a web page that will let users go through and view all of this data in one location. This data will 
+be gathered from an algorithm that reaches out to meetups.com and use key terms to find community leaders. As a stretch goal we 
+would like to have this algorithm gain data from other social media sites such as Facebook and Twitter.
 
-We will be starting with a prototype that has been implemented which means we will need to start by fixing what doesn't work and then adding key features that we believe the project needs. In a final delivery there will be a patched version of the prototype with tool fixes along with new features to improve usability. 
+We will be starting with a prototype that has been implemented which means we will need to start by fixing what doesn't work and 
+then adding key features that we believe the project needs. In a final delivery there will be a patched version of the prototype 
+with tool fixes along with new features to improve usability. 
 
 \newpage
 
@@ -827,9 +846,15 @@ Meetup & Meetup.com
 \subsection{Discussion on Design Document}
 Throughout the course of the year we have had to change many things for the design of our systems to due to either limitations we encountered or figuring out that our original design plan was not going to work. In this discussion we are going to look at each original design that we had to change and talk about what we had to change in order to be successful in this project.\\
 
-When looking at the "Fix the "People" page where profiles are not implemented" we learned that its not that the profiles are not implemented but there was actually a bug in the prototype we were given. The bug was found when looking how the table of information was displayed on the people page in which every single person was trying to be loaded at once to the same page which would eventually cause the browser to crash. Rather than worrying about how the data was stored that we talked about in our original design, we only had to deal with how the information was being displayed. The issue was then solved with a simpler design implementation of showing only a couple of tables at a time.
+When looking at the 'Fix the "People" page where profiles are not implemented' we learned that its not that the profiles are not implemented but there was actually a bug in the prototype we were given. The bug was found when looking how the table of information was displayed on the people page in which every single person was trying to be loaded at once to the same page which would eventually cause the browser to crash. Rather than worrying about how the data was stored that we talked about in our original design, we only had to deal with how the information was being displayed. The issue was then solved with a simpler design implementation of showing only a couple of tables at a time. \\
 
-The 'tweet at a person listed in the database' design was fairly accurate with our actual implementation. The actual design has an HTML button with a Twitter symbol that is linked to the twitter handle that has been tracked down by the API calls the system has made already. The change that was made to this design was adding Hoot Suite which is a collaboration of social networks that are managed under one account. The user will need to login to their Hoot Suite account and then the twitter handle is put into a tweet for that user and ready to be sent via Twitter. This change was a better way to handle the Twitter handle and get the user to an appropriate action page. 
+The 'tweet at a person listed in the database' design was fairly accurate with our actual implementation. The actual design has an HTML button with a Twitter symbol that is linked to the twitter handle that has been tracked down by the API calls the system has made already. The change that was made to this design was adding Hoot Suite which is a collaboration of social networks that are managed under one account. The user will need to login to their Hoot Suite account and then the twitter handle is put into a tweet for that user and ready to be sent via Twitter. This change was a better way to handle the Twitter handle and get the user to an appropriate action page. \\
+
+For the 'Add user accounts and track when a user has tweeted an event' we successfully implemented our original design except for one aspect which is the tracking when a user tweets an event. Based on our design the Django framework was suppose to keep track of when the user is tweeting but instead Hoot Suite handled all of that. We decided that it would not be worth it to add the complication with the Hoot Suite to the design. The design is still accurate with the implementation of account creation and signing in to the application and the database interaction is the same using the models in the Django framework. \\
+
+STUFF ABOUT TWEETS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+
+Looking through the design document we created at the beginning of this project the above discusses what changes we had to make in the design decisions for certain requirements. The other requirements kept the design we created although implementation struggles would cause us to change the way items were implemented mainly because we were learning techniques throughout this project. Ultimately, we feel that the design decisions made at the beginning of this project were sound.
 
 %Tech review is inserted here.
 \section{Technology Review}
@@ -1051,8 +1076,22 @@ limitations on interacting with other systems means it is less portable. Django 
 selection but the system also offers portability, good documentation, and simplicity. \\
 
 \subsection{Discussion on Tech Review}
-Blah blah blah discussion will go here.
 
+Looking back at the technologies we have chosen for this project it is interesting to point out that we kept all of our selections 
+for the areas of user interface, data storage, authentication, and web application framework. The Django web framework was 
+heavily implemented into the prototype that we received at the beginning of the project which fit perfect for what this project 
+is trying to accomplish thus we continued with the Django framework. The PostgreSQL database continued to full fill our needs of 
+what we wanted the database to do thus we continued to use it. The authentication from Django was also perfect for the job. \\
+
+What is great is that we ended up adding more technologies to the application as we continued developing. One important 
+technology that was added is JavaScript. Throughout working with the Google Maps API and other HTML sections of web pages, 
+JavaScript turned out to be very useful in implementing features such as the tweet at a person social share button. JavaScript 
+also played a major role in the implementation of the Google Map used to display the locations of the events that have been 
+imported from the Meetup website. We also utilized the API technologies for Google Maps, Meetup, and Twitter to accomplish 
+the requirements at hand. \\
+
+Other than the addition of JavaScript and utilizing API calls we stayed true the our technology decisions throughout the project 
+to accomplish our goals. \\
 
 \includepdf[pages={1}, pagecommand={\section{BLOG POSTS}}]{Blog_Posts.pdf}
 \includepdf[pages={2-}, pagecommand={}]{Blog_Posts.pdf}
@@ -1061,37 +1100,139 @@ Blah blah blah discussion will go here.
 \includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \section{PROJECT DOCUMENTATION}
-Our project is a website build in Django. It uses Docker to maintain a
+
+\subsection{How The Project Works}
+Our project is a website built in Django. It uses Docker to maintain a
 consistent environment. The code is structured as a typical Django project. The
 most important parts are the views and the templates, and the models. Each view
 is either a page on the site, such as the events page, or an action, such as
 importing meetups. The models define the database. Each model has associated
-fields with it, e.g. the group model has name, city, state, and country fields.
+fields with it, e.g. the group model has name, city, state, and country fields.\\
 
-TOO:
-Each page on the site has a unique url. Each url is linked to a view. When the
-url is called by a web browser, the view is called. What happens next mostly
-depends on the view. Content is created or gathered, and then sent to a
-template. The templates then use HTML to display the content, with some
-JavaScript to help if needed.
+\subsubsection{Structure of Project \& Theory of Operation}
 
-There are also views that are not linked to a url. These views are actions, such
-as importing events from Meetup.com. They do not use templates, either, as they
-are not displaying the information, merely collecting it. These views do send
-that information to the database, where it is used and displayed by other views.
+The structure and theory of operation go hand to hand with this project because the structure was created based on the theory of how this application operates. Below we will be talking about the structure of the project and how that structure is suppose to operate within the application. All the of the main structures of the application will be put together in a flow diagram to illustrate how the structure operates.\\
+
+The structure for the project is simple. The Django framework creates a database using the PostgreSQL database model. From here we 
+can create tables within the database which are also known as models. These models are used as sections of the database where we can 
+store information in a way that makes sense. The Django framework also sets up an admin interface so that we have complete control
+over what happens to the framework. Once the appropriate models are created then there are the pages of where the events, people imported, event hosts, event search by area, view tweets, and logging in will be displayed. Once the pages are set with the HTML we then pull in the information needed to populate those pages.\\
+
+In order to pull the appropriate information the project uses a hashtag search algorithm that takes a list of hashtags inserted into the database and queries meetup.com with an API call for meetup's that match the hashtags that we have stored. The API call returns the meetup information in the form of Json. The application then parses the Json information returned by the API call searching specifically for the information that we requested such as longitude, latitude of meetup, start time, who hosts the event, country, state, address, event name, group hosting, picture, and source page address for the meetup. All this information is stored in the database under the appropriate model and then pushed the HTML page where the HTML can access and display this information to the user. \\
+
+Now that events have been pulled in we can pull the information for the people associated with a group and hosts of events. To import the people within a certain group the application takes the group ID and make an API call to meetup.com to give the information of who is in that group. The information is returned to the application in a Json format, the data is parsed and is stored in the database under the appropriate model with information such as twitter handle, address, longitude, latitude, name, picture, topics, meetup ID, and last activity. The information is then stored in the database and then can be accessed by the HTML pages to be displayed to the user. To import the event hosts the application take the events hosts ID's that have imported along with the events and then created an API call to meetup.com that asks for information for every event host ID that has been imported. The information is returned in Json format and parsed then stored in the database. The associated pages then have access to the database using HTML to be displayed to the user. \\
+
+Once all of the information has been imported a user can export information about people or events using the export button at the top of the associated page for events and people. The exported lists includes biography information, twitter handles, start times, etc. that is information pertinent for the events or for the people. The login structure is also run by the Django framework with the Django authentication system which keeps track of the usernames and passwords created. The authentication checks the database with the credentials submitted at login and allows the user to login or be denied. Once a user has logged in they have full access to importing functions or marking groups as not applicable. \\
+
+All of the technology that operates for this project is happening in a docker container. A docker container's wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in. The docker container wraps up our Django application so that it can be run on a local machine in order to be developed on. This is also how the application can be hosted on a web server. Our client and the team that worked on this before us found this to be the best way to run the application for development purposes. The docker container is running as a service on the local machine to open the local host to hosting the application.
+
+The structure of the project can be shown in the diagram below:
+
+
+
+\subsection{How to Install \& Run Application}
+
+The way our team developed on the project was using the docker container for Linux as we had countless troubles getting the container to run on the Windows platform. For the purposes of giving the best information on how to install and start this application on a local machine we are going to go over the installation process of what we know to work. Thus, below is a step by step installation process for getting the docker container to run correctly on a Linux operating system and starting the application. \\
+
+\begin{enumerate}
+	\item Install and Run Docker for Linux \\
+	Docker requires a 64-bit installation regardless of your Ubuntu version. Additionally, your kernel must be 3.10 at minimum. 
+	The latest 3.10 minor version or a newer maintained version are also acceptable. Kernels older than 3.10 lack some of the 
+	features required to run Docker containers. These older versions are known to have bugs which cause data loss and frequently 
+	panic under certain conditions.\\
+	
+	To check your current kernel version, open a terminal and use uname -r to display your kernel version:
+	
+	\begin{itemize}
+		\item uname -r \\
+	\end{itemize}
+	
+	Log into your machine as a user with sudo or root privileges and open a terminal. Install docker with the command shown below:
+	
+	\begin{itemize}
+		\item sudo apt-get install docker-engine \\
+	\end{itemize}
+	
+	Start the docker daemon with the below command:
+	
+	\begin{itemize}
+		\item sudo service docker start \\
+	\end{itemize}
+	
+	Verify docker is installed correctly with the command below, this command downloads a test image and runs it in a container. 
+	When the container runs, it prints an informational message. Then, it exits.:
+	
+	\begin{itemize}
+		\item sudo docker run hello-world \\
+	\end{itemize}
+	
+	You can find more specifics and deal with issues you may encounter here: \\
+	https://docs.docker.com/engine/installation/linux/ubuntulinux/ \\
+	
+	\item Install Docker Machine for Linux \\
+	To install docker machine for Linux, run the command below:
+	
+	\begin{itemize}
+		\item curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine -`uname -s`-`uname -m` 
+		$>$ \\ /usr/local/bin/docker-machine \&\& chmod +x /usr/local/bin/docker-machine \\
+	\end{itemize}
+	
+	To check if the installation was successful run this command:
+	
+	\begin{itemize}
+		\item docker-machine version \\
+	\end{itemize}
+	
+	\item Installing Django (Python should already be in Linux) \\
+	
+	To install Django enter these commands into the terminal:
+	
+	\begin{itemize}
+		\item sudo apt-get update
+		\item sudo apt-get install python-django \\
+	\end{itemize}
+	
+	\item Download Git Repository from GitHub \\
+	
+	Open a terminal in a location that you want to store these files. Then enter the commands below to download and switch to 
+	appropriate branch:
+	
+	\begin{itemize}
+		\item git clone https://github.com/MaraJade/seniorproject.git
+		\item git checkout alpha \\
+	\end{itemize}
+	
+	\item Change Directory and Start Script \\
+	
+	First you will need to change to the right directory for starting the script. Enter the command below:
+	
+	\begin{itemize}
+		\item cd seniorproject/tools/ \\
+	\end{itemize}
+	
+	From here you run the below command to start the application:
+	
+	\begin{itemize}
+		\item ./scripts/deploy.sh \\
+	\end{itemize}
+	
+	Now you answer the next few questions with these responses in order:
+	
+	\begin{itemize}
+		\item local
+		\item Yes
+		\item username: (anything you would like)
+		\item password: (anything you would like) \\
+	\end{itemize}
+	
+	Now you can go to a web browser and type in the address 0.0.0.0 for your local host and connect to the application. 
+	The account you can use right away is the one you just made above. Or you can create a new account. \\
+	
+	
+\end{enumerate}
 
 \section{How did you learn the new technology?}
-Throughout the presentation of our tools to our client Ross Gardler we were
-happy to hear that he was really excited about the progress we have made thus
-far.  In his excitement in seeing how far we have come with the tools and the
-progress he has seen Ross began asking for feature requests to be added to the
-tools we have developed thus far.  We decided to add this section to our report
-so that we could reference Ross's confidence in our team to make these requests
-possible if we have time.  These requests are for future ideas for the tools as
-our client also would like us to submit patches for the tools that we have made
-thus far as he approves of the work we have done. We will be completing these
-patches and getting them to Ross.  The requirements that have had feature
-requests proposed are shown below.
+
 
 \section{What did you learn from all of this? (Justin Bruntmyer)}
 
