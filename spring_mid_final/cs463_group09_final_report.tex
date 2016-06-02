@@ -676,11 +676,11 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_1}
+						\includegraphics[width=4in, frame]{DD_1}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{Sequence diagram of how the application will interact with the database and display the 
+  						people page.}
   					\end{center}
 				\end{figure}
 				
@@ -715,11 +715,11 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_2}
+						\includegraphics[width=4in, frame]{DD_2}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{Sequence diagram showing the interactions between the application, django framework, 
+  						meetups.com, and the database for improving the searching algorithm of events.}
   					\end{center}
 				\end{figure}
 						
@@ -755,21 +755,21 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_3}
+						\includegraphics[width=4in, frame]{DD_3}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{The sequence diagram for the application querying the database for the twitter handle to 
+  						tweet at a single person.}
   					\end{center}
 				\end{figure}
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_4}
+						\includegraphics[width=4in, frame]{DD_4}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{The above sequence diagram shows the same process but instead of tweeting directly 
+  						at a person the user is tweeting to a group.}
   					\end{center}
 				\end{figure}
 				
@@ -798,11 +798,11 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_5}
+						\includegraphics[width=4in, frame]{DD_5}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{The message sequence showing the application interacting with the database in order to 
+  						create accounts and log users into the application.}
   					\end{center}
 				\end{figure}
 				
@@ -832,11 +832,11 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_6}
+						\includegraphics[width=4in, frame]{DD_6}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{This sequence diagram shows the interaction between the events, groups, and people pages with 
+  						the database and URL's.}
   					\end{center}
 				\end{figure}
 				
@@ -868,11 +868,10 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_7}
+						\includegraphics[width=4in, frame]{DD_7}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{This sequence diagram shows the interaction between the Django framework and the database.}
   					\end{center}
 				\end{figure}
 					
@@ -907,11 +906,11 @@ Meetup & Meetup.com
 				
 				\begin{figure}[H]
   					\begin{center}
-						\includegraphics[width=2in, frame]{DD_8}
+						\includegraphics[width=4in, frame]{DD_8}
 						\captionsetup{width=.4\linewidth}
 						\centering
-  						\caption{The people page displaying the profile links for the people that have been imported into the 
-  						application.}
+  						\caption{This sequence diagram shows the interaction between the Django framework, twitter API, 
+  						and database.}
   					\end{center}
 				\end{figure}
 				
@@ -1313,10 +1312,63 @@ The way our team developed on the project was using the docker container for Lin
 
 \section{How did you learn the new technology?}
 
+Throughout the project the main technologies that were new to us that we needed to learn were Twitter \& Meetup \& Google Maps API
+calls and how they worked, JavaScript, Django, and Docker Containers. With all of these technologies there was a learning curve 
+for each of us throughout the project however the most difficult time would have to be during winter term of the project. Winter 
+term was the time for us to began development for an Alpha and Beta release. It took some time but we will discuss how we 
+learned about each of the technologies and learned how to use them effectively. \\
+
+To learn the API technology for meetup.com, Twitter, and Google Maps there was a lot of documentation deciphering throughout 
+the project. We quickly learned that some API's had better documentation than others. The meetup.com API documentation was the 
+best of the three because all of the API calls were laid out with a description and examples of what you could do with them. 
+There was also a console testing feature on their website that let you test out an API call to see what the result would be 
+before you actually use your token to do so. The Google Maps API documentation was decent but still difficult to understand 
+in some places as all the technical information of what is happening behind the scenes are not mentioned in the documentation. 
+With patience and trial \& error we were able to fully understand what the API was doing and how we could integrate that 
+with our displaying of the events on the map plus the search functionality. The last API is also the most difficult to 
+understand which is the Twitter API. The documentation did not seem to flow in a way that we could understand clearly. Megan 
+began looking at the documentation first and asked for help on the explanation of what was happening and all of us were 
+struggling. After taking each section and breaking down what was happening we began to understand the Twitter API more but 
+we feel that this kind of documentation should be easier to understand. \\
+
+The next technology that we learned was JavaScript. The main way we all went about learning how to code in JavaScript was by 
+practice. The way we would begin to implement items for our requirements were to break down the requirement into sub-tasks and 
+then write JavaScript to accomplish those tasks and put them together. The main source of documentation we would use was 
+Stack Overflow examples that people have used JavaScript for along with tutorials at W3Schools which is a website with a lot of 
+useful tutorials. \\
+
+Django was new to the entire team thus we did a lot of research on the technology in the first couple of months while we were 
+creating our documents in the fall. With Django and Python going hand and hand we had an advantage in understanding how to 
+make changes in Django. The biggest item we needed to learn was how the framework is working and how the database interacts 
+with the application itself. In order to do this we continued to read documentation on Django in order to progress in understanding
+it which let to us feeling fairly confident on using Django in the end. \\
+
+The last technology that we had to learn was the docker container and how to run the container. This was a struggle at first as 
+we wanted to use the Windows platform to run the application however there were many library complications that we could not 
+resolve. Instead we began looking into the docker container and how it runs in a Linux environment. The documentation that we 
+found led us to believe that running the container would be a simple process on Linux thus we tried just that. We followed 
+the installation guide from the Docker website and had the container running our application fairly quickly. We learned about 
+docker machine and running the docker service for Linux through the Docker documentation which was easy to understand. \\
+
+We continued to learn as a team and were willing to help one another whenever we got stuck on a topic. The learning process 
+took a huge team effort and contributed to us finishing this project. \\
+
+
 
 \section{What did you learn from all of this? (Justin Bruntmyer)}
 
-\subsection{What Technical Information Did I Learn}
+\subsection{What technical information did you learn?}
+
+\subsection{What non-technical information did you learn?}
+
+\subsection{What have you learned about project work?}
+
+\subsection{What have you learned about project management?}
+
+\subsection{What have you learned about working in teams?}
+
+\subsection{If you could have done it all over, what would you do differently?}
+
 
 \section{What did you learn from all of this? (Megan Goossens)}
 I learned quite a bit from this project. On the technical side, I learned a lot
