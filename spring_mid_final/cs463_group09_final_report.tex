@@ -667,12 +667,22 @@ Meetup & Meetup.com
 					\item Changing the algorithm in the time frame to extract the data.\\
 				\end{itemize}
 				
-				\item Design View %pictuee goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+				\item Design View \\%pictuee goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
 				Our fixing the people page viewpoint shows how the application will be interacting with the Django
 				framework along with the database. We know that the button on the webpage will be an HTML button that
 				will be selected by the user. Once selected the Django framework will be activated to query the database
 				for the current list of community leaders. Once the database finishes the query it will send the list back to
 				the HTML page to be displayed for the user.\\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_1}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				A look at how the various steps for loading the people page is necessary due to the fact that it is not
@@ -702,6 +712,16 @@ Meetup & Meetup.com
 				stored for the HTML request will be sent to the
 				Django framework where the query will be sent to the database to show the list of events on the application
 				via HTML.\\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_2}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 						
 				\item Design Rationale \\
 				There are two parts to this viewpoint: The fetching of events from Meetup, and showing the events to the
@@ -724,7 +744,7 @@ Meetup & Meetup.com
 					\item Implementing the feature itself integrating with already registered twitter accounts \\
 				\end{itemize}
 				
-				\item Design Viewpoint %picture goes here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				\item Design Viewpoint \\%picture goes here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				Our viewpoint for the ability to tweet at a community leader is shown below and has details regarding
 				communication between the application, Django framework and the database. There will be an HTML
 				button that can be pressed by the user and when this is pressed the Django framework will query the
@@ -732,6 +752,26 @@ Meetup & Meetup.com
 				framework. From here the Django framework will create the necessary query parameters that will be sent to
 				the Twitter API. Once this is done the user should see a new page with the Twitter API already having the
 				username ready and they can just enter the tweet they would like to send. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_3}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_4}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				Twitter has a way to create tweets for you with the information you wish to be contained in them. Using
@@ -756,6 +796,16 @@ Meetup & Meetup.com
 				Once this is successful the application will display a message stating the account has been created
 				successfully. \\
 				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_5}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
+				
 				\item Design Rationale \\
 				As the application is build in Django, we will be using Django's authentication system for user accounts. It
 				is the best choice for this project because it is simple and already implemented within the Django platform. \\
@@ -779,6 +829,16 @@ Meetup & Meetup.com
 				at how each location will store data for the user to easily navigate through in order to find what they are
 				searching for. There are also a couple of links that are described for the tweet at someone or tweet at an
 				event. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_6}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				The goal of this viewpoint is to make it as easy and intuitive as possible to view and interact with people
@@ -805,6 +865,16 @@ Meetup & Meetup.com
 				From this information we will query the database and look for upcoming events that are close to the given
 				location and return those events to the application to be displayed. This is our most difficult challenge and
 				one that will take a lot of testing. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_7}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 					
 				\item Design Rationale \\
 				This viewpoint will require manipulating location data. Once the user's location has been determined, either
@@ -834,6 +904,16 @@ Meetup & Meetup.com
 				communicate with the Twitter
 				API such that the items that we find with the associated tags we will use will be displayed on the
 				application and stored in the database. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=2in, frame]{DD_8}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The people page displaying the profile links for the people that have been imported into the 
+  						application.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				Once again the Twitter API will be useful in accomplishing a task. The API will be used to find tweets that
