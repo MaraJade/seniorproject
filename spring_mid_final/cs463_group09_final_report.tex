@@ -371,7 +371,7 @@ can use to find events, view community leader profiles, and get involved.\\
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \begin{center}
-\begin{longtable}{ | C{1cm} | C{2cm}| C{11cm} | C{2cm} |} 
+\begin{longtable}{ | C{1cm} | C{2cm}| C{11cm} | C{3cm} |} 
 \hline
 REQ\# & Requirement & What Happened To It & Comments \\ 
 \hline
@@ -395,7 +395,10 @@ REQ\# & Requirement & What Happened To It & Comments \\
     implementation of the fix for the People page is local. We have yet to test it
     on the host that Apache is using to run the prototype currently. We predict that
     the fix will work but it will need to be approved and patched into the live site
-    for clarification. & blah\\ 
+    for clarification. & The biggest change made for this requirement is realizing
+    that the problem was in the prototype as the people page was trying to display
+    a large amount of tables that was causing the browser to crash. The bug was found
+    and taken out of the code and the people page now loads normally.\\ 
 \hline
 2 & Tweet at a person listed in database & Each person who is imported into the
     application is generated their own profile page based off of their Meetups ID.
