@@ -636,7 +636,7 @@ group peaks height =.2
 		Current developers contributing to the community tool include Ross Gardler, Justin Bruntmyer, Hai Nguyen, and
 		Megan Goossens. Ross Gardler, president of Apache, is the original developer for the project.\\
 		
-		\item Change History \\
+		\item Change History
 		
 	\end{enumerate}
 	
@@ -1006,7 +1006,7 @@ The 'tweet at a person listed in the database' design was fairly accurate with o
 
 For the 'Add user accounts and track when a user has tweeted an event' we successfully implemented our original design except for one aspect which is the tracking when a user tweets an event. Based on our design the Django framework was suppose to keep track of when the user is tweeting but instead Hoot Suite handled all of that. We decided that it would not be worth it to add the complication with the Hoot Suite to the design. The design is still accurate with the implementation of account creation and signing in to the application and the database interaction is the same using the models in the Django framework. \\
 
-STUFF ABOUT TWEETS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+The listing tweets functionality is done by querying the Twitter with API calls searching for the appropriate hashtags associated with the tweets from our application and not from out application. The tweets are straight from Twitter and are parsed and displayed using HTML on the tweets section of the application. This way we are able to see tweets based on the hashtags that are selected and what have been tweeted from the application as well. \\
 
 Looking through the design document we created at the beginning of this project the above discusses what changes we had to make in the design decisions for certain requirements. The other requirements kept the design we created although implementation struggles would cause us to change the way items were implemented mainly because we were learning techniques throughout this project. Ultimately, we feel that the design decisions made at the beginning of this project were sound.
 
@@ -1019,13 +1019,13 @@ in open source projects. This entails contributing to Apache Software Foundation
 that identify and support community leaders and members. Better tools will help identify potential community leaders which
 will then allow community builders to engage with and support those leaders. Over the course of the project, consistent
 updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools
-implemented is done in order to measure its significance and effectiveness. \\
+implemented is done in order to measure its significance and effectiveness. 
 
 \subsection{Components and Technologies}
 For this project we have broken down the technologies we could use into three different pieces which come together as part
 of the entire system: Web Application Framework, Backend Data Storage, User Interface, and User and Group Management
 System. Below you will find research done for the individual technologies available for these pieces along with a selection
-our team is using for the main system. \\
+our team is using for the main system. 
 
 \subsection{Web Application Framework}
 
@@ -1033,7 +1033,7 @@ our team is using for the main system. \\
 As our project involves a website, we will need a web application framework to build it on. A web application framework is
 software that is designed to help with the development of websites, web applications, and more. A framework aims to help
 alleviate the overhead that comes with web development, with libraries that help with tasks such as database access and
-templating web pages. Possible frameworks are as follows:
+templating web pages. Possible frameworks are as follows: \\
 
 	\begin{itemize}
 		\item Django
@@ -1047,7 +1047,7 @@ Django is a free, open source, high-level Python web application framework which
 pluggability of components, rapid developments, and the “don’t repeat yourself” principle. It provides an optional dynamic
 admin interface, which is controlled in a similar way as other portions of the framework, by models. Django also has a
 database migration system to make migrations easier, as well as a testing framework to make testing your web app easier. It
-can be used for both front-end and back-end applications.\\
+can be used for both front-end and back-end application. \\
 
 \subsubsection{AngularJS}
 AngularJS is a free, open source, JavaScript web application framework designed to help with developing single-page
@@ -1069,7 +1069,7 @@ repeat yourself (DRY), and the active record pattern. \\
 Our project already has a prototype, which uses Django. We will continue to use Django, because it is both already
 implemented, and a good, solid, easy to use framework that suits our needs. With the models, views, templates,
 administration, and database management, it will make our task much easier. Our other options require quite a bit more workto do the same things in another framework, and even more work for us re-implementing all the features that are currently
-there. \\
+there. 
 
 \subsection{Back-end - Data Storage Piece}
 
@@ -1167,7 +1167,7 @@ Based on the prototype that has been implemented already we have decided to sele
 as it works great with Django. With the advantage of easily integrating other coding languages into the website means that
 we can add other language features as well. HTML also has a lot of UI features working with Django and with the security of
 HTML being very good we think this is the best technology for our webpage user interface. JavaScript and PHP both have
-their benefits but we feel that HTML is the best fit for our project. \\
+their benefits but we feel that HTML is the best fit for our project. 
 
 \subsection{User and Group Management System}
 
@@ -1227,7 +1227,7 @@ from doing so give our team greater advantages then choosing the AD or LDAP meth
 Django web framework it will be much easier to implement the authentication system as the tools necessary are already at
 our disposal. AD and LDAP are good systems however the complexity of their implementations and how they seem to have
 limitations on interacting with other systems means it is less portable. Django as our framework is the main reason for
-selection but the system also offers portability, good documentation, and simplicity. \\
+selection but the system also offers portability, good documentation, and simplicity. 
 
 \subsection{Discussion on Tech Review}
 
@@ -1279,10 +1279,6 @@ Now that events have been pulled in we can pull the information for the people a
 Once all of the information has been imported a user can export information about people or events using the export button at the top of the associated page for events and people. The exported lists includes biography information, twitter handles, start times, etc. that is information pertinent for the events or for the people. The login structure is also run by the Django framework with the Django authentication system which keeps track of the usernames and passwords created. The authentication checks the database with the credentials submitted at login and allows the user to login or be denied. Once a user has logged in they have full access to importing functions or marking groups as not applicable. \\
 
 All of the technology that operates for this project is happening in a docker container. A docker container's wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in. The docker container wraps up our Django application so that it can be run on a local machine in order to be developed on. This is also how the application can be hosted on a web server. Our client and the team that worked on this before us found this to be the best way to run the application for development purposes. The docker container is running as a service on the local machine to open the local host to hosting the application.
-
-The structure of the project can be shown in the diagram below:
-
-
 
 \subsection{How to Install \& Run Application}
 
