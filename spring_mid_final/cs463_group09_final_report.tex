@@ -1,4 +1,8 @@
 \documentclass[draftclsnofoot,10pt,onecolumn]{IEEEtran} %!PN
+\usepackage{etex}
+
+\usepackage{pgfgantt}
+\usepackage{rotating}
 
 \usepackage[margin=0.5cm]{caption}
 \usepackage{lipsum}
@@ -548,7 +552,70 @@ REQ\# & Requirement & What Happened To It & Comments \\
 \end{longtable}
 \end{center}
 
+\subsection{Updated Gantt Chart}
+
+\begin{sidewaysfigure}
+
+\centering
+\begin{ganttchart}[y unit title=1cm,
+y unit chart=1cm,
+vgrid,hgrid, 
+title label anchor/.style={below=-1.6ex},
+title left shift=.05,
+title right shift=-.05,
+title height=1,
+bar/.style={fill=gray!50},
+incomplete/.style={fill=white},
+progress label text={},
+bar height=0.7,
+group right shift=0,
+group top shift=.6,
+group height=.3,
+group peaks height =.2
+]
+{1}{34}
+%labels
+\gantttitle{Project}{34} \\
+\gantttitle{Sep}{1} 
+\gantttitle{Oct}{4} 
+\gantttitle{Nov}{4} 
+\gantttitle{Dec}{4} 
+\gantttitle{Jan}{4} 
+\gantttitle{Feb}{4} 
+\gantttitle{Mar}{4} 
+\gantttitle{Apr}{4} 
+\gantttitle{May}{4}  
+\gantttitle{Jun}{1}\\
+%tasks
+\ganttbar{Fix the "People" page}{1}{2} \\
+\ganttbar{Tweet at a person}{3}{8} \\
+\ganttbar{Add user accounts}{9}{10} \\
+\ganttbar{List tweets via app}{11}{15} \\
+\ganttbar[progress=33]{List tweets via not app}{20}{22} \\
+\ganttbar{Export list of people}{18}{19} \\
+\ganttbar{Improve hashtag searching}{16}{18} \\
+\ganttbar[progress=0]{Implement a system of finding events}{21}{34} \\
+\ganttbar{Add feature to generate profiles}{26}{28} \\
+\ganttbar{Improve visuals}{28}{30}
+%relations
+
+\ganttlink{elem0}{elem1} 
+\ganttlink{elem0}{elem3} 
+\ganttlink{elem1}{elem2} 
+\ganttlink{elem3}{elem4} 
+\ganttlink{elem1}{elem5} 
+\ganttlink{elem3}{elem5} 
+\ganttlink{elem2}{elem6} 
+\ganttlink{elem3}{elem6} 
+\ganttlink{elem5}{elem7} 
+\end{ganttchart}
+
+\caption{Gantt Chart - Workplan}
+
+\end{sidewaysfigure}
+
 \newpage
+
 %The design document is inserted here.
 \section{DESIGN DOCUMENT}
 
