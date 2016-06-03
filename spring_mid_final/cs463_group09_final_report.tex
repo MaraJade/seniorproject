@@ -136,19 +136,38 @@ The Community Driven Development project is sponsored by the Apache Software Fou
 
 \section{REQUIREMENTS DOCUMENT}
 \subsection{Introduction to the Problem}
-Open source projects are known for the code that is developed from them however that is not what causes these projects to either live or die. Though it is true that an open source group can survive without a viable community in most cases there is a class of open source projects that lives or dies on the strength of its community such as the Apache Software Foundation projects. Existing tools are in place for tracking activity within online communities however these tools focus on identifying customers to the open source projects. The problem that is being focused on is that new tools need to be made to identify community leaders so that community builders know who to engage with.
+Open source projects are known for the code that is developed from them however that is not what causes these projects to either 
+live or die. Though it is true that an open source group can survive without a viable community in most cases there is a class of 
+open source projects that lives or dies on the strength of its community such as the Apache Software Foundation projects. 
+Existing tools are in place for tracking activity within online communities however these tools focus on identifying customers to 
+the open source projects. The problem that is being focused on is that new tools need to be made to identify community leaders so 
+that community builders know who to engage with.
 
 \subsection{Project Description}
 
-The goal of this project is to build connections, collaborations, and identifications between community members and leaders in open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools that identify and support community leaders and members. Better tools will help identify potential community leaders which will then allow community builders to engage with and support those leaders. Over the course of the project, consistent updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools implemented is done in order to measure its significance and effectiveness.
+The goal of this project is to build connections, collaborations, and identifications between community members and leaders in 
+open source projects. This entails contributing to Apache Software Foundation’s existing software platform to create tools 
+that identify and support community leaders and members. Better tools will help identify potential community leaders which will 
+then allow community builders to engage with and support those leaders. Over the course of the project, consistent updates check 
+what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools implemented is done in
+order to measure its significance and effectiveness.
 
-The solution to this problem should be able to identify community leaders to people with a desire to improve the strength of a community around a specific project. This solution includes being able to observe Apache Software Foundation community activity on publicly available information such as meetups.com in order to identify those potential community leaders. The solution is to provide enough information to community builders to contact and engage with the leaders so that they can begin their own contributions to the projects.
+The solution to this problem should be able to identify community leaders to people with a desire to improve the strength of 
+a community around a specific project. This solution includes being able to observe Apache Software Foundation community activity 
+on publicly available information such as meetups.com in order to identify those potential community leaders. The solution is 
+to provide enough information to community builders to contact and engage with the leaders so that they can begin their 
+own contributions to the projects.
 
 \subsection{Requirement}
 
-The end goal of our project is to create a tool for identifying community leaders for others to see and given the chance to get involved with by having a web page that will let users go through and view all of this data in one location. This data will be gathered from an algorithm that reaches out to meetups.com and use key terms to find community leaders. As a stretch goal we would like to have this algorithm gain data from other social media sites such as Facebook and Twitter.
+The end goal of our project is to create a tool for identifying community leaders for others to see and given the chance to 
+get involved with by having a web page that will let users go through and view all of this data in one location. This data will 
+be gathered from an algorithm that reaches out to meetups.com and use key terms to find community leaders. As a stretch goal we 
+would like to have this algorithm gain data from other social media sites such as Facebook and Twitter.
 
-We will be starting with a prototype that has been implemented which means we will need to start by fixing what doesn't work and then adding key features that we believe the project needs. In a final delivery there will be a patched version of the prototype with tool fixes along with new features to improve usability. 
+We will be starting with a prototype that has been implemented which means we will need to start by fixing what doesn't work and 
+then adding key features that we believe the project needs. In a final delivery there will be a patched version of the prototype 
+with tool fixes along with new features to improve usability. 
 
 \newpage
 
@@ -209,88 +228,90 @@ We plan to release the Alpha version of the project during week 6 of winter term
 
 \subsection{Specifications of Requirements}
 \begin{enumerate}
-\item Gain access to source code of the Community Developments page
+\item Gain access to source code of the Community Developments page \\
 
 \begin{enumerate}
 \item Gain access to the source code for the prototype to begin working.
-\item This will be given by client as we will be collaborating with him on testing the functionality of the prototype.
+\item This will be given by client as we will be collaborating with him on testing the functionality of the prototype.\\
 \end{enumerate}
 
-\item Fix the “People” page where the list of community leaders are shown
+\item Fix the “People” page where the list of community leaders are shown \\
 \begin{enumerate}
-\item Currently takes a large amount of time in order for the "people" page to load as it shows the current people who are identified as community leaders.
-\item Figure out why the page takes such a long time to load. Could be too much data and the algorithm for pulling up this page needs to be changed.
-\item Need to debug the causes of crashes by some browsers.
+\item Currently takes a large amount of time in order for the "people" page to load as it shows the current people who are 
+identified as community leaders.
+\item Figure out why the page takes such a long time to load. Could be too much data and the algorithm for pulling up this 
+page needs to be changed. 
+\item Need to debug the causes of crashes by some browsers. \\
 \end{enumerate}
 
-\item Tweet at a person listed in the database.
+\item Tweet at a person listed in the database. \\
 \begin{enumerate}
 \item There will be a button that a user can select to send a tweet to a person directly.
-\item This will be sending the user to the twitter API in order for them to construct and send a tweet.
+\item This will be sending the user to the twitter API in order for them to construct and send a tweet. \\
 \end{enumerate}
 
-\item Add user accounts to the application and track when a user has tweeted an event
+\item Add user accounts to the application and track when a user has tweeted an event \\
 \begin{enumerate}
 \item This is so they don't inadvertently do it twice
 \item Track date of tweet, tweet text and tweet ID
 \item This enables the prototype to branch out further than meetups.com
-\item Allows user to see what tweets they have tweeted about
+\item Allows user to see what tweets they have tweeted about \\
 \end{enumerate}
 
-\item List tweets about events and/or people via the application
+\item List tweets about events and/or people via the application \\
 \begin{enumerate}
 \item This should work for the current user and others
 \item Allows retweet or sending as new tweet based on existing one
-\item Have a button that will list the tweets that were tweeted via the application.
+\item Have a button that will list the tweets that were tweeted via the application. \\
 \end{enumerate}
 
-\item Export a list of people and email addresses
+\item Export a list of people and email addresses \\
 \begin{enumerate}
 \item The emails corresponding with the people will be exported as well
-\item Will be in JSON, CSV and test format for easy consumption in other applications
+\item Will be in JSON, CSV and test format for easy consumption in other applications \\
 \end{enumerate}
 
-\item Improve hashtag searching of application to improve finding relevant events
+\item Improve hashtag searching of application to improve finding relevant events \\
 \begin{enumerate}
 \item The searching algorithm is currently returning data from meetups.com with searching for tag "apache" however this is not working correctly as it is pulling information that has nothing to do with open source projects and is very random.
 \item The searching algorithm will need to be fixed so that it find the correct tags from meetups.com and pull the accurate data.
-\item The stretch goal here is the be able to use this algorithm on multiple social media networks.
+\item The stretch goal here is the be able to use this algorithm on multiple social media networks. \\
 \end{enumerate}
 
-\item Alpha Release
+\item Alpha Release \\
 \begin{enumerate}
 \item Alpha to be released the 6th week of winter term.
 \item This version will have some fixes for the improvement on algorithm, mark event action, mark group action, import members action, import meetups action, and the people action.
-\item If not completely fixed/implanted the project will at least handle them by throwing a message to the user saying this tool is under construction.
+\item If not completely fixed/implanted the project will at least handle them by throwing a message to the user saying this tool is under construction. \\
 \end{enumerate}
 
-\item Improve the visuals of the tool looks as a whole
+\item Improve the visuals of the tool looks as a whole \\
 \begin{enumerate}
 \item Make the user interface look sharper and more appealing
-\item Have the events and people information that is displayed when a user decides to look into more details about a person or even be more appealing as well.
+\item Have the events and people information that is displayed when a user decides to look into more details about a person or even be more appealing as well. \\
 \end{enumerate}
 
-\item Beta Release
+\item Beta Release \\
 \begin{enumerate}
 \item The Beta of the project will be released on finals week of winter term.
-\item In the Beta the fixes from the fist Alpha should all be fixed correctly, and all of the tools that we wanted to add should be implemented but not necessary working correctly, at least has some functionality.
+\item In the Beta the fixes from the fist Alpha should all be fixed correctly, and all of the tools that we wanted to add should be implemented but not necessary working correctly, at least has some functionality. \\
 \end{enumerate}
 
-\item Implement system of improved sorting of finding events by nearby location within radius of the user
+\item Implement system of improved sorting of finding events by nearby location within radius of the user \\
 \begin{enumerate}
-\item The program will be able to get the location from the user and based on this location the nearest community leader events will be shown to the user.
+\item The program will be able to get the location from the user and based on this location the nearest community leader events will be shown to the user. \\
 \end{enumerate}
 
-\item Add feature to generate a profile for community developers to have contacting information easily viewable
+\item Add feature to generate a profile for community developers to have contacting information easily viewable \\
 \begin{enumerate}
 \item Based on the data collected from meetups.com to identify the community leader not only will the events be posted but the community leader will have a section where the user can easily view the contact information pulled from meetups.com. A link with their name.
-\item This is not a collaboration communication tool but just a way to view the contact information.
+\item This is not a collaboration communication tool but just a way to view the contact information. \\
 \end{enumerate}
 
-\item 1.0 Release.
+\item 1.0 Release. \\
 \begin{enumerate}
 \item This will be the final release where all of our implementations should be working correctly with no bugs.
-\item This will be released on May 16, 2016 which is the Monday prior to the Expo.
+\item This will be released on May 16, 2016 which is the Monday prior to the Expo. \\
 \end{enumerate}
 \end{enumerate}
 
@@ -579,7 +600,7 @@ REQ\# & Requirement & What Happened To It & Comments \\
 	
 		\item IEEE Standard for Information Technology--Systems Design--Software Design Descriptions, 1st ed. IEEE, 2009. \\
 		
-		\item Comdev1-us-west.apache.org, 'Community Development: Events', 2015. [Online]. Available: http://comdev1-us-
+		\item Comdev1-us-west.apache.org, 'Community Development: Events', 2015. [Online]. Available: \\ http://comdev1-us-
 		west.apache.org/events/. [Accessed: 03- Dec- 2015]. \\
 		
 		\item Djangoproject.com, 'The Web framework for perfectionists with deadlines | Django', 2015. [Online]. Available:
@@ -587,7 +608,7 @@ REQ\# & Requirement & What Happened To It & Comments \\
 		
 		\item W3.org, 'HTML5', 2015. [Online]. Available: http://www.w3.org/TR/html/. [Accessed: 03- Dec- 2015]. \\
 		
-		\item Postgresql.org, 'PostgreSQL: The world's most advanced open source database', 2015. [Online]. Available:
+		\item Postgresql.org, 'PostgreSQL: The world's most advanced open source database', 2015. [Online]. Available:\\
 		http://www.postgresql.org/. [Accessed: 03- Dec- 2015]. \\
 		
 	\end{enumerate}
@@ -648,12 +669,22 @@ Meetup & Meetup.com
 					\item Changing the algorithm in the time frame to extract the data.\\
 				\end{itemize}
 				
-				\item Design View %pictuee goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+				\item Design View \\%pictuee goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
 				Our fixing the people page viewpoint shows how the application will be interacting with the Django
 				framework along with the database. We know that the button on the webpage will be an HTML button that
 				will be selected by the user. Once selected the Django framework will be activated to query the database
 				for the current list of community leaders. Once the database finishes the query it will send the list back to
 				the HTML page to be displayed for the user.\\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_1}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{Sequence diagram of how the application will interact with the database and display the 
+  						people page.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				A look at how the various steps for loading the people page is necessary due to the fact that it is not
@@ -683,6 +714,16 @@ Meetup & Meetup.com
 				stored for the HTML request will be sent to the
 				Django framework where the query will be sent to the database to show the list of events on the application
 				via HTML.\\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_2}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{Sequence diagram showing the interactions between the application, django framework, 
+  						meetups.com, and the database for improving the searching algorithm of events.}
+  					\end{center}
+				\end{figure}
 						
 				\item Design Rationale \\
 				There are two parts to this viewpoint: The fetching of events from Meetup, and showing the events to the
@@ -705,7 +746,7 @@ Meetup & Meetup.com
 					\item Implementing the feature itself integrating with already registered twitter accounts \\
 				\end{itemize}
 				
-				\item Design Viewpoint %picture goes here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				\item Design Viewpoint \\%picture goes here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				Our viewpoint for the ability to tweet at a community leader is shown below and has details regarding
 				communication between the application, Django framework and the database. There will be an HTML
 				button that can be pressed by the user and when this is pressed the Django framework will query the
@@ -713,6 +754,26 @@ Meetup & Meetup.com
 				framework. From here the Django framework will create the necessary query parameters that will be sent to
 				the Twitter API. Once this is done the user should see a new page with the Twitter API already having the
 				username ready and they can just enter the tweet they would like to send. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_3}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The sequence diagram for the application querying the database for the twitter handle to 
+  						tweet at a single person.}
+  					\end{center}
+				\end{figure}
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_4}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The above sequence diagram shows the same process but instead of tweeting directly 
+  						at a person the user is tweeting to a group.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				Twitter has a way to create tweets for you with the information you wish to be contained in them. Using
@@ -737,6 +798,16 @@ Meetup & Meetup.com
 				Once this is successful the application will display a message stating the account has been created
 				successfully. \\
 				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_5}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{The message sequence showing the application interacting with the database in order to 
+  						create accounts and log users into the application.}
+  					\end{center}
+				\end{figure}
+				
 				\item Design Rationale \\
 				As the application is build in Django, we will be using Django's authentication system for user accounts. It
 				is the best choice for this project because it is simple and already implemented within the Django platform. \\
@@ -760,6 +831,16 @@ Meetup & Meetup.com
 				at how each location will store data for the user to easily navigate through in order to find what they are
 				searching for. There are also a couple of links that are described for the tweet at someone or tweet at an
 				event. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_6}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{This sequence diagram shows the interaction between the events, groups, and people pages with 
+  						the database and URL's.}
+  					\end{center}
+				\end{figure}
 				
 				\item Design Rationale \\
 				The goal of this viewpoint is to make it as easy and intuitive as possible to view and interact with people
@@ -786,6 +867,15 @@ Meetup & Meetup.com
 				From this information we will query the database and look for upcoming events that are close to the given
 				location and return those events to the application to be displayed. This is our most difficult challenge and
 				one that will take a lot of testing. \\
+				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_7}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{This sequence diagram shows the interaction between the Django framework and the database.}
+  					\end{center}
+				\end{figure}
 					
 				\item Design Rationale \\
 				This viewpoint will require manipulating location data. Once the user's location has been determined, either
@@ -816,6 +906,16 @@ Meetup & Meetup.com
 				API such that the items that we find with the associated tags we will use will be displayed on the
 				application and stored in the database. \\
 				
+				\begin{figure}[H]
+  					\begin{center}
+						\includegraphics[width=4in, frame]{DD_8}
+						\captionsetup{width=.4\linewidth}
+						\centering
+  						\caption{This sequence diagram shows the interaction between the Django framework, twitter API, 
+  						and database.}
+  					\end{center}
+				\end{figure}
+				
 				\item Design Rationale \\
 				Once again the Twitter API will be useful in accomplishing a task. The API will be used to find tweets that
 				have hashtags that are related to open source events. Once those have been acquired, they will be presented
@@ -827,9 +927,15 @@ Meetup & Meetup.com
 \subsection{Discussion on Design Document}
 Throughout the course of the year we have had to change many things for the design of our systems to due to either limitations we encountered or figuring out that our original design plan was not going to work. In this discussion we are going to look at each original design that we had to change and talk about what we had to change in order to be successful in this project.\\
 
-When looking at the "Fix the "People" page where profiles are not implemented" we learned that its not that the profiles are not implemented but there was actually a bug in the prototype we were given. The bug was found when looking how the table of information was displayed on the people page in which every single person was trying to be loaded at once to the same page which would eventually cause the browser to crash. Rather than worrying about how the data was stored that we talked about in our original design, we only had to deal with how the information was being displayed. The issue was then solved with a simpler design implementation of showing only a couple of tables at a time.
+When looking at the 'Fix the "People" page where profiles are not implemented' we learned that its not that the profiles are not implemented but there was actually a bug in the prototype we were given. The bug was found when looking how the table of information was displayed on the people page in which every single person was trying to be loaded at once to the same page which would eventually cause the browser to crash. Rather than worrying about how the data was stored that we talked about in our original design, we only had to deal with how the information was being displayed. The issue was then solved with a simpler design implementation of showing only a couple of tables at a time. \\
 
-The 'tweet at a person listed in the database' design was fairly accurate with our actual implementation. The actual design has an HTML button with a Twitter symbol that is linked to the twitter handle that has been tracked down by the API calls the system has made already. The change that was made to this design was adding Hoot Suite which is a collaboration of social networks that are managed under one account. The user will need to login to their Hoot Suite account and then the twitter handle is put into a tweet for that user and ready to be sent via Twitter. This change was a better way to handle the Twitter handle and get the user to an appropriate action page. 
+The 'tweet at a person listed in the database' design was fairly accurate with our actual implementation. The actual design has an HTML button with a Twitter symbol that is linked to the twitter handle that has been tracked down by the API calls the system has made already. The change that was made to this design was adding Hoot Suite which is a collaboration of social networks that are managed under one account. The user will need to login to their Hoot Suite account and then the twitter handle is put into a tweet for that user and ready to be sent via Twitter. This change was a better way to handle the Twitter handle and get the user to an appropriate action page. \\
+
+For the 'Add user accounts and track when a user has tweeted an event' we successfully implemented our original design except for one aspect which is the tracking when a user tweets an event. Based on our design the Django framework was suppose to keep track of when the user is tweeting but instead Hoot Suite handled all of that. We decided that it would not be worth it to add the complication with the Hoot Suite to the design. The design is still accurate with the implementation of account creation and signing in to the application and the database interaction is the same using the models in the Django framework. \\
+
+STUFF ABOUT TWEETS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+
+Looking through the design document we created at the beginning of this project the above discusses what changes we had to make in the design decisions for certain requirements. The other requirements kept the design we created although implementation struggles would cause us to change the way items were implemented mainly because we were learning techniques throughout this project. Ultimately, we feel that the design decisions made at the beginning of this project were sound.
 
 %Tech review is inserted here.
 \section{Technology Review}
@@ -1051,8 +1157,22 @@ limitations on interacting with other systems means it is less portable. Django 
 selection but the system also offers portability, good documentation, and simplicity. \\
 
 \subsection{Discussion on Tech Review}
-Blah blah blah discussion will go here.
 
+Looking back at the technologies we have chosen for this project it is interesting to point out that we kept all of our selections 
+for the areas of user interface, data storage, authentication, and web application framework. The Django web framework was 
+heavily implemented into the prototype that we received at the beginning of the project which fit perfect for what this project 
+is trying to accomplish thus we continued with the Django framework. The PostgreSQL database continued to full fill our needs of 
+what we wanted the database to do thus we continued to use it. The authentication from Django was also perfect for the job. \\
+
+What is great is that we ended up adding more technologies to the application as we continued developing. One important 
+technology that was added is JavaScript. Throughout working with the Google Maps API and other HTML sections of web pages, 
+JavaScript turned out to be very useful in implementing features such as the tweet at a person social share button. JavaScript 
+also played a major role in the implementation of the Google Map used to display the locations of the events that have been 
+imported from the Meetup website. We also utilized the API technologies for Google Maps, Meetup, and Twitter to accomplish 
+the requirements at hand. \\
+
+Other than the addition of JavaScript and utilizing API calls we stayed true the our technology decisions throughout the project 
+to accomplish our goals. \\
 
 \includepdf[pages={1}, pagecommand={\section{BLOG POSTS}}]{Blog_Posts.pdf}
 \includepdf[pages={2-}, pagecommand={}]{Blog_Posts.pdf}
@@ -1061,41 +1181,238 @@ Blah blah blah discussion will go here.
 \includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \section{PROJECT DOCUMENTATION}
-Our project is a website build in Django. It uses Docker to maintain a
+
+\subsection{How The Project Works}
+Our project is a website built in Django. It uses Docker to maintain a
 consistent environment. The code is structured as a typical Django project. The
 most important parts are the views and the templates, and the models. Each view
 is either a page on the site, such as the events page, or an action, such as
 importing meetups. The models define the database. Each model has associated
-fields with it, e.g. the group model has name, city, state, and country fields.
+fields with it, e.g. the group model has name, city, state, and country fields.\\
 
-TOO:
-Each page on the site has a unique url. Each url is linked to a view. When the
-url is called by a web browser, the view is called. What happens next mostly
-depends on the view. Content is created or gathered, and then sent to a
-template. The templates then use HTML to display the content, with some
-JavaScript to help if needed.
+\subsubsection{Structure of Project \& Theory of Operation}
 
-There are also views that are not linked to a url. These views are actions, such
-as importing events from Meetup.com. They do not use templates, either, as they
-are not displaying the information, merely collecting it. These views do send
-that information to the database, where it is used and displayed by other views.
+The structure and theory of operation go hand to hand with this project because the structure was created based on the theory of how this application operates. Below we will be talking about the structure of the project and how that structure is suppose to operate within the application. All the of the main structures of the application will be put together in a flow diagram to illustrate how the structure operates.\\
+
+The structure for the project is simple. The Django framework creates a database using the PostgreSQL database model. From here we 
+can create tables within the database which are also known as models. These models are used as sections of the database where we can 
+store information in a way that makes sense. The Django framework also sets up an admin interface so that we have complete control
+over what happens to the framework. Once the appropriate models are created then there are the pages of where the events, people imported, event hosts, event search by area, view tweets, and logging in will be displayed. Once the pages are set with the HTML we then pull in the information needed to populate those pages.\\
+
+In order to pull the appropriate information the project uses a hashtag search algorithm that takes a list of hashtags inserted into the database and queries meetup.com with an API call for meetup's that match the hashtags that we have stored. The API call returns the meetup information in the form of Json. The application then parses the Json information returned by the API call searching specifically for the information that we requested such as longitude, latitude of meetup, start time, who hosts the event, country, state, address, event name, group hosting, picture, and source page address for the meetup. All this information is stored in the database under the appropriate model and then pushed the HTML page where the HTML can access and display this information to the user. \\
+
+Now that events have been pulled in we can pull the information for the people associated with a group and hosts of events. To import the people within a certain group the application takes the group ID and make an API call to meetup.com to give the information of who is in that group. The information is returned to the application in a Json format, the data is parsed and is stored in the database under the appropriate model with information such as twitter handle, address, longitude, latitude, name, picture, topics, meetup ID, and last activity. The information is then stored in the database and then can be accessed by the HTML pages to be displayed to the user. To import the event hosts the application take the events hosts ID's that have imported along with the events and then created an API call to meetup.com that asks for information for every event host ID that has been imported. The information is returned in Json format and parsed then stored in the database. The associated pages then have access to the database using HTML to be displayed to the user. \\
+
+Once all of the information has been imported a user can export information about people or events using the export button at the top of the associated page for events and people. The exported lists includes biography information, twitter handles, start times, etc. that is information pertinent for the events or for the people. The login structure is also run by the Django framework with the Django authentication system which keeps track of the usernames and passwords created. The authentication checks the database with the credentials submitted at login and allows the user to login or be denied. Once a user has logged in they have full access to importing functions or marking groups as not applicable. \\
+
+All of the technology that operates for this project is happening in a docker container. A docker container's wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in. The docker container wraps up our Django application so that it can be run on a local machine in order to be developed on. This is also how the application can be hosted on a web server. Our client and the team that worked on this before us found this to be the best way to run the application for development purposes. The docker container is running as a service on the local machine to open the local host to hosting the application.
+
+The structure of the project can be shown in the diagram below:
+
+
+
+\subsection{How to Install \& Run Application}
+
+The way our team developed on the project was using the docker container for Linux as we had countless troubles getting the container to run on the Windows platform. For the purposes of giving the best information on how to install and start this application on a local machine we are going to go over the installation process of what we know to work. Thus, below is a step by step installation process for getting the docker container to run correctly on a Linux operating system and starting the application. \\
+
+\begin{enumerate}
+	\item Install and Run Docker for Linux \\
+	Docker requires a 64-bit installation regardless of your Ubuntu version. Additionally, your kernel must be 3.10 at minimum. 
+	The latest 3.10 minor version or a newer maintained version are also acceptable. Kernels older than 3.10 lack some of the 
+	features required to run Docker containers. These older versions are known to have bugs which cause data loss and frequently 
+	panic under certain conditions.\\
+	
+	To check your current kernel version, open a terminal and use uname -r to display your kernel version:
+	
+	\begin{itemize}
+		\item uname -r \\
+	\end{itemize}
+	
+	Log into your machine as a user with sudo or root privileges and open a terminal. Install docker with the command shown below:
+	
+	\begin{itemize}
+		\item sudo apt-get install docker-engine \\
+	\end{itemize}
+	
+	Start the docker daemon with the below command:
+	
+	\begin{itemize}
+		\item sudo service docker start \\
+	\end{itemize}
+	
+	Verify docker is installed correctly with the command below, this command downloads a test image and runs it in a container. 
+	When the container runs, it prints an informational message. Then, it exits.:
+	
+	\begin{itemize}
+		\item sudo docker run hello-world \\
+	\end{itemize}
+	
+	You can find more specifics and deal with issues you may encounter here: \\
+	https://docs.docker.com/engine/installation/linux/ubuntulinux/ \\
+	
+	\item Install Docker Machine for Linux \\
+	To install docker machine for Linux, run the command below:
+	
+	\begin{itemize}
+		\item curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine -`uname -s`-`uname -m` 
+		$>$ \\ /usr/local/bin/docker-machine \&\& chmod +x /usr/local/bin/docker-machine \\
+	\end{itemize}
+	
+	To check if the installation was successful run this command:
+	
+	\begin{itemize}
+		\item docker-machine version \\
+	\end{itemize}
+	
+	\item Installing Django (Python should already be in Linux) \\
+	
+	To install Django enter these commands into the terminal:
+	
+	\begin{itemize}
+		\item sudo apt-get update
+		\item sudo apt-get install python-django \\
+	\end{itemize}
+	
+	\item Download Git Repository from GitHub \\
+	
+	Open a terminal in a location that you want to store these files. Then enter the commands below to download and switch to 
+	appropriate branch:
+	
+	\begin{itemize}
+		\item git clone https://github.com/MaraJade/seniorproject.git
+		\item git checkout alpha \\
+	\end{itemize}
+	
+	\item Change Directory and Start Script \\
+	
+	First you will need to change to the right directory for starting the script. Enter the command below:
+	
+	\begin{itemize}
+		\item cd seniorproject/tools/ \\
+	\end{itemize}
+	
+	From here you run the below command to start the application:
+	
+	\begin{itemize}
+		\item ./scripts/deploy.sh \\
+	\end{itemize}
+	
+	Now you answer the next few questions with these responses in order:
+	
+	\begin{itemize}
+		\item local
+		\item Yes
+		\item username: (anything you would like)
+		\item password: (anything you would like) \\
+	\end{itemize}
+	
+	Now you can go to a web browser and type in the address 0.0.0.0 for your local host and connect to the application. 
+	The account you can use right away is the one you just made above. Or you can create a new account. \\
+	
+	
+\end{enumerate}
 
 \section{How did you learn the new technology?}
-Throughout the presentation of our tools to our client Ross Gardler we were
-happy to hear that he was really excited about the progress we have made thus
-far.  In his excitement in seeing how far we have come with the tools and the
-progress he has seen Ross began asking for feature requests to be added to the
-tools we have developed thus far.  We decided to add this section to our report
-so that we could reference Ross's confidence in our team to make these requests
-possible if we have time.  These requests are for future ideas for the tools as
-our client also would like us to submit patches for the tools that we have made
-thus far as he approves of the work we have done. We will be completing these
-patches and getting them to Ross.  The requirements that have had feature
-requests proposed are shown below.
+
+Throughout the project the main technologies that were new to us that we needed to learn were Twitter \& Meetup \& Google Maps API
+calls and how they worked, JavaScript, Django, and Docker Containers. With all of these technologies there was a learning curve 
+for each of us throughout the project however the most difficult time would have to be during winter term of the project. Winter 
+term was the time for us to began development for an Alpha and Beta release. It took some time but we will discuss how we 
+learned about each of the technologies and learned how to use them effectively. \\
+
+To learn the API technology for meetup.com, Twitter, and Google Maps there was a lot of documentation deciphering throughout 
+the project. We quickly learned that some API's had better documentation than others. The meetup.com API documentation was the 
+best of the three because all of the API calls were laid out with a description and examples of what you could do with them. 
+There was also a console testing feature on their website that let you test out an API call to see what the result would be 
+before you actually use your token to do so. The Google Maps API documentation was decent but still difficult to understand 
+in some places as all the technical information of what is happening behind the scenes are not mentioned in the documentation. 
+With patience and trial \& error we were able to fully understand what the API was doing and how we could integrate that 
+with our displaying of the events on the map plus the search functionality. The last API is also the most difficult to 
+understand which is the Twitter API. The documentation did not seem to flow in a way that we could understand clearly. Megan 
+began looking at the documentation first and asked for help on the explanation of what was happening and all of us were 
+struggling. After taking each section and breaking down what was happening we began to understand the Twitter API more but 
+we feel that this kind of documentation should be easier to understand. \\
+
+The next technology that we learned was JavaScript. The main way we all went about learning how to code in JavaScript was by 
+practice. The way we would begin to implement items for our requirements were to break down the requirement into sub-tasks and 
+then write JavaScript to accomplish those tasks and put them together. The main source of documentation we would use was 
+Stack Overflow examples that people have used JavaScript for along with tutorials at W3Schools which is a website with a lot of 
+useful tutorials. \\
+
+Django was new to the entire team thus we did a lot of research on the technology in the first couple of months while we were 
+creating our documents in the fall. With Django and Python going hand and hand we had an advantage in understanding how to 
+make changes in Django. The biggest item we needed to learn was how the framework is working and how the database interacts 
+with the application itself. In order to do this we continued to read documentation on Django in order to progress in understanding
+it which let to us feeling fairly confident on using Django in the end. \\
+
+The last technology that we had to learn was the docker container and how to run the container. This was a struggle at first as 
+we wanted to use the Windows platform to run the application however there were many library complications that we could not 
+resolve. Instead we began looking into the docker container and how it runs in a Linux environment. The documentation that we 
+found led us to believe that running the container would be a simple process on Linux thus we tried just that. We followed 
+the installation guide from the Docker website and had the container running our application fairly quickly. We learned about 
+docker machine and running the docker service for Linux through the Docker documentation which was easy to understand. \\
+
+We continued to learn as a team and were willing to help one another whenever we got stuck on a topic. The learning process 
+took a huge team effort and contributed to us finishing this project. \\
+
+
 
 \section{What did you learn from all of this? (Justin Bruntmyer)}
 
-\subsection{What Technical Information Did I Learn}
+\subsection{What technical information did you learn?}
+Throughout this project I had the opportunity to learn interesting technical information. The technical information I learned 
+a lot about was interacting with API's of several different websites. This not only taught me how to interact with the API
+calls and parce the information but it also taught me to read technical documentation for those API's. This was sometimes
+frustrating as some websites wrote documentation better than others. Another technical piece of information I learned would
+be how to functionally control Django and create an web application from it. I also learned how to manipulate database fields
+by parsing information and storing that information within models. \\
+
+JavaScript was also a large portion of technical information I learned from this project. The Google Maps section of this project
+was a section I focused heavily on as it interested me. As I continued to learn not only about the Google Maps API but I also 
+learned JavaScript coding as the map was basically JavaScript and forced me to understand technically how JavaScript works. \\
+
+I not only had the chance to learn technical information in computer science topics but I also was able to learn a lot about
+the technical side of documentation. I learned that writing professional documents as good as you can the first time will bring
+better results when it comes to development. Though it is true that documents may need to change such as the Requirements Document
+or the Design Document it is important to create the document the first time to the best of your ability as this saves time
+and frustration. \\
+
+\subsection{What non-technical information did you learn?}
+When reflecting on the project the non-technical information that I learned was mainly how to interact with a client. I learned
+right away that communication was going to be the key to having a successful project. The reason I learned this early on is
+because I noticed the biggest problems we were having as a group was when the client and our team were not on the same page
+for a certain subject. This led to confusion epically when it came to trying to pick a time for having a weekly meeting. This
+also taught me that when you are working with people there are going to be different schedules that you are going to have to 
+work with in order to make everyone happy on meeting times. \\
+
+Another non-technical piece of information I learned from this project was valuing collaboration with your team. With group
+projects in the past, mainly in a class setting of a couple of weeks, I found that the collaboration wasn't all there between
+the members because most people just wanted to get it done with and move on which will get you the grade but doesn't necessarily
+give you the experience you could have obtained. With working in this team I found that as soon as we spent a lot of time with
+one another we began to gel in our coding methods and work with each other to get requirements done correctly, not just done.
+What this collaboration experience ultimately taught me is that working towards the benefit of the group as a whole will lift
+the group and bring the best out of one another. This was the best non-technical information I learned because it will help me
+realize the value of a team as I continue my computer science career. \\
+
+\subsection{What have you learned about project work?}
+
+What I have learned about project work throughout this experience is that client interaction and constant communication is
+very important to make sure that everyone is on the same page. This made weekly meetings a priority that had to be met to 
+make sure that everyone was on the same page with the requirements, progress being made, and questions that needed to be
+answered. I also learned that honesty and communication within the development team is crucial as well. If someone is struggling
+on a certain requirement or on a part of a requirement than it is important to communicate those thoughts with the team as 
+it can lead to pushing past the issue when everyone gives a hand. This will reduce the risk of requirements being stuck for
+many weeks at a time. This means that honesty about being stuck and not knowing a solution is important even if you feel that
+it is non-trivial and you should figure it out. \\
+
+I also learned that it is important to \\
+
+\subsection{What have you learned about project management?}
+
+\subsection{What have you learned about working in teams?}
+
+\subsection{If you could have done it all over, what would you do differently?}
+
 
 \section{What did you learn from all of this? (Megan Goossens)}
 \subsection{What technical information did you learn?}
@@ -1202,6 +1519,16 @@ interpret when some of the requests were over email and we were not able to talk
 with our client on a weekly basis; therefore, there was a lot of extrapolation
 and interpretation for some of the requests which resulted in some features that
 were not in the same intention but ended up satisfying the same needs.
+
+\subsection{What have you learned about project management?}
+In terms of project management, while I did not take the main leadership role in this group project, I believe that I did contribute in a way that required leadership and management that was successful for our performance as a whole. Originally, my role in the group became the scribe and pinpointed issues in some particular efforts in the code. Eventually, as the term progressed, we diverged as a group into similar roles for everyone because each of the group members carried over the same amount of responsibility from each other.
+
+Specifically, there are some aspects of project management that I learned that will carry over to my career and other projects. The most important aspect and knowing the responsibilities of each group member and their task to complete the issue. On plenty of occasions throughout the terms, our group as a whole had deadlines to complete with specific tasks designated for each group member. Although it was not anyone's job specifically to keep others in check, it still became important that as a group, we were consistently progressing to reach our goal to complete each requirement.
+
+\subsection{What have you learned about working in teams?}
+In the real world, especially in the Computer Science field, it will be very rare to start and complete projects that require individual work. On many if not all occasions, projects will be completed in groups ranging from 5 to thousands of different programmers at once. This is due to the aspect of so many features that go into a single program and all checks and debugging that needs to be done. This project is no exception. Even at our development stage, it is an open source project, which means that we as a group are not the only individuals working on the project, but rather, we are contributing to the Apache Software Foundation as a whole.
+
+\subsection{If you could have done it all over, what would you do differently?}
 
 
 \section{PROBLEMS ENCOUNTERED}
