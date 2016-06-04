@@ -1,4 +1,8 @@
 \documentclass[draftclsnofoot,10pt,onecolumn]{IEEEtran} %!PN
+\usepackage{etex}
+
+\usepackage{pgfgantt}
+\usepackage{rotating}
 
 \usepackage[margin=0.5cm]{caption}
 \usepackage{lipsum}
@@ -131,6 +135,9 @@ reached our version 1.0 release.
 \section{INTRODUCTION TO THE PROJECT}
 
 The Community Driven Development project is sponsored by the Apache Software Foundation under Ross Gardler, Director and President of the company. The project was designed and prototyped by Gardler before being proposed to the senior software project class for Oregon State University. Development for the project hopes to achieve more involvement in terms of helping building upon the Open Source Community and helping it grow and gain more traffic. The prototype was regularly used by Gardler and many of the faculty from Apache and is continued to gain interest to the public. The importance of development of the project will promote more growth and allow more tools for users in the community to find and locate more events and get more involved in open source community groups and projects. The students assigned to work on this project were Justin Bruntmyer, Megan Goossens, and Hai Nguyen. Each member took upon equal and separate roles for the project. No specific roles were assigned as each member took part in doing part of the work for every task. Ross Gardler provided the initial prototype while the project was improved and implemented with the requested features as the term progressed.
+
+\newpage
+\tableofcontents
 
 \newpage
 
@@ -351,7 +358,7 @@ See gantt chart on next page.
 
 \includepdf[pages={8, 9}, pagecommand={}]{Requirements_Document2.pdf}
 
-\section{Changes to the Requirements}
+\section{CHANGES TO THE REQUIREMENTS}
 After continuous work on this project, the perspective on what
 this community development tool wants to accomplish became clear. After taking
 more time to read and understand the code that was previously written for the
@@ -368,7 +375,7 @@ can use to find events, view community leader profiles, and get involved.\\
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \begin{center}
-\begin{longtable}{ | C{1cm} | C{7cm}| C{6cm} | C{2cm} |} 
+\begin{longtable}{ | C{1cm} | C{2cm}| C{11cm} | C{3cm} |} 
 \hline
 REQ\# & Requirement & What Happened To It & Comments \\ 
 \hline
@@ -392,7 +399,10 @@ REQ\# & Requirement & What Happened To It & Comments \\
     implementation of the fix for the People page is local. We have yet to test it
     on the host that Apache is using to run the prototype currently. We predict that
     the fix will work but it will need to be approved and patched into the live site
-    for clarification. & blah\\ 
+    for clarification. & The biggest change made for this requirement is realizing
+    that the problem was in the prototype as the people page was trying to display
+    a large amount of tables that was causing the browser to crash. The bug was found
+    and taken out of the code and the people page now loads normally.\\ 
 \hline
 2 & Tweet at a person listed in database & Each person who is imported into the
     application is generated their own profile page based off of their Meetups ID.
@@ -542,12 +552,75 @@ REQ\# & Requirement & What Happened To It & Comments \\
 \end{longtable}
 \end{center}
 
+\subsection{Updated Gantt Chart}
+
+\begin{sidewaysfigure}
+
+\centering
+\begin{ganttchart}[y unit title=1cm,
+y unit chart=1cm,
+vgrid,hgrid, 
+title label anchor/.style={below=-1.6ex},
+title left shift=.05,
+title right shift=-.05,
+title height=1,
+bar/.style={fill=gray!50},
+incomplete/.style={fill=white},
+progress label text={},
+bar height=0.7,
+group right shift=0,
+group top shift=.6,
+group height=.3,
+group peaks height =.2
+]
+{1}{34}
+%labels
+\gantttitle{Project}{34} \\
+\gantttitle{Sep}{1} 
+\gantttitle{Oct}{4} 
+\gantttitle{Nov}{4} 
+\gantttitle{Dec}{4} 
+\gantttitle{Jan}{4} 
+\gantttitle{Feb}{4} 
+\gantttitle{Mar}{4} 
+\gantttitle{Apr}{4} 
+\gantttitle{May}{4}  
+\gantttitle{Jun}{1}\\
+%tasks
+\ganttbar{Fix the "People" page}{1}{2} \\
+\ganttbar{Tweet at a person}{3}{8} \\
+\ganttbar{Add user accounts}{9}{10} \\
+\ganttbar{List tweets via app}{11}{15} \\
+\ganttbar[progress=33]{List tweets via not app}{20}{22} \\
+\ganttbar{Export list of people}{18}{19} \\
+\ganttbar{Improve hashtag searching}{16}{18} \\
+\ganttbar[progress=0]{Implement a system of finding events}{21}{34} \\
+\ganttbar{Add feature to generate profiles}{26}{28} \\
+\ganttbar{Improve visuals}{28}{30}
+%relations
+
+\ganttlink{elem0}{elem1} 
+\ganttlink{elem0}{elem3} 
+\ganttlink{elem1}{elem2} 
+\ganttlink{elem3}{elem4} 
+\ganttlink{elem1}{elem5} 
+\ganttlink{elem3}{elem5} 
+\ganttlink{elem2}{elem6} 
+\ganttlink{elem3}{elem6} 
+\ganttlink{elem5}{elem7} 
+\end{ganttchart}
+
+\caption{Gantt Chart - Workplan}
+
+\end{sidewaysfigure}
+
+\newpage
 
 %The design document is inserted here.
-\section{Design Document}
+\section{DESIGN DOCUMENT}
 
-\begin{enumerate}
-\item FRONTSPIECE \\
+%\begin{enumerate}
+\subsection{Frontpiece}
 	\begin{enumerate}
 	
 		\item Date of Issue and Status \\
@@ -563,11 +636,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
 		Current developers contributing to the community tool include Ross Gardler, Justin Bruntmyer, Hai Nguyen, and
 		Megan Goossens. Ross Gardler, president of Apache, is the original developer for the project.\\
 		
-		\item Change History \\
+		\item Change History
 		
 	\end{enumerate}
 	
-\item INTRODUCTION \\
+\subsection{Introduction}
 	\begin{enumerate}
 	
 		\item Purpose \\
@@ -595,7 +668,7 @@ REQ\# & Requirement & What Happened To It & Comments \\
 		interface, and authentication system. \\
 	\end{enumerate}
 
-\item REFERENCES \\
+\subsection{References}
 	\begin{enumerate}
 	
 		\item IEEE Standard for Information Technology--Systems Design--Software Design Descriptions, 1st ed. IEEE, 2009. \\
@@ -613,7 +686,7 @@ REQ\# & Requirement & What Happened To It & Comments \\
 		
 	\end{enumerate}
 
-\item GLOSSARY
+\subsection{Glossary}
 
 \begin{longtable}[1]{ | C{7cm} | C{7cm} |} 
 \hline
@@ -647,7 +720,7 @@ Meetup & Meetup.com
 \hline
 \end{longtable}
 
-\item BODY \\
+\subsection{Body}
 	\begin{enumerate}
 		\item Identified Stakeholders and Design Concerns \\
 		For the stakeholders, the tools support and help the Apache Software Foundation. Specifically, Ross Gardler is the
@@ -922,7 +995,7 @@ Meetup & Meetup.com
 				to users on the website as well as stored in the database for future reference. \\
 			\end{enumerate}
 	\end{enumerate}
-\end{enumerate}
+%\end{enumerate}
 
 \subsection{Discussion on Design Document}
 Throughout the course of the year we have had to change many things for the design of our systems to due to either limitations we encountered or figuring out that our original design plan was not going to work. In this discussion we are going to look at each original design that we had to change and talk about what we had to change in order to be successful in this project.\\
@@ -933,12 +1006,12 @@ The 'tweet at a person listed in the database' design was fairly accurate with o
 
 For the 'Add user accounts and track when a user has tweeted an event' we successfully implemented our original design except for one aspect which is the tracking when a user tweets an event. Based on our design the Django framework was suppose to keep track of when the user is tweeting but instead Hoot Suite handled all of that. We decided that it would not be worth it to add the complication with the Hoot Suite to the design. The design is still accurate with the implementation of account creation and signing in to the application and the database interaction is the same using the models in the Django framework. \\
 
-STUFF ABOUT TWEETS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \\
+The listing tweets functionality is done by querying the Twitter with API calls searching for the appropriate hashtags associated with the tweets from our application and not from out application. The tweets are straight from Twitter and are parsed and displayed using HTML on the tweets section of the application. This way we are able to see tweets based on the hashtags that are selected and what have been tweeted from the application as well. \\
 
 Looking through the design document we created at the beginning of this project the above discusses what changes we had to make in the design decisions for certain requirements. The other requirements kept the design we created although implementation struggles would cause us to change the way items were implemented mainly because we were learning techniques throughout this project. Ultimately, we feel that the design decisions made at the beginning of this project were sound.
 
 %Tech review is inserted here.
-\section{Technology Review}
+\section{TECHNOLOGY REVIEW}
 
 \subsection{Goal of Project} 
 The goal of this project is to build connections, collaborations, and identifications between community members and leaders
@@ -946,13 +1019,13 @@ in open source projects. This entails contributing to Apache Software Foundation
 that identify and support community leaders and members. Better tools will help identify potential community leaders which
 will then allow community builders to engage with and support those leaders. Over the course of the project, consistent
 updates check what tools were used as intended and which ones could be improved and expanded. Evaluation of the tools
-implemented is done in order to measure its significance and effectiveness. \\
+implemented is done in order to measure its significance and effectiveness. 
 
 \subsection{Components and Technologies}
 For this project we have broken down the technologies we could use into three different pieces which come together as part
 of the entire system: Web Application Framework, Backend Data Storage, User Interface, and User and Group Management
 System. Below you will find research done for the individual technologies available for these pieces along with a selection
-our team is using for the main system. \\
+our team is using for the main system. 
 
 \subsection{Web Application Framework}
 
@@ -960,7 +1033,7 @@ our team is using for the main system. \\
 As our project involves a website, we will need a web application framework to build it on. A web application framework is
 software that is designed to help with the development of websites, web applications, and more. A framework aims to help
 alleviate the overhead that comes with web development, with libraries that help with tasks such as database access and
-templating web pages. Possible frameworks are as follows:
+templating web pages. Possible frameworks are as follows: \\
 
 	\begin{itemize}
 		\item Django
@@ -974,7 +1047,7 @@ Django is a free, open source, high-level Python web application framework which
 pluggability of components, rapid developments, and the “don’t repeat yourself” principle. It provides an optional dynamic
 admin interface, which is controlled in a similar way as other portions of the framework, by models. Django also has a
 database migration system to make migrations easier, as well as a testing framework to make testing your web app easier. It
-can be used for both front-end and back-end applications.\\
+can be used for both front-end and back-end application. \\
 
 \subsubsection{AngularJS}
 AngularJS is a free, open source, JavaScript web application framework designed to help with developing single-page
@@ -996,7 +1069,7 @@ repeat yourself (DRY), and the active record pattern. \\
 Our project already has a prototype, which uses Django. We will continue to use Django, because it is both already
 implemented, and a good, solid, easy to use framework that suits our needs. With the models, views, templates,
 administration, and database management, it will make our task much easier. Our other options require quite a bit more workto do the same things in another framework, and even more work for us re-implementing all the features that are currently
-there. \\
+there. 
 
 \subsection{Back-end - Data Storage Piece}
 
@@ -1094,7 +1167,7 @@ Based on the prototype that has been implemented already we have decided to sele
 as it works great with Django. With the advantage of easily integrating other coding languages into the website means that
 we can add other language features as well. HTML also has a lot of UI features working with Django and with the security of
 HTML being very good we think this is the best technology for our webpage user interface. JavaScript and PHP both have
-their benefits but we feel that HTML is the best fit for our project. \\
+their benefits but we feel that HTML is the best fit for our project. 
 
 \subsection{User and Group Management System}
 
@@ -1154,7 +1227,7 @@ from doing so give our team greater advantages then choosing the AD or LDAP meth
 Django web framework it will be much easier to implement the authentication system as the tools necessary are already at
 our disposal. AD and LDAP are good systems however the complexity of their implementations and how they seem to have
 limitations on interacting with other systems means it is less portable. Django as our framework is the main reason for
-selection but the system also offers portability, good documentation, and simplicity. \\
+selection but the system also offers portability, good documentation, and simplicity. 
 
 \subsection{Discussion on Tech Review}
 
@@ -1206,10 +1279,6 @@ Now that events have been pulled in we can pull the information for the people a
 Once all of the information has been imported a user can export information about people or events using the export button at the top of the associated page for events and people. The exported lists includes biography information, twitter handles, start times, etc. that is information pertinent for the events or for the people. The login structure is also run by the Django framework with the Django authentication system which keeps track of the usernames and passwords created. The authentication checks the database with the credentials submitted at login and allows the user to login or be denied. Once a user has logged in they have full access to importing functions or marking groups as not applicable. \\
 
 All of the technology that operates for this project is happening in a docker container. A docker container's wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in. The docker container wraps up our Django application so that it can be run on a local machine in order to be developed on. This is also how the application can be hosted on a web server. Our client and the team that worked on this before us found this to be the best way to run the application for development purposes. The docker container is running as a service on the local machine to open the local host to hosting the application.
-
-The structure of the project can be shown in the diagram below:
-
-
 
 \subsection{How to Install \& Run Application}
 
@@ -1312,7 +1381,7 @@ The way our team developed on the project was using the docker container for Lin
 	
 \end{enumerate}
 
-\section{How did you learn the new technology?}
+\section{HOW DID YOU LEARN THE NEW TECHNOLOGY?}
 
 Throughout the project the main technologies that were new to us that we needed to learn were Twitter \& Meetup \& Google Maps API
 calls and how they worked, JavaScript, Django, and Docker Containers. With all of these technologies there was a learning curve 
@@ -1357,7 +1426,7 @@ took a huge team effort and contributed to us finishing this project. \\
 
 
 
-\section{What did you learn from all of this? (Justin Bruntmyer)}
+\section{WHAT DID YOU LEARN FROM ALL OF US? (Justin Bruntmyer)}
 
 \subsection{What technical information did you learn?}
 Throughout this project I had the opportunity to learn interesting technical information. The technical information I learned 
@@ -1414,7 +1483,7 @@ I also learned that it is important to \\
 \subsection{If you could have done it all over, what would you do differently?}
 
 
-\section{What did you learn from all of this? (Megan Goossens)}
+\section{WHAT DID YOU LEARN FROM ALL OF US? (Megan Goossens)}
 \subsection{What technical information did you learn?}
 I learned a lot about working with APIs during this project, which surprised me,
 as I didn't expect that to be one of the things we were going to work with. I
@@ -1462,7 +1531,7 @@ to understand exactly what this project is about. We spent a lot of time trying
 to understand what our client wanted from each requirement, time that would have
 been better spent fulfilling them.
 
-\section{What did you learn from all of this? (Hai Nguyen)}
+\section{WHAT DID YOU LEARN FROM ALL OF US? (Hai Nguyen)}
 
 \subsection{What technical information did you learn?}
 While working on the project, there were many technical concepts that challenged
