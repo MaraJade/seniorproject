@@ -1442,7 +1442,14 @@ another thing to see exactly how wrong you were.
 Firstly, I learned that it is extremely frustrating to have a client that is
 difficult to contact. It helps to set up a regular meeting with such a client,
 though it is a good idea to make sure that everyone is clear on the days and
-times of the meetings. 
+times of the meetings. Even if you have regular meetings, though,
+miscommunications still happen, and things may need to be clarified multiple
+times before everyone is on the same page.
+
+\subsection{What have you learned about project management?}
+I learned that it is possible to have a group that functions very well even if
+there are no assigned roles. Though there was nobody nominally in charge, we all
+held each other accountable.
 
 I learned quite a bit from this project. On the technical side, I learned a lot
 about interfacing with APIs, and how documentation can either make them easy to
@@ -1601,4 +1608,248 @@ approved by our client, professor, and TA. This halted our progress by being an
 unnecessary step in the implementation process as it should have been completed
 last term.
 
+\section{Appendix}
+\subsection{Essential Code Listings}
+\begin{center}
+  \captionsetup{width=.5\linewidth}
+  \begin{lstlisting}[caption=Views.py showing the Twitter authorization and
+        search for tweets from the application., language=Python]
+
+      def _twitterAuth():
+          # Encode the keys
+          key = base64.b64encode(TWITTER_API_KEY)
+
+          # Set needed values
+          authURL = "https://api.twitter.com/oauth2/token"
+          content_type = "application/x-www-form-urlencoded;charset=UTF-8"
+          body = "grant_type=client_credentials"
+
+          # Create the header
+          authHeaders = {'Content-Type': content_type, 'Authorization': "Basic " + key}
+          # Get auth
+          auth = requests.post(authURL, headers=authHeaders, data=body)
+          # Get the response in a useable format
+          authJSON = auth.json()
+          
+          return authJSON['access_token']
+
+      # Gets html from Twitter to embed the tweets nicely
+      def _oembedTweets(tweets):
+          # Get the hashtags
+          hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+          oembed = dict()
+          for hashtag in hashtags:
+              oembed[hashtag.name] = []
+              for i in range(0, len(tweets[hashtag.name]) - 1):
+                  url = "https://api.twitter.com/1/statuses/oembed.json?id=" + str(tweets[hashtag.name][i])
+                  embededResponse = requests.get(url)
+                  # Get the json so that the data can actually be accessed
+                  embeded = embededResponse.json()
+                  # Only need the html for the template
+                  oembed[hashtag.name].append(embeded['html'])
+
+          return oembed
+
+      def tweetsNotApp(request):
+          # Auth with twitter
+          accessToken = _twitterAuth()
+
+          # Get the hashtags
+          hashtags = Hashtag.objects.all().exclude(name = "Meetup")
+
+          # Gets all the tweets containing the hashtags
+          # Keeps them seperated by hashtag for viewing
+          allTweets = dict()
+          for hashtag in hashtags:
+              allTweets[hashtag.name] = []
+              url = "https://api.twitter.com/1.1/search/tweets.json?q=%23" + hashtag.name + "&src=typd"
+              headers = {'Authorization': "Bearer " + accessToken}
+              response = requests.get(url, headers=headers)
+              # Gets the json version so that the data can actually be accessed
+              tweetsJSON = response.json()
+              for tweet in tweetsJSON['statuses']:
+                  # Only need the id to get the oembed data
+                  allTweets[hashtag.name].append(tweet['id'])
+
+          oembed = _oembedTweets(allTweets)
+
+          return render(request, 'tweets/notApp.html', {'tweets': oembed})
+  \end{lstlisting}
+\end{center}
+
+\begin{center}
+  \captionsetup{width=.5\linewidth}
+  \begin{lstlisting}[caption=Views.py showing the importing of hosts of the 
+                      events, language=Python]
+      def importHosts(hostID):
+          log = Log()
+          log.description = "Hosts imported"
+          log.action_type = Log.EVENT_IMPORT
+          log.save()
+
+          # New API call to get a specific persons information based on the Host ID
+          url = "https://api.meetup.com/2/member/"+ str(hostID) +"?offset=0&format=json&photo-host=public&page=500&sig_id=148657742&key=" + MEETUP_API_KEY
+          response = urllib2.urlopen(url)
+          result = response.read()
+
+          data = json.loads(result)
+          hostsInfo = data
+
+          #for hostsInfo in data:
+          try:
+              host = Host.objects.get(meetupID = hostsInfo['id'])
+          except Host.DoesNotExist:
+              host = Host()
+          try:
+              host.country = hostsInfo['country']
+              host.fullName = hostsInfo['name']
+              host.city = hostsInfo['city']
+              host.state = hostsInfo['state']
+              visited = float(str(hostsInfo['visited'])[0:-3])
+              host.lastVisit = datetime.utcfromtimestamp(visited)
+              if 'lon' in hostsInfo.keys():
+                  host.longitude = hostsInfo['lon']
+              if 'lat' in hostsInfo.keys():
+                  host.latitude = hostsInfo['lat']
+              host.url = hostsInfo['link']
+              #Gathering the other service information for the hosts, looking for Twitter
+              if 'other_services' in hostsInfo.keys():
+                  if 'twitter' in hostsInfo['other_services'].keys():
+                      if 'identifier' in hostsInfo['other_services']['twitter'].keys():
+                          host.service = hostsInfo['other_services']['twitter']['identifier']
+              host.save()
+
+              if 'topics' in hostsInfo.keys():
+                  for topic in hostsInfo['topics']:
+                      try:
+                          record = HostTopic.objects.get(meetupID = topic['id'])
+                      except HostTopic.DoesNotExist:
+                          record = HostTopic()
+                      record.urlkey = topic['urlkey']
+                      record.name = topic['name']
+                      record.meetupID = topic['id']
+                      record.save()
+                      host.topics.add(record)
+
+
+              person.save()
+          except:
+              print('Unable to save Host object: '), sys.exc_info()[0], sys.exc_info()[1]
+  \end{lstlisting}
+\end{center}
+
+\begin{center}
+  \captionsetup{width=.5\linewidth}
+  \begin{lstlisting}[caption=eventSearch.html showing JavaScript that creates
+  the map for the events search, language=JavaScript]
+    <script>
+      // Initiating the map here.
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 44.5645659, lng: -123.2620435},
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+       
+        if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = {
+                 lat: position.coords.latitude,
+                 lng: position.coords.longitude
+              };
+              
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('You are here!');
+              map.setCenter(pos);
+              }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+              });
+         } else {
+           //if stuff doesnt work
+           handleLocationError(false, infoWindow, map.getCenter());
+         }
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+        var markers = [];
+        var cirlces = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        // Loop through the upcoming_events_lists and gather each events lat and lon to create
+        // the markers associated with it.
+        {% for even in upcoming_events_list %}
+              var myLatLng = {lat: {{even.latitude}}, lng: {{even.longitude}}};
+              var marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                  title: '{{ even.name }}'
+              });
+        {% endfor %}
+        searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+        if (places.length == 0) {
+          return;
+        }
+        
+        //Clear out the old markers.
+        markers.forEach(function(marker) {
+          circles.forEach(function(circle) {
+            circle.setMap(null);
+          });
+          marker.setMap(null);
+        });
+        markers = [];
+        circles = [];
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+          map: map,
+          icon: icon,
+          title: place.name,
+          position: place.geometry.location
+        }));
+        // Create a circle for each place searched.
+        circles.push(new google.maps.Circle({
+          map: map,
+          radius: 16093, //10 mi radius
+          strokeWeight: 1,
+          fillColor: '#AA0000',
+          fillOpacity: 0.20,
+          center: place.geometry.location
+        }));
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+        map.fitBounds(bounds);
+      });
+     }
+     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service is unavailable.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+     }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46B8dAoEQyc1tdHK89306TdQD_Ox6iw0&libraries=places&sensor=true&callback=initMap"
+         async defer></script> 
 \end{document}
