@@ -358,18 +358,15 @@ See gantt chart on next page.
 \includepdf[pages={8, 9}, pagecommand={}]{Requirements_Document2.pdf}
 
 \section{CHANGES TO THE REQUIREMENTS}
-After continuous work on this project, the perspective on what
-this community development tool wants to accomplish became clear. After taking
-more time to read and understand the code that was previously written for the
-prototype, we can see clearly how the data is organized and connected
-using Django and its tools. First and foremost, the purpose of the community
-development tool remains the same. The purpose is to gather information from
-meetup.com which is the website we are pulling information about events and people from.
-Next we parse that information into a list of upcoming events related to
-Apache and open source projects so that developers in the open source community
-have an easy way to access an environment where they can hope to participate in those
-events. The ultimate goal of this project is to create a set of tools that eager developers
-can use to find events, view community leader profiles, and get involved.\\
+Throughout the project there have been some changes to the original requirements
+document as we went along in development. Some items had to be adjusted to meet
+the needs of the client and some had to be changed due to the lack of information 
+we could gather or just couldn't accomplish. Things such as generating profiles
+for people gained some features with creating event hosts profiles but there
+were also requirements that lost some functionality such as the tracking a user
+with the accounts in our application. Below is a table illustrating how the requirement
+turned out in our version 1.0 release and what changes were made. There are also
+comments explaining some changes and experiences throughout the year. \\
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
@@ -1038,8 +1035,6 @@ For the 'Add user accounts and track when a user has tweeted an event' we succes
 
 The listing tweets functionality is done by querying the Twitter with API calls searching for the appropriate hashtags associated with the tweets from our application and not from out application. The tweets are straight from Twitter and are parsed and displayed using HTML on the tweets section of the application. This way we are able to see tweets based on the hashtags that are selected and what have been tweeted from the application as well. \\
 
-Looking through the design document we created at the beginning of this project the above discusses what changes we had to make in the design decisions for certain requirements. The other requirements kept the design we created although implementation struggles would cause us to change the way items were implemented mainly because we were learning techniques throughout this project. Ultimately, we feel that the design decisions made at the beginning of this project were sound.
-
 %Tech review is inserted here.
 \section{TECHNOLOGY REVIEW}
 
@@ -1262,26 +1257,23 @@ selection but the system also offers portability, good documentation, and simpli
 \subsection{Discussion on Tech Review}
 
 Looking back at the technologies we have chosen for this project it is interesting to point out that we kept all of our selections 
-for the areas of user interface, data storage, authentication, and web application framework. The Django web framework was 
-heavily implemented into the prototype that we received at the beginning of the project which fit perfect for what this project 
-is trying to accomplish thus we continued with the Django framework. The PostgreSQL database continued to full fill our needs of 
-what we wanted the database to do thus we continued to use it. The authentication from Django was also perfect for the job. \\
+for the areas we researched. The Django web framework was heavily implemented into the prototype that we received at the 
+beginning of the project which fit perfect for what this project is trying to accomplish thus we continued with the Django
+framework. The PostgreSQL database continued to full fill our needs of what we wanted the database to do thus we continued 
+to use it. The authentication from Django was also perfect for the job. \\
 
 What is great is that we ended up adding more technologies to the application as we continued developing. One important 
 technology that was added is JavaScript. Throughout working with the Google Maps API and other HTML sections of web pages, 
 JavaScript turned out to be very useful in implementing features such as the tweet at a person social share button. JavaScript 
-also played a major role in the implementation of the Google Map used to display the locations of the events that have been 
-imported from the Meetup website. We also utilized the API technologies for Google Maps, Meetup, and Twitter to accomplish 
-the requirements at hand. \\
+also played a major role in the implementation of the Google Map used to display the locations of the events. \\
 
-Other than the addition of JavaScript and utilizing API calls we stayed true the our technology decisions throughout the project 
-to accomplish our goals. \\
+\section{Group Expo Poster}
+
+\includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \includepdf[pages={1}, pagecommand={\section{BLOG POSTS}}]{Blog_Posts.pdf}
 \includepdf[pages={2-}, pagecommand={}]{Blog_Posts.pdf}
 
-
-\includepdf[pages={-}, pagecommand={}, angle=90]{poster.pdf}
 
 \section{PROJECT DOCUMENTATION}
 
@@ -1474,7 +1466,7 @@ I not only had the chance to learn technical information in computer science top
 the technical side of documentation. I learned that writing professional documents as good as you can the first time will bring
 better results when it comes to development. Though it is true that documents may need to change such as the Requirements Document
 or the Design Document it is important to create the document the first time to the best of your ability as this saves time
-and frustration. \\
+and frustration. 
 
 \subsection{What non-technical information did you learn?}
 When reflecting on the project the non-technical information that I learned was mainly how to interact with a client. I learned
@@ -1491,7 +1483,7 @@ give you the experience you could have obtained. With working in this team I fou
 one another we began to gel in our coding methods and work with each other to get requirements done correctly, not just done.
 What this collaboration experience ultimately taught me is that working towards the benefit of the group as a whole will lift
 the group and bring the best out of one another. This was the best non-technical information I learned because it will help me
-realize the value of a team as I continue my computer science career. \\
+realize the value of a team as I continue my computer science career. 
 
 \subsection{What have you learned about project work?}
 
@@ -1504,14 +1496,59 @@ it can lead to pushing past the issue when everyone gives a hand. This will redu
 many weeks at a time. This means that honesty about being stuck and not knowing a solution is important even if you feel that
 it is non-trivial and you should figure it out. \\
 
-I also learned that it is important to \\
+I also learned that it is important to it is good to continue to set goals for yourself the entire progress of the project.
+Instead of stopping and celebrating about a section of the project you completed, it is important to plan out how you are
+going to tackle the next section of the project. I learned this by not setting very many goals at the beginning of
+winter term and I could feel the pressure towards the end of that term. It is good to keep yourself in check to
+keep on top of your work.
 
 \subsection{What have you learned about project management?}
 
+What I have learned about project management was just how valuable weekly meeting were. At the start of the project
+it was very difficult to find time to video chat with out client which led to miss-communication on requirements
+and a lot of questions unanswered. Once we began to have a weekly meeting where we had the itinerary of discussing
+what we accomplished this week, what we have questions about, and what we plan to get done in the next week things
+began to operate a lot smoother within the group. This taught me the value of consistent check-ins with the clients
+you are working with and with your group-mates as well which led to better project management. \\
+
+Throughout this project I also learned how difficult it can be to merge different people's schedules together in
+order to set up meetings or event times to develop. Our client is a very busy man working with Microsoft and Apache
+that it was difficult to find time to sit down and talk with him. It was also difficult in our own groups to decide
+when to meet and develop as we have class schedules, work schedules, and homework for other courses. Though this has
+taught me how difficult it can be it also taught me its not impossible to accomplish. Once everyone works together
+to mesh schedules things work out fine in the end.
+
 \subsection{What have you learned about working in teams?}
+
+With working in a team I found that being accountable for your work is important and also just how valuable being on
+a team can be. Throughout this project I learned that my work means something to the team I am apart of which drove me
+to do my best work. I knew that when I was creating a features for the project my team members were counting on me
+to do my best work for the success of the project. With this accountability I was able to push myself and give my
+best in everything I did for this project. Which brings me to knowing the value of working with a team. I learned that
+being on a team can bring some of the best work to a project. With different ideas and methods collaborating together
+in order to get the project to its full potential it is a great experience to be apart of.
 
 \subsection{If you could have done it all over, what would you do differently?}
 
+If I could do this project all over there are two main areas of the project I would address differently. The first is
+the projects beginning documentation and the second is just getting started earlier. When we began this project in the
+fall term of courses the main objective was completing documentation for the development process of the project. As I 
+look back now I can see that my main focus was just to get the documentation done so we could focus on the fun part, which
+is development. I quickly learned that we did not make our documentation good enough, especially our requirements document.
+Thus I would approach creating documentation much more seriously then I did before because the more time and effort spent
+on creating those documents means the less frustration time you would have during development. \\
+
+I also would start earlier on the project. During the academic winter break I treated the project as course work and did
+not touch any code or think about how I would approach the requirements we have set for ourselves. Also, when I returned
+I felt that we had plenty of time to get things done. I quickly learned that there would be many late nights and long
+days of development as we approached Expo simply because we didn't get the ball rolling soon enough. If I were to do this
+project again I would definitely get a head start in order to avoid pressure for the team. \\
+
+Ultimately, I had a great time being apart of this project and I would do it all over again. I was very fortunate to have 
+one of the best teams I have worked with in my computer science career at Oregon State. I also was given a helpful TA that
+would help not only on items that we were being graded on but also on our project itself. Working with our client Ross Gardler
+was also a great experience as he was interested in our learning of how industry development works and really worked with us
+to get this project completed.
 
 \section{WHAT DID YOU LEARN FROM ALL OF US? (Megan Goossens)}
 \subsection{What technical information did you learn?}
@@ -1662,78 +1699,7 @@ In regards to our client, his requirements that were listed were sometimes not c
 
 For our group, tasks were sometimes not detailed clearly enough and at times there were points where we were working to complete the same task at the same time where valuable time could be spent on working on different features.
 
-
-\section{PROBLEMS ENCOUNTERED}
-
-Throughout this term we have encountered many problems that have impeded our
-progress for this project. This was to be expected as with all projects.  Events
-occur that can halt progress and bring forth challenges that, as a group, we
-needed to overcome. The problems that we have faced are listed below along with
-the methods we used to get through the situation. We also ran into the occasioin
-coding block where we would have days where not much progress was obtained.
-However, we feel this did not impeded our progress as it is just part of being a
-computer scientist.
-
-\subsection{Problem 1}
-Deciding which platform we were going to be developing on using Docker. This was
-a major issue as we originally planed to work with the Windows operating system
-however we could not get the application to run locally on a Windows platform.
-We continually ran into errors with creating a local database along with having
-the right Docker tools to support the application. We had available resources
-such as a README file that gave insight on the problem but whatever we tried did
-not seem to work. We eventually shifted gears and decided to try Docker and the
-application on Linux, specifically Ubuntu 14.04. Thanks to the Linux knowledge
-of Megan Goossens and plenty of online documentation we were able to get Docker
-installed successfully along with running the application on a local host. From
-this point we decided to continue developing in the Linux environment.
-
-\subsection{Problem 2}
-At the end of the Fall 2015 term we set up a weekly meeting with our client
-throughout Winter 2016 to discuss implementation details for the week and
-planned to utilize this time to make sure everyone is on the same page. Due to
-some miss-communication we were unable to meet with our client for the first two
-weeks. This halted our progress with because we had a lot of issues with getting
-Docker to work with Windows and we were counting on a meeting with our client to
-resolves those issues as soon as possible. We eventually got in contact with our
-client and figured out what was happening as the first week our client was on an
-unexpected trip to the UK and in the second week our client did not realize that
-these meetings occurred every week throughout the term. These things happen and
-once we all had a chance to get on the same page every weekly meeting is going
-smoothly. This problem also happened at the beginning of the spring term. A new
-weekly meeting time was set up with our client however our client believed that
-our first meeting was in the middle of June. This was a problem as we tried to
-set up a new meeting time but our client was very busy with travel and vacation
-that we were not able to meet with him three weeks prior to expo. Email communication
-was very difficult as well.
-
-\subsection{Problem 3}
-During week three of Winter 2016 we ran into the issue of meetings being
-cancelled due to illness and injury. One of our team members experience an injury
-that caused a full group meeting with a TA to occur which halted our progress in
-having to get everyone caught up on the same page. This same week another group
-member became sick and could not make it to two meetings for the week which
-meant that two people could not make it so two meetings were cancelled out of the
-weekly three meetings we have as a group. However, we were
-able to work individually at home but it was still a noticeable disruption from
-the normal work we produce in a week. It did not seem like it was going to
-effect the group at first however when we began to get back on track it took
-some adjustments to makes sure everyone was on the same page and try to make up
-for the week we missed.
-
-\subsection{Problem 4}
-During the first week of the term we began developing based on the requirements
-we had listed in our requirements document. The problem we ran into here was
-that we had issues understanding what are requirements were trying to say thus
-we went through the document and changed the language used for the requirements.
-This did not change the requirement but it made it easier to understand if
-someone is reading through it. This took a days worth of progress which was
-frustrating due to the fact that we believed to have this done last term. We
-currently are happy with the updated requirements document as it has been
-approved by our client, professor, and TA. This halted our progress by being an
-unnecessary step in the implementation process as it should have been completed
-last term.
-
-\section{Appendix}
+\section{Appendix 1}
 \subsection{Essential Code Listings}
 \begin{center}
   \captionsetup{width=.5\linewidth}
@@ -1979,4 +1945,151 @@ last term.
          async defer></script> 
     \end{lstlisting}
     \end{center}
+    
+\section{Appendix 2}
+
+\subsection{People Page Picture}
+
+\begin{figure}[H]
+  \begin{center}
+	\includegraphics[width=5in, frame]{peoplePage}
+	\captionsetup{width=.4\linewidth}
+	\centering
+  \caption{The people page displaying the profile links for the people that have been imported into the application.}
+  \end{center}
+\end{figure}
+
+\subsection{Tweet at Person Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=3in, frame]{tweet_person1}
+  	\captionsetup{width=.4\linewidth}
+  \centering
+  \caption{The button that is displayed when a user has a twitter handle that is publicly available on Meetups that allows a user to tweet at the person.}
+
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=3in, frame]{tweet_person2}
+  	\captionsetup{width=.4\linewidth}
+  \centering
+  \caption{The HootSuite service is used to send the tweet at the person as we supply the twitter handle and it is up to the user to use their Twitter account to tweet.}
+
+  \end{center}
+\end{figure}
+
+\subsection{Create Account Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=3in, frame]{createAccountForm}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Example usage of the create account form. }
+
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=3in, frame]{loginSuccess}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing created user actually signing into the website. }
+
+  \end{center}
+\end{figure}
+
+\subsection{Tweets Page Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=6in, frame]{listingTweets}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing our application listing the tweets that are located on twitter. }
+
+  \end{center}
+\end{figure}
+
+\subsection{Export Lists Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=5in, frame]{exporting1}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing export button executing. }
+
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=6in, frame]{exporting2}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing the list of exported information about people that were imported. }
+
+  \end{center}
+\end{figure}
+
+\subsection{Event Search Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=5in, frame]{mapSearching}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing the map of where you can search a location to see nearby events, also listing events locations. }
+
+  \end{center}
+\end{figure}
+
+\subsection{People/Event Hosts Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=6in, frame]{peopleProfile}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing profile generated for person along with a twitter handle for a method of contacting. }
+
+  \end{center}
+\end{figure}
+
+\subsection{Improving Visuals Pictures}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=5in, frame]{peopleProfileAfter}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Showing updated generated profile for person with 
+  organized attributes and scrollable text }
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+  
+  \includegraphics[width=5in, frame]{eventPageAfter}
+  \captionsetup{width=.4\linewidth}
+  \centering
+  \caption{Updated event page with description labels and reorganized arrangements
+  with details}
+  \end{center}
+\end{figure}
+
 \end{document}
