@@ -406,14 +406,14 @@ REQ\# & Requirement & What Happened To It & Comments \\
     community development tool. Those profiles include displaying the twitter handle
     of the person. This was done by changing the Meetup API request so that we could
     get the correct information and then store that information in our database.
-    This can be seen in code snippet 1 located below with the URL shown along with
+    This can be seen in the code located below with the URL shown along with
     the 'if' statements to locate the twitter handle. This allows the user to get in
     contact with the person in a profile. Above the twitter handle is a button that
     has the Twitter symbol which allows the user to click and send a tweet at the
     person via Hoot-suite. The hoot-suite app is given the twitter handle of the
     person the user wants to tweet at and the URL of the persons page on our
     application for reference. The user signs in to compose the tweet and sends it
-    under their Twitter account. The code snippet 2 located below shows the HTML
+    under their Twitter account. The code also uses the HTML
     encoding of the button used to create the Hootsuite connection and shows the
     retrieval of the twitter handle form the database with 'person.service'. Not all
     users have a Twitter handle registered with Meetups thus the tweet button does
@@ -446,7 +446,7 @@ REQ\# & Requirement & What Happened To It & Comments \\
 \hline
 4 & List tweets about events and/or people via the app &  We were unable to
     track the precise tweets made from our application, but we have found an
-    alternative that mostly works. As shown in the code snippet, the website makes a
+    alternative that mostly works. The website makes a
     call to Twitter's search API, requesting all tweets that contain a certain
     hashtag as well as the hashtag \#Meetup. The hashtags are the same as the ones
     used to get events from meetup.com. Once it has the tweets, it uses the id from
@@ -515,11 +515,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
     200 mile radius circle to show what events are within 200 miles of the user. In
     order to get the markers of each event to show up on the map the latitude and
     longitude of each event needed to be stored and accessed by the map. This was
-    done by a Meetups API call as shown in code snippet 3. Once the API call is made
+    done by a Meetups API call. Once the API call is made
     the json object is returned and parsed to obtain information on the event
     including name, longitude, and latitude. Once the information is stored it is
-    accessed in the JavaScript for the Google Map which can be seen in code snippet
-    4 below. This is done by looping though a list of events and gather the name,
+    accessed in the JavaScript for the Google Map. This is done by looping though 
+    a list of events and gather the name,
     longitude, and latitudes in order for the markers to display. When a user hovers
     over a marker on the map the name of the event is shown.  When there are no
     events imported a message stating "No Events Available" is displayed. & This
