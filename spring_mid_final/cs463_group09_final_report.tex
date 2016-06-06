@@ -130,16 +130,15 @@ reached our version 1.0 release.
 
 \newpage
 
+\tableofcontents
+
+\newpage
+
 \pagenumbering{arabic}
 
 \section{INTRODUCTION TO THE PROJECT}
 
 The Community Driven Development project is sponsored by the Apache Software Foundation under Ross Gardler, Director and President of the company. The project was designed and prototyped by Gardler before being proposed to the senior software project class for Oregon State University. Development for the project hopes to achieve more involvement in terms of helping building upon the Open Source Community and helping it grow and gain more traffic. The prototype was regularly used by Gardler and many of the faculty from Apache and is continued to gain interest to the public. The importance of development of the project will promote more growth and allow more tools for users in the community to find and locate more events and get more involved in open source community groups and projects. The students assigned to work on this project were Justin Bruntmyer, Megan Goossens, and Hai Nguyen. Each member took upon equal and separate roles for the project. No specific roles were assigned as each member took part in doing part of the work for every task. Ross Gardler provided the initial prototype while the project was improved and implemented with the requested features as the term progressed.
-
-\newpage
-\tableofcontents
-
-\newpage
 
 \section{REQUIREMENTS DOCUMENT}
 \subsection{Introduction to the Problem}
@@ -422,7 +421,10 @@ REQ\# & Requirement & What Happened To It & Comments \\
     retrieval of the twitter handle form the database with 'person.service'. Not all
     users have a Twitter handle registered with Meetups thus the tweet button does
     not have any use. To handle this case the tweet at button only appears on
-    profiles of imported people that have a registered Twitter handle. & blah\\ 
+    profiles of imported people that have a registered Twitter handle. & This requirement
+    actually went as planned throughout the implementation process. Going through
+    the requirement we were able to get the tweeting at a person working
+    correctly without changes to the original requirement. \\ 
 \hline
 3 & Add user accounts to the application and track when a user has tweeted an
     event & The purpose of adding user accounts to the applications is to be able to
@@ -438,7 +440,12 @@ REQ\# & Requirement & What Happened To It & Comments \\
     to be behind being signed in.  This means if you are not logged in with the
     authorized account, you can't perform these actions. Note that the accounts
     created are allowed access to these features, but do not have access to the
-    administrative page that deals with the Django database. & blah\\ 
+    administrative page that deals with the Django database. & For this requirement
+    we were able to implement the user account creation and login process however we
+    did have to change the tracking of the user tweeting per account. We were not
+    able to track when a user tweets from the account on our application thus this
+    requirement changed from tracking the user to giving the user action capabilities
+    such as importing events, hosts, and marking applicable.\\ 
 \hline
 4 & List tweets about events and/or people via the app &  We were unable to
     track the precise tweets made from our application, but we have found an
@@ -450,10 +457,13 @@ REQ\# & Requirement & What Happened To It & Comments \\
     that is used in the page's template to present embedded tweets to users. This
     still pulls a few tweets that are unrelated, but bit of filtering would work.
     Unfortunately this would be difficult, and is outside the scope of our project.
-    & blah\\ 
+    & For this requirement we were unable to track the precise tweets made from our
+    application but we were able to have a work around to get some good information
+    to show on the tweets page. This was one of the most difficult requirements to 
+    complete.\\ 
 \hline
 5 & List tweets about events and/or people from twitter, but not via the app &
-    The website now has a tweet parser. As shown in the code snippet, it sends a
+    The website now has a tweet parser. it sends a
     call to Twitter's search API, requesting all tweets with a certain hashtag. The
     hashtags are the same as the ones used to get events from meetup.com. Once it
     has the tweets, it uses the id from each one to make another call to Twitter's
@@ -461,7 +471,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
     embedded tweets to users.  The search results currently contain all instances of
     the hashtag requested, even when they are not relevant to any event, or even
     open source. The search needs refinement, however, this will be difficult, and
-    is not within the scope of the project & blah\\ 
+    is not within the scope of the project & This requirement was more of a success
+    as we were able to figure out how to accomplish this task with the Twitter API
+    documentation. This was one of the toughest requirements to complete due to the
+    hard to read documentation and confusion with the client on what exactly this
+    requirement meant.\\ 
 \hline
 6 & Export a list of people with information & When taking on this requirement
     we quickly realized that the Meetup API would not provide email address for its
@@ -470,7 +484,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
     lead us to export information such as name, twitter handle, bio, Meetup ID, URL,
     country, state, and city. The export can be executed by clicking on the 'Export
     Info' button located in the top left of the people page and creates a file in a
-    XLSX format which can be directly opened or saved. & blah\\ 
+    XLSX format which can be directly opened or saved. & It was interesting to see
+    how this requirement worked out as creating the function dealing with an XLS file
+    was simple compared to creating a CSV file. We were able to get more out of this
+    requirement than originally thought with more information being imported with
+    meetup API calls.\\ 
 \hline
 7 & Improve hashtag searching of application for better results on relevant
     events & The solution to this issue was to change one word in the call to the
@@ -479,8 +497,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
     query searches through the content of the events, while the topic query looks at
     the topics related to the group. The original query was looking at text, which
     resulted in a lot of unrelated events. The query was fixed to use "topic," which
-    has reduced unwanted events significantly. A thourough examination of events
-    imported resulted in no unrelated events pulled in. & blah\\ 
+    has reduced unwanted events significantly. A thorough examination of events
+    imported resulted in no unrelated events pulled in. & The requirement did not
+    specify if the hashtags should be hard coded into the application which is what
+    the team was thinking. Thus, we left it up to the user of the application to enter
+    hashtags into the admin page. Other than that, requirement turned out great.\\ 
 \hline
 8 & Implement a system of finding events nearby a location entered or within
     radius of the user & This tool creates a list of all events parsed through the
@@ -504,7 +525,10 @@ REQ\# & Requirement & What Happened To It & Comments \\
     4 below. This is done by looping though a list of events and gather the name,
     longitude, and latitudes in order for the markers to display. When a user hovers
     over a marker on the map the name of the event is shown.  When there are no
-    events imported a message stating "No Events Available" is displayed. & blah\\ 
+    events imported a message stating "No Events Available" is displayed. & This
+    requirement had us originally having he user show events in a search area but
+    instead we added a map functionality that gave the user another tool to visualize
+    where these events are. This was a lot of fun to work with. \\ 
 \hline
 9 & Add feature to generate a profile for community developers to have
     contacting information easily visable & The main goal of the tool is to promote
@@ -522,8 +546,10 @@ REQ\# & Requirement & What Happened To It & Comments \\
     with the ID's gathered. Once this information was obtained the profiles for
     event hosts and imported group members could be displayed in their own sections
     of the application.  With users having the options to see group members and
-    event hosts there are more opportunities for these users to get involved. &
-    blah\\ 
+    event hosts there are more opportunities for these users to get involved. & This
+    requirement did not go through change other than deciding to add the hosts profiles
+    as well as the imported people profiles. With this change we were able to give the
+    user people that hosted events that were more of a community leader.\\ 
 \hline
 10 & Improve the visuals of the tool and how it looks as a whole. & The
     application itself began as a fairly organized piece. The navigation bar
@@ -547,7 +573,11 @@ REQ\# & Requirement & What Happened To It & Comments \\
     description is displayed for the event. Previously, it was much more difficult
     for the user's eye to view where the venue of event would be. Now in this
     update, that portion is clearly labelled which allows the user to spend less
-    time reading and to quickly see the information that they want to. & blah\\ 
+    time reading and to quickly see the information that they want to. & Improvements
+    on looks was a difficult requirements because changes could be made all the time
+    depending on who thinks it looks best. What we tried to do was just make the
+    information look cleaner and more organized for the user and we believe we were
+    successful in doing so.\\ 
 \hline
 \end{longtable}
 \end{center}
